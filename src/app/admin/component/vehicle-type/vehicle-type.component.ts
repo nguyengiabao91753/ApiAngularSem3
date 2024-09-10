@@ -91,15 +91,15 @@ export class VehicleTypeComponent implements OnInit {
         this.submitted = false;
         this.productDialog = true;
     }
+    editProduct(product: Product) {
+        this.product = { ...product };
+        this.productDialog = true;
+    }
 
     deleteSelectedProducts() {
         this.deleteProductsDialog = true;
     }
 
-    editProduct(product: Product) {
-        this.product = { ...product };
-        this.productDialog = true;
-    }
 
     deleteProduct(product: Product) {
         this.deleteProductDialog = true;

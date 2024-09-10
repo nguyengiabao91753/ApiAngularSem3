@@ -10,23 +10,6 @@ import {
   TimesIcon
 } from "./chunk-3XOK5XPX.js";
 import {
-  Ripple,
-  RippleModule
-} from "./chunk-SSRNIYDK.js";
-import "./chunk-G34IFAOL.js";
-import {
-  DomHandler
-} from "./chunk-QU7AFVGG.js";
-import {
-  MessageService,
-  ObjectUtils,
-  PrimeNGConfig,
-  PrimeTemplate,
-  SharedModule,
-  UniqueComponentId,
-  zindexutils
-} from "./chunk-4XBA7G65.js";
-import {
   animate,
   animateChild,
   query,
@@ -36,6 +19,14 @@ import {
   trigger
 } from "./chunk-ZDSX7G5Q.js";
 import {
+  Ripple,
+  RippleModule
+} from "./chunk-LOS6IAGJ.js";
+import "./chunk-G34IFAOL.js";
+import {
+  DomHandler
+} from "./chunk-QU7AFVGG.js";
+import {
   CommonModule,
   DOCUMENT,
   NgClass,
@@ -44,6 +35,15 @@ import {
   NgStyle,
   NgTemplateOutlet
 } from "./chunk-HE5PWX4F.js";
+import {
+  MessageService,
+  ObjectUtils,
+  PrimeNGConfig,
+  PrimeTemplate,
+  SharedModule,
+  UniqueComponentId,
+  zindexutils
+} from "./chunk-4XBA7G65.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -94,8 +94,8 @@ import {
   ɵɵtextInterpolate,
   ɵɵviewQuery
 } from "./chunk-D3IQWCZR.js";
-import "./chunk-PIQKY2LV.js";
 import "./chunk-SZQPEDTI.js";
+import "./chunk-PIQKY2LV.js";
 import "./chunk-Q3R3BXB2.js";
 
 // node_modules/primeng/fesm2022/primeng-toast.mjs
