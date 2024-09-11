@@ -1,22 +1,15 @@
 import {
-  AutoFocus,
-  AutoFocusModule
-} from "./chunk-DSIY3P4X.js";
-import "./chunk-MHNZV2WB.js";
-import {
-  PrimeNGConfig
-} from "./chunk-Z4BNE2KH.js";
-import {
-  NG_VALUE_ACCESSOR,
-  NgControl
-} from "./chunk-K5MNQUD2.js";
-import {
-  PrimeNGConfig
-} from "./chunk-4XBA7G65.js";
-import {
   NG_VALUE_ACCESSOR,
   NgControl
 } from "./chunk-LWJUAPZK.js";
+import {
+  AutoFocus,
+  AutoFocusModule
+} from "./chunk-E5LU7W3A.js";
+import "./chunk-QU7AFVGG.js";
+import {
+  PrimeNGConfig
+} from "./chunk-4XBA7G65.js";
 import {
   CommonModule,
   NgClass,

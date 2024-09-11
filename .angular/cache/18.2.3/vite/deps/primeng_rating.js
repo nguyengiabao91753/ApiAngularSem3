@@ -1,31 +1,22 @@
 import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-LWJUAPZK.js";
+import {
   BaseIcon
-} from "./chunk-4XU5XZV7.js";
+} from "./chunk-G34IFAOL.js";
 import {
   AutoFocus,
   AutoFocusModule
-} from "./chunk-DSIY3P4X.js";
+} from "./chunk-E5LU7W3A.js";
 import {
   DomHandler
-} from "./chunk-MHNZV2WB.js";
-import {
-  PrimeNGConfig,
-  PrimeTemplate,
-  SharedModule,
-  UniqueComponentId
-} from "./chunk-Z4BNE2KH.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-K5MNQUD2.js";
+} from "./chunk-QU7AFVGG.js";
 import {
   PrimeNGConfig,
   PrimeTemplate,
   SharedModule,
   UniqueComponentId
 } from "./chunk-4XBA7G65.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-LWJUAPZK.js";
 import {
   CommonModule,
   NgClass,

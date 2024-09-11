@@ -1,17 +1,44 @@
 import {
-  InputNumber,
-  InputNumberModule
-} from "./chunk-VK5YRBH6.js";
-import {
   ChevronDownIcon,
   Dropdown,
   DropdownModule,
   Scroller,
   ScrollerModule
-} from "./chunk-QHT6VGLJ.js";
+} from "./chunk-IAHIR6HP.js";
 import {
   PlusIcon
 } from "./chunk-U2NNH34J.js";
+import {
+  InputNumber,
+  InputNumberModule
+} from "./chunk-SNVVHXFE.js";
+import {
+  InputText,
+  InputTextModule
+} from "./chunk-IDA57GZZ.js";
+import {
+  DomSanitizer
+} from "./chunk-ZNGCY7OR.js";
+import {
+  CheckIcon
+} from "./chunk-SRRQVUU5.js";
+import {
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  NgControlStatus,
+  NgModel
+} from "./chunk-LWJUAPZK.js";
+import "./chunk-Q2B4BD6J.js";
+import {
+  TimesIcon
+} from "./chunk-3XOK5XPX.js";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from "./chunk-ZDSX7G5Q.js";
 import {
   ButtonDirective,
   ButtonModule
@@ -23,16 +50,6 @@ import {
   Ripple,
   RippleModule
 } from "./chunk-SSRNIYDK.js";
-import {
-  CheckIcon
-} from "./chunk-SRRQVUU5.js";
-import {
-  TimesIcon
-} from "./chunk-3XOK5XPX.js";
-import {
-  InputText,
-  InputTextModule
-} from "./chunk-AZFDJRX6.js";
 import {
   BaseIcon
 } from "./chunk-G34IFAOL.js";
@@ -57,19 +74,6 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-4XBA7G65.js";
-import {
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-  NgControlStatus,
-  NgModel
-} from "./chunk-LWJUAPZK.js";
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from "./chunk-BTASVKF7.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -171,7 +175,7 @@ import {
   Subject,
   __spreadProps,
   __spreadValues
-} from "./chunk-MXZPVDG5.js";
+} from "./chunk-Q3R3BXB2.js";
 
 // node_modules/primeng/fesm2022/primeng-icons-chevronleft.mjs
 var ChevronLeftIcon = class _ChevronLeftIcon extends BaseIcon {
@@ -7512,7 +7516,7 @@ function SelectButton_div_2_Template(rf, ctx) {
     const ctx_r4 = ɵɵnextContext();
     ɵɵclassMap(option_r3.styleClass);
     ɵɵproperty("role", ctx_r4.multiple ? "checkbox" : "radio")("ngClass", ɵɵpureFunction3(14, _c18, ctx_r4.isSelected(option_r3), ctx_r4.disabled || ctx_r4.isOptionDisabled(option_r3), option_r3.icon && !ctx_r4.getOptionLabel(option_r3)))("autofocus", ctx_r4.autofocus);
-    ɵɵattribute("tabindex", i_r4 === ctx_r4.focusedIndex ? "0" : "-1")("aria-label", option_r3.label)("aria-checked", ctx_r4.isSelected(option_r3))("aria-disabled", ctx_r4.optionDisabled)("title", option_r3.title)("aria-labelledby", ctx_r4.getOptionLabel(option_r3))("data-pc-section", "button");
+    ɵɵattribute("tabindex", i_r4 === ctx_r4.focusedIndex && !ctx_r4.disabled ? "0" : "-1")("aria-label", option_r3.label)("aria-checked", ctx_r4.isSelected(option_r3))("aria-disabled", ctx_r4.optionDisabled)("title", option_r3.title)("aria-labelledby", ctx_r4.getOptionLabel(option_r3))("data-pc-section", "button");
     ɵɵadvance();
     ɵɵproperty("ngIf", !ctx_r4.itemTemplate)("ngIfElse", customcontent_r8);
   }
@@ -7824,7 +7828,7 @@ var SelectButton = class _SelectButton {
             <div
                 *ngFor="let option of options; let i = index"
                 pRipple
-                [attr.tabindex]="i === focusedIndex ? '0' : '-1'"
+                [attr.tabindex]="i === focusedIndex && !disabled ? '0' : '-1'"
                 [attr.aria-label]="option.label"
                 [role]="multiple ? 'checkbox' : 'radio'"
                 [attr.aria-checked]="isSelected(option)"

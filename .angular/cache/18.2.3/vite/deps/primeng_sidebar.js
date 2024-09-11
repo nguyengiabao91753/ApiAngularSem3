@@ -1,10 +1,18 @@
 import {
+  TimesIcon
+} from "./chunk-3XOK5XPX.js";
+import {
+  animate,
+  animation,
+  style,
+  transition,
+  trigger,
+  useAnimation
+} from "./chunk-ZDSX7G5Q.js";
+import {
   Ripple,
   RippleModule
 } from "./chunk-SSRNIYDK.js";
-import {
-  TimesIcon
-} from "./chunk-3XOK5XPX.js";
 import "./chunk-G34IFAOL.js";
 import {
   DomHandler
@@ -15,15 +23,6 @@ import {
   SharedModule,
   zindexutils
 } from "./chunk-4XBA7G65.js";
-import {
-  animate,
-  animation,
-  style,
-  transition,
-  trigger,
-  useAnimation
-} from "./chunk-BTASVKF7.js";
-import "./chunk-4XU5XZV7.js";
 import {
   CommonModule,
   DOCUMENT,
