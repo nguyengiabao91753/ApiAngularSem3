@@ -1,13 +1,22 @@
 import {
   BaseIcon
-} from "./chunk-G34IFAOL.js";
+} from "./chunk-4XU5XZV7.js";
 import {
   AutoFocus,
   AutoFocusModule
-} from "./chunk-E5LU7W3A.js";
+} from "./chunk-DSIY3P4X.js";
 import {
   DomHandler
-} from "./chunk-QU7AFVGG.js";
+} from "./chunk-MHNZV2WB.js";
+import {
+  PrimeNGConfig,
+  PrimeTemplate,
+  SharedModule,
+  UniqueComponentId
+} from "./chunk-Z4BNE2KH.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-K5MNQUD2.js";
 import {
   PrimeNGConfig,
   PrimeTemplate,
