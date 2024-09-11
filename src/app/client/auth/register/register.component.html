@@ -1,0 +1,159 @@
+<!-- <div class="overlay"></div>
+<div class="preloader">
+    <div class="loader-wrapper">
+        <div class="truck-wrapper">
+            <div class="preloader-content"></div>
+            <div class="truck">
+                <div class="truck-container"></div>
+                <div class="glases"></div>
+                <div class="bonet"></div>
+
+                <div class="base"></div>
+
+                <div class="base-aux"></div>
+                <div class="wheel-back"></div>
+                <div class="wheel-front"></div>
+                <div class="smoke"></div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- Preloader -->
+<section class="account-section bg_img"
+    style="background: url(client/assets/images/frontend/auth/66869002329471720094722.jpg) bottom left;">
+    <span class="spark"></span>
+    <span class="spark2"></span>
+    <div class="account-wrapper sign-up">
+        <div class="account-form-wrapper">
+            <div class="account-header">
+                <div class="logo mb-4">
+                    <a href="https://script.viserlab.com/viserbus"><img src="client/assets/images/logo_icon/logo.png"
+                            alt="Logo"></a>
+                </div>
+            </div>
+            <div class="w-100 ">
+                <div class="continue-google mb-3">
+                    <a class="btn w-100 social-login-btn"
+                        href="https://accounts.google.com/o/oauth2/auth?client_id=375851363090-59im488kciqvijtqv3ul9jq3hbaktea0.apps.googleusercontent.com&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Fgoogle&amp;scope=openid+profile+email&amp;response_type=code&amp;state=syZluhsBrYPoRNqXFOeq2slcNz6Pp2Jz3Bffy8mi">
+                        <span class="google-icon">
+                            <img src="client/assets/templates/basic/images/google.svg" alt="Google">
+                        </span> Register with Google </a>
+                </div>
+                <div class="continue-facebook mb-3">
+                    <a class="btn w-100 social-login-btn"
+                        href="https://www.facebook.com/v3.3/dialog/oauth?client_id=705296487382875&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Ffacebook&amp;scope=email&amp;response_type=code&amp;state=JmmPq6nkOhDuCPL83IQUUEhoguvrYiSfxu7Jpdx3">
+                        <span class="facebook-icon">
+                            <img src="client/assets/templates/basic/images/facebook.svg" alt="Facebook">
+                        </span> Register with Facebook </a>
+                </div>
+                <div class="continue-facebook mb-3">
+                    <a class="btn w-100 social-login-btn"
+                        href="https://www.linkedin.com/oauth/v2/authorization?client_id=772t1ej48e6ezg&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Flinkedin&amp;scope=r_liteprofile+r_emailaddress&amp;response_type=code&amp;state=2JWvWXxrRQ9yES0iuhvDIIvLtZW8mklJsTIlkwSe">
+                        <span class="facebook-icon">
+                            <img src="client/assets/templates/basic/images/linkdin.svg" alt="Linkedin">
+                        </span> Register with Linkedin </a>
+                </div>
+
+                <div class="w-100 another-login mb-4 text-center">
+                    <span class="another-login__or">OR</span>
+                </div>
+                <form class="account-form row verify-gcaptcha disableSubmission"
+                    method="POST">
+                    <input type="hidden" name="_token" value="RAwNpTkKcCcI11Tlqyfym5FrDl7GyCjp7TSIJuQe"
+                        autocomplete="off">
+                    <div class="col-sm-6">
+                        <div class="form-group form--group">
+                            <label class="form-label">First Name</label>
+                            <input class="form--control" name="firstname" type="text" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group form--group">
+                            <label class="form-label">Last Name</label>
+                            <input class="form--control" name="lastname" type="text" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group form--group">
+                            <label class="form-label">E-Mail Address</label>
+                            <input class="form--control checkUser" name="email" type="email" value="" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group form--group">
+                            <label class="form-label">Password</label>
+                            <input class="form--control " name="password" type="password" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group form--group">
+                            <label class="form-label">Confirm Password</label>
+                            <input class="form--control" name="password_confirmation" type="password" required>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-12">
+                        <div class="mb-3">
+
+                            <script src="../../../www.google.com/recaptcha/api.js"></script>
+                            <div class="g-recaptcha" data-sitekey="6LdPC88fAAAAADQlUf_DV6Hrvgm-pZuLJFSLDOWV"
+                                data-callback="verifyCaptcha"></div>
+                            <div id="g-recaptcha-error"></div>
+                        </div>
+                    </div> -->
+
+                    <div class="form--group custom--checkbox">
+                        <input id="agree" name="agree" type="checkbox" required>
+                        <label for="agree">
+                            I agree with <span>
+                                <a class="acount-link" href="../policy/privacy-policy.html" target="_blank">Privacy
+                                    Policy</a>
+                                ,
+                                <a class="acount-link" href="../policy/terms-of-service.html" target="_blank">Terms of
+                                    Service</a>
+                                ,
+                                <a class="acount-link" href="../policy/ticket-policies.html" target="_blank">Ticket
+                                    Policies</a>
+                                ,
+                                <a class="acount-link" href="../policy/refund-policy.html" target="_blank">Refund
+                                    Policy</a>
+                            </span>
+
+                        </label>
+                    </div>
+
+                    <div class="form--group">
+                        <button class="btn btn--base w-100" id="recaptcha" type="submit"> Register</button>
+                    </div>
+
+                    <p class="mb-0">Already have an account? <a href="login.html">Login</a></p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="existModalCenter" role="dialog" aria-labelledby="existModalCenterTitle" aria-hidden="true"
+    tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="existModalLongTitle">You are with us</h5>
+                <button class="btn--close w-auto" data-bs-dismiss="modal" type="button"><i
+                        class="las la-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <strong class="text-dark">You already have an account. Please Sign in.</strong>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--danger btn--sm w-auto" data-bs-dismiss="modal" type="button">Close</button>
+                <a class="btn btn--base btn--sm w-auto" href="login.html">Login</a>
+            </div>
+        </div>
+    </div>
+</div>

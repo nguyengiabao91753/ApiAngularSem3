@@ -1,21 +1,21 @@
 import {
-  NG_VALUE_ACCESSOR,
-  NgControl
-} from "./chunk-LWJUAPZK.js";
-import {
   AutoFocus,
   AutoFocusModule
 } from "./chunk-E5LU7W3A.js";
 import "./chunk-QU7AFVGG.js";
+import {
+  PrimeNGConfig
+} from "./chunk-4XBA7G65.js";
+import {
+  NG_VALUE_ACCESSOR,
+  NgControl
+} from "./chunk-LWJUAPZK.js";
 import {
   CommonModule,
   NgClass,
   NgIf,
   NgStyle
 } from "./chunk-HE5PWX4F.js";
-import {
-  PrimeNGConfig
-} from "./chunk-4XBA7G65.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -60,8 +60,8 @@ import {
   ɵɵtextInterpolate,
   ɵɵviewQuery
 } from "./chunk-D3IQWCZR.js";
-import "./chunk-SZQPEDTI.js";
 import "./chunk-PIQKY2LV.js";
+import "./chunk-SZQPEDTI.js";
 import "./chunk-Q3R3BXB2.js";
 
 // node_modules/primeng/fesm2022/primeng-radiobutton.mjs

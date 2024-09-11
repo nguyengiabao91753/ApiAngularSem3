@@ -1,0 +1,92 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "flaticon";
+  src: url("flaticon7fb1.ttf?9fe7ef0ce68719ca4ebd2f8dd6390119") format("truetype"), url("flaticon7fb1.woff?9fe7ef0ce68719ca4ebd2f8dd6390119") format("woff"), url("flaticon7fb1.woff2?9fe7ef0ce68719ca4ebd2f8dd6390119") format("woff2"), url("flaticon7fb1.eot?9fe7ef0ce68719ca4ebd2f8dd6390119#iefix") format("embedded-opentype"), url("flaticon7fb1.svg?9fe7ef0ce68719ca4ebd2f8dd6390119#flaticon") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+  font-family: flaticon !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.flaticon-hairstyle:before {
+  content: "";
+}
+
+.flaticon-popcorn:before {
+  content: "";
+}
+
+.flaticon-pillow:before {
+  content: "";
+}
+
+.flaticon-water-bottle:before {
+  content: "";
+}
+
+.flaticon-location:before {
+  content: "";
+}
+
+.flaticon-location-1:before {
+  content: "";
+}
+
+.flaticon-plug:before {
+  content: "";
+}
+
+.flaticon-mail:before {
+  content: "";
+}
+
+.flaticon-envelope:before {
+  content: "";
+}
+
+.flaticon-email:before {
+  content: "";
+}
+
+.flaticon-pin:before {
+  content: "";
+}
+
+.flaticon-pin-1:before {
+  content: "";
+}
+
+.flaticon-location-2:before {
+  content: "";
+}
+
+.flaticon-telephone:before {
+  content: "";
+}
+
+.flaticon-call:before {
+  content: "";
+}
+
+.flaticon-smartphone:before {
+  content: "";
+}
+
+.flaticon-telephone-1:before {
+  content: "";
+}
+
+.flaticon-mobile-phone:before {
+  content: "";
+}
+
+.flaticon-phone-call:before {
+  content: "";
+}

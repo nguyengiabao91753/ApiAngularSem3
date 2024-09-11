@@ -1,0 +1,57 @@
+
+.social-login-btn {
+    border: 1px solid #cbc4c4;
+    color: hsl(var(--black)) !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    padding: 7px 10px;
+    transition: .2s linear;
+    line-height: 1;
+}
+
+.social-login-btn:hover {
+    border-color: var(--main-color) !important;
+    color: var(--main-color) !important;
+}
+
+.another-login {
+    position: relative;
+    z-index: 1;
+}
+
+.another-login__or {
+    background-color: #fff;
+    padding: 0 7px;
+}
+
+.another-login::after {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 0;
+    width: 100%;
+    border-bottom: 1px dashed #cbc4c4;
+    z-index: -1;
+}
+
+.account-wrapper {
+    min-height: 100vh;
+    background: #fff;
+    padding-left: 120px;
+    padding-right: 120px;
+    width: 100%;
+    position: relative;
+    max-width: 720px;
+    margin-left: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}

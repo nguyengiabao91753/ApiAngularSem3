@@ -1,0 +1,76 @@
+
+
+:root{
+--main-color: #0E9E4D;
+}
+
+.working-process-item .thumb {
+box-shadow: 0 0 0 8px #0E9E4D1a;
+background: #0E9E4D40;
+}
+.booking-table tbody tr .action-button-wrapper .print {
+background: #0E9E4D20;
+}
+
+.form--control:focus {
+border: 1px solid #0E9E4De6;
+}
+.page-item.active .page-link, .form--control:focus ~ .input-group-append .input-group-text {
+border-color: #0E9E4D;
+}
+.page-item .page-link, .info-item .icon, .input-group-append .input-group-text{
+color:#0E9E4D;
+}
+.cookies-card__icon {
+background-color: #0E9E4D21;
+color: #0E9E4D4d;
+}
+
+.cookies-btn:hover {
+border-color: #0E9E4D4d;
+background-color: #0E9E4D4d;
+}
+
+.ticket-form .form--group .form--control {
+border-color: #0E9E4D40;
+}
+
+.ticket-form .form--group .form--control:focus, .select2-container--default .select2-selection--single:focus {
+border-color: #0E9E4Df2;
+}
+.ui-widget-header {
+background: #0E9E4De6;
+}
+.amenities-item:hover{
+box-shadow: 0 0 10px 1px #0E9E4D40;
+}
+.amenities-item:hover .thumb {
+color: #0E9E4Dcc;
+border-color: #0E9E4D99;
+}
+.faq-item .faq-title {
+border: 1px solid #0E9E4D40;
+}
+.faq-item .faq-title .icon::after, .faq-item .faq-title .icon::before, .btn--base:hover, .cmn--btn:hover {
+background: #0E9E4De6;
+}
+.footer-widget .widget-title::after, .footer-widget .widget-title::before {
+background: #0E9E4Db3;
+}
+
+.banner-section::before, .banner-section::after {
+background: #0E9E4D4a;
+}
+.profile__content__edit .title, .booking-table thead tr, .page-item.active .page-link,.page-item:not(.disabled):hover .page-link, .cmn--card .card-header, .sub-menu li a:hover {
+background: #0E9E4D;
+}
+.btn-check:focus+.btn, .btn--base:focus,.cmn--btn:focus {
+box-shadow: 0 0 0 0.25rem #0E9E4D40;
+}
+.preloader-content {
+border-top: 1px solid #0E9E4D50;
+background: #0E9E4D7a;
+background: -webkit-gradient(linear, left top, right top, from(#0E9E4D50), to(#0E9E4D64));
+background: linear-gradient(to right, #0E9E4D50 0%, #0E9E4D64 100%);
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#0E9E4Dc8', endColorstr='#0E9E4Dd6', GradientType=1);
+}

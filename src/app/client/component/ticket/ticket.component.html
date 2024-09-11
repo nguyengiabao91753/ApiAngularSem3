@@ -1,0 +1,345 @@
+<div class="ticket-search-bar bg_img padding-top"
+    style="background: url(client/assets/templates/basic/images/search_bg.jpg) left center;">
+    <div class="container">
+        <div class="bus-search-header">
+            <form action="https://script.viserlab.com/viserbus/ticket/search"
+                class="ticket-form ticket-form-two row g-3 justify-content-center">
+                <div class="col-md-4 col-lg-3">
+                    <div class="form--group">
+                        <i class="las la-location-arrow"></i>
+                        <select name="pickup" class="form--control select2">
+                            <option value="">Pickup Point</option>
+                            <option value="1">
+                                Kansas</option>
+                            <option value="2">
+                                Dallas</option>
+                            <option value="3">
+                                Wichita</option>
+                            <option value="4">
+                                Emi Davenport</option>
+                            <option value="5">
+                                Echo Bass</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <div class="form--group">
+                        <i class="las la-map-marker"></i>
+                        <select name="destination" class="form--control select2">
+                            <option value="">Dropping Point</option>
+                            <option value="1">
+                                Kansas</option>
+                            <option value="2">
+                                Dallas</option>
+                            <option value="3">
+                                Wichita</option>
+                            <option value="4">
+                                Emi Davenport</option>
+                            <option value="5">
+                                Echo Bass</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-3">
+                    <div class="form--group">
+                        <i class="las la-calendar-check"></i>
+                        <input type="text" name="date_of_journey" class="form--control date-range"
+                            placeholder="Date of Journey" autocomplete="off" value="">
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="form--group">
+                        <button class="btn btn--base w-100">Find Tickets</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Ticket Search Starts -->
+
+<!-- Ticket Section Starts Here -->
+<section class="ticket-section padding-bottom section-bg">
+    <div class="container">
+        <div class="row gy-5">
+            <div class="col-lg-3">
+                <form action="https://script.viserlab.com/viserbus/ticket/search" id="filterForm">
+                    <div class="ticket-filter">
+                        <div class="filter-header filter-item">
+                            <h4 class="title mb-0">Filter</h4>
+                            <button type="reset" class="reset-button h-auto">Reset All</button>
+                        </div>
+                        <div class="filter-item">
+                            <h5 class="title">Vehicle Type</h5>
+                            <ul class="bus-type">
+                                <li class="custom--checkbox">
+                                    <input name="fleetType[]" class="search" value="1" id="Classic" type="checkbox">
+                                    <label for="Classic"><span><i class="las la-bus"></i>Classic</span></label>
+                                </li>
+                                <li class="custom--checkbox">
+                                    <input name="fleetType[]" class="search" value="2" id="Coach" type="checkbox">
+                                    <label for="Coach"><span><i class="las la-bus"></i>Coach</span></label>
+                                </li>
+                                <li class="custom--checkbox">
+                                    <input name="fleetType[]" class="search" value="3" id="AC" type="checkbox">
+                                    <label for="AC"><span><i class="las la-bus"></i>AC</span></label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="filter-item">
+                            <h5 class="title">Routes</h5>
+                            <ul class="bus-type">
+                                <li class="custom--checkbox">
+                                    <input name="routes[]" class="search" value="1" id="route.1" type="checkbox">
+                                    <label for="route.1"><span><i class="las la-road"></i>Kansas to Echo Bass
+                                            </span></label>
+                                </li>
+                                <li class="custom--checkbox">
+                                    <input name="routes[]" class="search" value="2" id="route.2" type="checkbox">
+                                    <label for="route.2"><span><i class="las la-road"></i>Witchita to Echo
+                                                Bass </span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="filter-item">
+                            <h5 class="title">Schedules</h5>
+                            <ul class="bus-type">
+                                <li class="custom--checkbox">
+                                    <input name="schedules[]" class="search" value="1" id="schedule.1" type="checkbox">
+                                    <label for="schedule.1"><span><i class="las la-clock"></i>
+                                                06:00 am - 03:30 pm
+                                            </span></label>
+                                </li>
+                                <li class="custom--checkbox">
+                                    <input name="schedules[]" class="search" value="2" id="schedule.2" type="checkbox">
+                                    <label for="schedule.2"><span>><i class="las la-clock"></i>
+                                                07:00 am - 04:00 pm
+                                            </span></label>
+                                </li>
+                                <li class="custom--checkbox">
+                                    <input name="schedules[]" class="search" value="3" id="schedule.3" type="checkbox">
+                                    <label for="schedule.3"><span><i class="las la-clock"></i>
+                                                08:00 am - 04:30 pm
+                                            </span></label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="ticket-wrapper">
+
+                    <div class="ticket-item">
+                        <div class="ticket-item-inner">
+                            <h5 class="bus-name">AC - Kansas - Echo Bass</h5>
+                            <span class="bus-info">Seat Layout - 2 x 2</span>
+                            <span class="ratting"><i class="las la-bus"></i>AC</span>
+                        </div>
+                        <div class="ticket-item-inner travel-time">
+                            <div class="bus-time">
+                                <p class="time">08:00 AM</p>
+                                <p class="place">Kansas</p>
+                            </div>
+                            <div class=" bus-time">
+                                <i class="las la-arrow-right"></i>
+                                <p>08:30 min</p>
+                            </div>
+                            <div class=" bus-time">
+                                <p class="time">04:30 PM</p>
+                                <p class="place">Echo Bass</p>
+                            </div>
+                        </div>
+                        <div class="ticket-item-inner book-ticket">
+                            <p class="rent mb-0">
+                                $100.00</p>
+                            <div class="seats-left mt-2 mb-3 fs--14px">
+                                Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
+                                    <span class="badge badge--primary">Friday</span>
+                                </div>
+                            </div>
+                            <a class="btn btn--base" href="ticket/1/ac-kansas-echo-bass.html">Select Seat</a>
+                        </div>
+                        <div class="ticket-item-footer">
+                            <div class="d-flex content-justify-center">
+                                <span>
+                                    <strong>Facilities - </strong>
+                                    <span class="facilities">Water Bottle</span>
+                                    <span class="facilities">Pillow</span>
+                                    <span class="facilities">Wifi</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-item-inner">
+                            <h5 class="bus-name">Coach - Kansas - Echo Bass</h5>
+                            <span class="bus-info">Seat Layout - 2 x 2</span>
+                            <span class="ratting"><i class="las la-bus"></i>Coach</span>
+                        </div>
+                        <div class="ticket-item-inner travel-time">
+                            <div class="bus-time">
+                                <p class="time">06:00 AM</p>
+                                <p class="place">Kansas</p>
+                            </div>
+                            <div class=" bus-time">
+                                <i class="las la-arrow-right"></i>
+                                <p>09:30 min</p>
+                            </div>
+                            <div class=" bus-time">
+                                <p class="time">03:30 PM</p>
+                                <p class="place">Echo Bass</p>
+                            </div>
+                        </div>
+                        <div class="ticket-item-inner book-ticket">
+                            <p class="rent mb-0">
+                                $150.00</p>
+                            <div class="seats-left mt-2 mb-3 fs--14px">
+                                Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
+                                    <span class="badge badge--primary">Thursday</span>
+                                    <span class="badge badge--primary">Friday</span>
+                                </div>
+                            </div>
+                            <a class="btn btn--base" href="ticket/2/coach-kansas-echo-bass.html">Select Seat</a>
+                        </div>
+                        <div class="ticket-item-footer">
+                            <div class="d-flex content-justify-center">
+                                <span>
+                                    <strong>Facilities - </strong>
+                                    <span class="facilities">Water Bottle</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-item-inner">
+                            <h5 class="bus-name">Coach - Wichita - Echo Bass</h5>
+                            <span class="bus-info">Seat Layout - 2 x 2</span>
+                            <span class="ratting"><i class="las la-bus"></i>Coach</span>
+                        </div>
+                        <div class="ticket-item-inner travel-time">
+                            <div class="bus-time">
+                                <p class="time">07:00 AM</p>
+                                <p class="place">Wichita</p>
+                            </div>
+                            <div class=" bus-time">
+                                <i class="las la-arrow-right"></i>
+                                <p>09:00 min</p>
+                            </div>
+                            <div class=" bus-time">
+                                <p class="time">04:00 PM</p>
+                                <p class="place">Echo Bass</p>
+                            </div>
+                        </div>
+                        <div class="ticket-item-inner book-ticket">
+                            <p class="rent mb-0">
+                                $50.00</p>
+                            <div class="seats-left mt-2 mb-3 fs--14px">
+                                Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
+                                    <span class="badge badge--primary">Wednesday</span>
+                                </div>
+                            </div>
+                            <a class="btn btn--base" href="ticket/3/coach-wichita-echo-bass.html">Select Seat</a>
+                        </div>
+                        <div class="ticket-item-footer">
+                            <div class="d-flex content-justify-center">
+                                <span>
+                                    <strong>Facilities - </strong>
+                                    <span class="facilities">Water Bottle</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-item-inner">
+                            <h5 class="bus-name">Coach - Kansas - Echo Bass</h5>
+                            <span class="bus-info">Seat Layout - 2 x 2</span>
+                            <span class="ratting"><i class="las la-bus"></i>Coach</span>
+                        </div>
+                        <div class="ticket-item-inner travel-time">
+                            <div class="bus-time">
+                                <p class="time">08:00 AM</p>
+                                <p class="place">Kansas</p>
+                            </div>
+                            <div class=" bus-time">
+                                <i class="las la-arrow-right"></i>
+                                <p>08:30 min</p>
+                            </div>
+                            <div class=" bus-time">
+                                <p class="time">04:30 PM</p>
+                                <p class="place">Echo Bass</p>
+                            </div>
+                        </div>
+                        <div class="ticket-item-inner book-ticket">
+                            <p class="rent mb-0">
+                                $150.00</p>
+                            <div class="seats-left mt-2 mb-3 fs--14px">
+                                Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
+                                    <span class="badge badge--primary">Saturday</span>
+                                </div>
+                            </div>
+                            <a class="btn btn--base" href="ticket/4/coach-kansas-echo-bass.html">Select Seat</a>
+                        </div>
+                        <div class="ticket-item-footer">
+                            <div class="d-flex content-justify-center">
+                                <span>
+                                    <strong>Facilities - </strong>
+                                    <span class="facilities">Water Bottle</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ticket-item">
+                        <div class="ticket-item-inner">
+                            <h5 class="bus-name">AC - Wichita - Echo Bass</h5>
+                            <span class="bus-info">Seat Layout - 2 x 2</span>
+                            <span class="ratting"><i class="las la-bus"></i>AC</span>
+                        </div>
+                        <div class="ticket-item-inner travel-time">
+                            <div class="bus-time">
+                                <p class="time">07:00 AM</p>
+                                <p class="place">Wichita</p>
+                            </div>
+                            <div class=" bus-time">
+                                <i class="las la-arrow-right"></i>
+                                <p>09:00 min</p>
+                            </div>
+                            <div class=" bus-time">
+                                <p class="time">04:00 PM</p>
+                                <p class="place">Echo Bass</p>
+                            </div>
+                        </div>
+                        <div class="ticket-item-inner book-ticket">
+                            <p class="rent mb-0">
+                                $50.00</p>
+                            <div class="seats-left mt-2 mb-3 fs--14px">
+                                Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
+                                    <span class="badge badge--primary">Thursday</span>
+                                </div>
+                            </div>
+                            <a class="btn btn--base" href="ticket/5/ac-wichita-echo-bass.html">Select Seat</a>
+                        </div>
+                        <div class="ticket-item-footer">
+                            <div class="d-flex content-justify-center">
+                                <span>
+                                    <strong>Facilities - </strong>
+                                    <span class="facilities">Water Bottle</span>
+                                    <span class="facilities">Pillow</span>
+                                    <span class="facilities">Wifi</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

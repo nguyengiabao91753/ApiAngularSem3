@@ -1,0 +1,40 @@
+<div class="header-bottom">
+    <div class="container">
+        <div class="header-bottom-area">
+            <div class="logo">
+                <a [routerLink]="['/home']">
+                    <img src="client/assets/images/logo_icon/logo.png" alt="Logo">
+                </a>
+            </div> <!-- Logo End -->
+            <ul class="menu">
+                <li>
+                    <a [routerLink]="['/home']">Home</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/about']">About</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/faqs']">FAQs</a>
+                </li>
+
+                <li>
+                    <a [routerLink]="['/blog']">Blog</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/contact-us']">Contact</a>
+                </li>
+            </ul>
+            <div class="d-flex flex-wrap algin-items-center">
+                <a [routerLink]="['/ticket']" class="cmn--btn btn--sm">Buy Tickets</a>
+                <div class="header-trigger-wrapper d-flex d-lg-none ms-4">
+                    <div class="header-trigger d-block d-lg-none">
+                        <span></span>
+                    </div>
+                    <div class="top-bar-trigger">
+                        <i class="las la-ellipsis-v"></i>
+                    </div>
+                </div><!-- Trigger End-->
+            </div>
+        </div>
+    </div>
+</div>

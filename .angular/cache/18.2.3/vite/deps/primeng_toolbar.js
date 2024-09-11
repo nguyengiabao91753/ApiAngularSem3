@@ -1,14 +1,14 @@
 import {
+  PrimeTemplate,
+  SharedModule
+} from "./chunk-4XBA7G65.js";
+import {
   CommonModule,
   NgClass,
   NgIf,
   NgStyle,
   NgTemplateOutlet
 } from "./chunk-HE5PWX4F.js";
-import {
-  PrimeTemplate,
-  SharedModule
-} from "./chunk-4XBA7G65.js";
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,8 +37,8 @@ import {
   ɵɵqueryRefresh,
   ɵɵtemplate
 } from "./chunk-D3IQWCZR.js";
-import "./chunk-SZQPEDTI.js";
 import "./chunk-PIQKY2LV.js";
+import "./chunk-SZQPEDTI.js";
 import "./chunk-Q3R3BXB2.js";
 
 // node_modules/primeng/fesm2022/primeng-toolbar.mjs
