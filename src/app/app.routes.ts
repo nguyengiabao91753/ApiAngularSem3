@@ -11,6 +11,7 @@ import { FaqsComponent } from './client/component/faqs/faqs.component';
 import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
 import { LoginAdminComponent } from './admin/auth/login/login.component';
+import { PolicyComponent } from './admin/component/policy/policy.component';
 
 export const routes: Routes = [
     {
@@ -21,6 +22,10 @@ export const routes: Routes = [
                 path:'agegroup',
                 component: AgegroupComponent
             },
+            {
+                path:'policy',
+                component: PolicyComponent
+            }
             
         ]
     },
