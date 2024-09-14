@@ -49,8 +49,8 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Trip Information',
                 items: [
-                    { label: 'Location', icon: 'pi pi-fw pi-map', routerLink: ['/'] },
-                    { label: 'Trip', icon: 'pi pi-fw pi-angle-double-up', routerLink: ['/'] },
+                    { label: 'Location', icon: 'pi pi-fw pi-map', routerLink: ['/admin/location'] },
+                    { label: 'Trip', icon: 'pi pi-fw pi-angle-double-up', routerLink: ['/admin/trip'] },
                 ]
             },
             {

@@ -12,6 +12,8 @@ import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
 import { LoginAdminComponent } from './admin/auth/login/login.component';
 import { PolicyComponent } from './admin/component/policy/policy.component';
+import { LocationComponent } from './admin/component/location/location.component';
+import { TripComponent } from './admin/component/trip/trip.component';
 
 export const routes: Routes = [
     {
@@ -25,7 +27,15 @@ export const routes: Routes = [
             {
                 path:'policy',
                 component: PolicyComponent
-            }
+            },
+            {
+                path:'location',
+                component: LocationComponent
+            },
+            {
+                path:'trip',
+                component: TripComponent
+            },
             
         ]
     },
