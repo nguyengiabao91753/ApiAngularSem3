@@ -1,5 +1,5 @@
 export interface Trip {
-    tripId: number;
+    tripId?: number;
     departureLocationId?: number;
     arrivalLocationId?: number;
     dateStart?: Date;
