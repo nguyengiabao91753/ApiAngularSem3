@@ -80,17 +80,18 @@ export class TripComponent implements OnInit {
       tripId : '0',
       departureLocationId: ['', [Validators.required]],
       arrivalLocationId: ['', [Validators.required]],
-      dateStart: ['', [Validators.required]],
+      // dateStart: ['', [Validators.required]],
+      dateStart: [new Date().toISOString().slice(0, 16), [Validators.required]], // Ngày giờ hiện tại
       dateEnd: ['', [Validators.required]],
     });
 
     this.cols = [
       { field: 'id', header: 'id' },
       { field: 'departureLocationId', header: 'DepartureLocationId' },
-      { field: 'arrivalLocationId', header: 'arrivalLocationId' },
-      { field: 'dateStart', header: 'dateStart' },
-      { field: 'dateEnd', header: 'dateEnd' },
-      { field: 'status', header: 'status' }
+      { field: 'arrivalLocationId', header: 'ArrivalLocationId' },
+      { field: 'dateStart', header: 'DateStart' },
+      { field: 'dateEnd', header: 'DateEnd' },
+      { field: 'status', header: 'Status' }
     ];
 
   }

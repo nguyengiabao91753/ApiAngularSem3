@@ -68,8 +68,8 @@
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(trip)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTrip(trip)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(tri)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTrip(tri)"></button>
                             </div>
                         </td>
                     </tr>
@@ -77,7 +77,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="tripDialog" [style]="{width: '450px'}" header="AgeGroup Details" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="tripDialog" [style]="{width: '450px'}" header="Trip Details" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                 <div class="field">
@@ -86,13 +86,24 @@
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('departureLocationId')?.invalid">Title is required.</small>
                 </div>
                 <div class="field">
-                    <label for="description">Content</label>
-                    <textarea pInputTextarea  formControlName="content"  [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('content')?.invalid}" [autoResize]="true"></textarea >
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('content')?.invalid">Content is required.</small>
+                    <label for="name">arrivalLocationId</label>
+                    <input type="text" pInputText id="arrivalLocationId" formControlName="arrivalLocationId" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('arrivalLocationId')?.invalid}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('arrivalLocationId')?.invalid">Title is required.</small>
                 </div>
+                <div class="field">
+                    <label for="dateStart">Date Start</label>
+                    <input type="datetime-local" pInputText id="dateStart" formControlName="dateStart" [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateStart')?.invalid}" [disabled]="true" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('dateStart')?.invalid">Date Start is required.</small>
+                </div>
+                
+                <div class="field">
+                    <label for="dateEnd">Date End</label>
+                    <input type="datetime-local" pInputText id="dateEnd" formControlName="dateEnd" [ngClass]="{'ng-invalid ng-dirty': submitted && formGroup.get('dateEnd')?.invalid}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('dateEnd')?.invalid">Date End is required.</small>
+                </div>
+                
             </form>
             </ng-template>
-
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" severity="danger" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
                 <button pButton pRipple label="Save" icon="pi pi-check" [disabled]="formGroup.invalid" class="p-button-text" (click)="save()"></button>
@@ -109,17 +120,6 @@
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
-
-        <!-- <p-dialog [(visible)]="deleteAgeGroupsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Are you sure you want to delete selected agegroup?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteAgeGroupsDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
-            </ng-template>
-        </p-dialog> -->
     </div>
 </div>
 

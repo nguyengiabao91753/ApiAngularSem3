@@ -106,39 +106,27 @@ export class LocationComponent implements OnInit {
   }
 
   deleteLocation(location: Location) {
-    this.deleteLocationDialog= true;
     this.location = { ...location };
+    this.deleteLocationDialog= true;
 
   }
 
   confirmDelete() {
-    this.deleteLocationDialog = false;
-    //Xóa ở đây chỉ là set cái status về lại = 0 =>Update
-    console.log(this.location);
-    this.locationService.update(this.location).then(
-      res => {
-          {
-
+    this.deleteLocationDialog = false; // Đóng hộp thoại xác nhận
+    this.locationService.delete(this.location.locationId!).then(
+      () => {
+          // Nếu xóa thành công, loại bỏ vị trí khỏi danh sách
           this.locations = this.locations.filter(a => a.locationId !== this.location.locationId);
-          console.log(this.location);
-          
-          // this.agegroups = this.agegroups.map(a =>
-          //   a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
-          // );
-          
-          // this.changeDetectorRef.detectChanges();
-
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Location Deleted', life: 3000 });
-          this.location = {};
-        }
+          this.location = {}; // Đặt lại đối tượng location
       },
       error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete Location', life: 3000 });
-
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete Location', life: 3000 });
       }
-    )
-    
-  }
+    );
+}
+
+
 
 
 

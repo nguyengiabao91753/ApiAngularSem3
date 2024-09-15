@@ -39,22 +39,22 @@
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" >
-                    <tr *ngFor="let location of locations">
+                <ng-template pTemplate="body"let-loc>
+                    <tr *ngIf="loc">
                         <!-- <td>
                             <p-tableCheckbox [value]="age"></p-tableCheckbox>
                         </td> -->
                         <td ><span class="p-column-title">Id</span>
-                            {{location.locationId}}
+                            {{loc.locationId}}
                         </td>
                         <td >
                             <span class="p-column-title">Name</span>
-                            {{location.name}}
+                            {{loc.name}}
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(location)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteLocation(location)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(loc)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteLocation(loc)"></button>
                             </div>
                         </td>
                     </tr>
@@ -62,7 +62,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="locationDialog" [style]="{width: '450px'}" header="AgeGroup Details" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="locationDialog" [style]="{width: '450px'}" header="Location Details" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                 <div class="field">
