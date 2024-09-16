@@ -11,6 +11,8 @@ import { FaqsComponent } from './client/component/faqs/faqs.component';
 import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
 import { LoginAdminComponent } from './admin/auth/login/login.component';
+import { BusTypeComponent } from './admin/component/bustype/bustype.component';
+import { BusComponent } from './admin/component/bus/bus.component';
 
 export const routes: Routes = [
     {
@@ -21,6 +23,14 @@ export const routes: Routes = [
                 path:'agegroup',
                 component: AgegroupComponent
             },
+            {
+                path:'bus-type',
+                component: BusTypeComponent
+            },
+            {
+                path: 'bus',
+                component: BusComponent
+            }
             
         ]
     },

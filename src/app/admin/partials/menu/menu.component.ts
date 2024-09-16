@@ -40,8 +40,8 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Bus Information',
                 items: [
-                    { label: 'Bus Type', icon: 'pi pi-fw pi-align-justify', routerLink: ['/'] },
-                    { label: 'Buses', icon: 'pi pi-fw pi-truck', routerLink: ['/'] },
+                    { label: 'Bus Type', icon: 'pi pi-fw pi-align-justify', routerLink: ['/admin/bus-type'] },
+                    { label: 'Buses', icon: 'pi pi-fw pi-truck', routerLink: ['/admin/bus'] },
                     
                     
                 ]

@@ -196,7 +196,6 @@ export class AgegroupComponent implements OnInit {
           if (res['status']) {
             this.agegroupDialog = false;
             this.formGroup.reset()
-
             this.agegroups.push(this.agegroup);
           }
 
@@ -222,16 +221,12 @@ export class AgegroupComponent implements OnInit {
             );
             //{...agegroup} là copy đối tượng đó gắn cho đối tượng đc gắn, [...aaa] là copy mảng
           }
-
-
         },
         error => {
           alert("Lỗi")
         }
       )
     }
-
-
   }
 
   onGlobalFilter(table: Table, event: Event) {

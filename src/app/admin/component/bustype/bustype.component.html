@@ -19,14 +19,14 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="agegroups" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="bustypes" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [(selection)]="selectedAgeGroups" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                [(selection)]="selectedBusTypes" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Manage Age Group</h5>
+                        <h5 class="m-0">Manage Bus Type</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
@@ -46,32 +46,29 @@
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-age>
-                    <tr *ngIf="age.status == 1">
+                <ng-template pTemplate="body" let-busType>
+                    <tr *ngIf="busType.status == 1">
                         <!-- <td>
                             <p-tableCheckbox [value]="age"></p-tableCheckbox>
                         </td> -->
                         <td><span class="p-column-title">Id</span>
-                            {{age.ageGroupId}}
+                            {{busType.busTypeId}}
                         </td>
                         <td>
                             <span class="p-column-title">Name</span>
-                            {{age.name}}
-                        </td>
-                        <td>
-                            <span class="p-column-title">Discount</span>
-                            {{age.discount}}
+                            {{busType.name}}
                         </td>
                         <td><span class="p-column-title">Status</span>
                             <span
-                                [class]="'product-badge status-' + (age.status==1?'instock':'outofstock')">{{age.status==1?'Active':'Deleted'}}</span>
+                                [class]="'product-badge status-' + (busType.status==1?'instock':'outofstock')">{{busType.status==1?'Active':'Deleted'}}</span>
                         </td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2" (click)="editProduct(age)"></button>
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="editBusType(busType)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteAgeGroup(age)"></button>
+                                    (click)="deleteBusType(busType)"></button>
                             </div>
                         </td>
                     </tr>
@@ -79,7 +76,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="agegroupDialog" [style]="{width: '450px'}" header="AgeGroup Details" [modal]="true"
+        <p-dialog [(visible)]="busTypeDialog" [style]="{width: '450px'}" header="Bus Type Details" [modal]="true"
             class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
@@ -89,14 +86,6 @@
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('name')?.invalid}" />
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('name')?.invalid">Name is
                             required.</small>
-                    </div>
-                    <div class="field">
-                        <label for="description">Discount</label>
-                        <p-inputNumber id="price" formControlName="discount" inputId="percent"
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('discount')?.invalid}"
-                            prefix="%"></p-inputNumber>
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('discount')?.invalid">Name
-                            is required.</small>
                     </div>
                 </form>
             </ng-template>
@@ -109,14 +98,14 @@
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteAgeGroupDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteBusTypeDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="agegroup">Are you sure you want to delete</span>
+                <span *ngIf="bustype">Are you sure you want to delete</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-                    (click)="deleteAgeGroupDialog = false"></button>
+                    (click)="deleteBusTypeDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
                     (click)="confirmDelete()"></button>
             </ng-template>
