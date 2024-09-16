@@ -92,7 +92,7 @@
                 </div>
                 <div class="field">
                     <label for="dateStart">Date Start</label>
-                    <input type="datetime-local" pInputText id="dateStart" formControlName="dateStart" [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateStart')?.invalid}" [disabled]="true" />
+                    <input type="datetime-local" pInputText id="dateStart" formControlName="dateStart" [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateStart')?.invalid}" [disabled]="false" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('dateStart')?.invalid">Date Start is required.</small>
                 </div>
                 

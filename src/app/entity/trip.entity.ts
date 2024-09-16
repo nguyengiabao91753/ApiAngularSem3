@@ -2,7 +2,7 @@ export interface Trip {
     tripId?: number;
     departureLocationId?: number;
     arrivalLocationId?: number;
-    dateStart?: Date;
-    dateEnd?: Date;
+    dateStart?: string;
+    dateEnd?: string;
     status?: number;
 }
