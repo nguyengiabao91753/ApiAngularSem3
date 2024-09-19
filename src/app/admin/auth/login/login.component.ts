@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { LayoutService } from '../../../service/applayout.service';
 
 @Component({
   selector: 'app-login',
@@ -31,5 +32,5 @@ import { PasswordModule } from 'primeng/password';
 `]
 })
 export class LoginAdminComponent {
-
+  constructor(public layoutService: LayoutService) { }
 }

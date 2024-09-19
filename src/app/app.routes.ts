@@ -11,6 +11,7 @@ import { FaqsComponent } from './client/component/faqs/faqs.component';
 import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
 import { LoginAdminComponent } from './admin/auth/login/login.component';
+import { PolicyComponent } from './admin/component/policy/policy.component';
 import { BusTypeComponent } from './admin/component/bustype/bustype.component';
 import { BusComponent } from './admin/component/bus/bus.component';
 
@@ -20,16 +21,20 @@ export const routes: Routes = [
         component: AdminComponent,
         children:[
             {
-                path:'agegroup',
-                component: AgegroupComponent
-            },
-            {
-                path:'bus-type',
+                path: 'bus-type',
                 component: BusTypeComponent
             },
             {
                 path: 'bus',
                 component: BusComponent
+            },
+            {
+                path:'agegroup',
+                component: AgegroupComponent
+            },
+            {
+                path:'policy',
+                component: PolicyComponent
             }
             
         ]

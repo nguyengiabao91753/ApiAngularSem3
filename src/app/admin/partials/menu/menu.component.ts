@@ -63,7 +63,7 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Policy & Discount',
                 items: [
-                    { label: 'Policy', icon: 'pi pi-fw pi-folder', routerLink: ['/'] },
+                    { label: 'Policy', icon: 'pi pi-fw pi-folder', routerLink: ['/admin/policy'] },
                     { label: 'Agegroup', icon: 'pi pi-fw pi-percentage', routerLink: ['/admin/agegroup'] },
                 ]
             }

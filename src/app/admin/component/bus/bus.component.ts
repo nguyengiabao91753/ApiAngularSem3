@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, forwardRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -27,6 +27,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ActivatedRoute } from '@angular/router';
 import { BusSeat } from '../../../entity/busseat.entity';
 import { BusSeatService } from '../../../service/busseat.service';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bustype',
@@ -50,7 +51,7 @@ import { BusSeatService } from '../../../service/busseat.service';
     DialogModule,
     RatingModule,
     MultiSelectModule,
-    CheckboxModule
+    CheckboxModule,
   ],
   templateUrl: './bus.component.html',
   styleUrl: './bus.component.css'
@@ -120,27 +121,30 @@ export class BusComponent implements OnInit {
       }
     )
 
-    this.activatedRoute.paramMap.subscribe(p => {
-      let busId = p.get('busId');
+    // this.activatedRoute.paramMap.subscribe(p => {
+    //   let busId = p.get('busId');
 
-      this.busSeatService.getSeatsByBusId(busId).then(
-        res => {
-          this.busSeat = res as BusSeat;
-        },
-        error => {
-          console.log('error');
-        }
-      )
-    })
+    //   this.busSeatService.getSeatsByBusId(busId).then(
+    //     res => {
+    //       this.busSeat = res as BusSeat;
+    //     },
+    //     error => {
+    //       console.log('error');
+    //     }
+    //   )
+    // })
 
     this.formGroup = this.formBuilder.group({
-      busId: 0,
-      busTypeId: ['', [Validators.required]],
+      busId: [0],
+      busTypeId: ['', [Validators.required]], // bắt buộc chọn loại xe
       airConditioned: [{ value: '', disabled: true }],
-      licensePlate: ['', [Validators.required]],
-      seatCount: ['', Validators.required],
-      basePrice: ['', Validators.required],
+      licensePlate: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)],
+      [this.licensePlateExistsValidator.bind(this)]
+      ],
+      seatCount: ['', [Validators.required, Validators.min(10), Validators.max(60)]], 
+      basePrice: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
     });
+
 
     this.formGroup.get('busTypeId')?.valueChanges.subscribe(selectedBusType => {
       selectedBusType = this.busTypes.find(b => b.busTypeId === selectedBusType);
@@ -169,6 +173,16 @@ export class BusComponent implements OnInit {
       { field: 'busLicensePlate', header: 'License Plate' },
       { field: 'status', header: 'Status' },
     ]
+  }
+
+  licensePlateExistsValidator(control: AbstractControl): Observable<{[key: string]: any} | null> {
+    return this.busService.checkLicensePlateExist(control.value).pipe(
+      map(
+        res => {
+          return res.exists ? {licensePlateExists: true} : null;
+        }
+      )
+    )
   }
 
   showDialog(busId: string) {
@@ -220,6 +234,9 @@ export class BusComponent implements OnInit {
 
   save() {
     this.submitted = true;
+    if (this.formGroup.invalid) {
+      return; 
+    }
     if (this.formGroup.get('busId').value == 0) {
       this.bus = this.formGroup.value as Bus
       const selectedBusTypeId = this.formGroup.get('busTypeId')?.value;
