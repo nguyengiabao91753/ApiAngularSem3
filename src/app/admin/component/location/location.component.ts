@@ -69,23 +69,23 @@ export class LocationComponent implements OnInit {
     ) {}
 
 
-    ngOnInit(): void {
-      this.locationService.getAll().then(
-        res => {
-          this.locations = res as Location[];
-  
-        }
-      )
-      this.formGroup = this.formBuilder.group({
-        locationId: '0',
-        name: ['', [Validators.required]],
-      });
+      ngOnInit(): void {
+        this.locationService.getAll().then(
+          res => {
+            this.locations = res as Location[];
+    
+          }
+        )
+        this.formGroup = this.formBuilder.group({
+          locationId: '0',
+          name: ['', [Validators.required]],
+        });
 
-      this.cols = [
-        { field: 'Id', header: 'Id' },
-        { field: 'name', header: 'Name' },
-      ];
-    }
+        this.cols = [
+          { field: 'Id', header: 'Id' },
+          { field: 'name', header: 'Name' },
+        ];
+      }
 
       //Này là mở hộp thoại thêm mới
   openNew() {

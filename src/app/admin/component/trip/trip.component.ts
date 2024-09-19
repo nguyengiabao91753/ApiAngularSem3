@@ -102,7 +102,7 @@ export class TripComponent implements OnInit {
       this.submitted = false;
       this.tripDialog = true;
     }
-    editProduct(trip: Trip) {
+    editTrip(trip: Trip) {
       //Gán dữ liệu được chọn vào form
       this.formGroup.patchValue({
         tripId: trip.tripId,

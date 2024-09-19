@@ -39,9 +39,9 @@
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body"let-tri>
+                <ng-template pTemplate="body" let-tri>
                     <tr *ngIf="tri.status == 1">
-                        <!-- <td>
+                        <!-- <td>   
                             <p-tableCheckbox [value]="age"></p-tableCheckbox>
                         </td> -->
                         <td ><span class="p-column-title">Id</span>
@@ -68,7 +68,7 @@
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(tri)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editTrip(tri)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteTrip(tri)"></button>
                             </div>
                         </td>
@@ -77,33 +77,35 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="tripDialog" [style]="{width: '450px'}" header="Trip Details" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="tripDialog" [style]="{width: '450px'}" header="AgeGroup Details" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                 <div class="field">
-                    <label for="name">DepartureLocationId</label>
+                    <label for="departureLocationId">DepartureLocationId</label>
                     <input type="text" pInputText id="departureLocationId" formControlName="departureLocationId" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('departureLocationId')?.invalid}"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('departureLocationId')?.invalid">Title is required.</small>
                 </div>
-                <div class="field">
-                    <label for="name">arrivalLocationId</label>
+
+                <div class="field"> 
+                    <label for="arrivalLocationId">ArrivalLocationId</label>
                     <input type="text" pInputText id="arrivalLocationId" formControlName="arrivalLocationId" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('arrivalLocationId')?.invalid}"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('arrivalLocationId')?.invalid">Title is required.</small>
                 </div>
+
                 <div class="field">
                     <label for="dateStart">Date Start</label>
                     <input type="datetime-local" pInputText id="dateStart" formControlName="dateStart" [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateStart')?.invalid}" [disabled]="false" />
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('dateStart')?.invalid">Date Start is required.</small>
                 </div>
-                
+
                 <div class="field">
                     <label for="dateEnd">Date End</label>
                     <input type="datetime-local" pInputText id="dateEnd" formControlName="dateEnd" [ngClass]="{'ng-invalid ng-dirty': submitted && formGroup.get('dateEnd')?.invalid}"/>
                     <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('dateEnd')?.invalid">Date End is required.</small>
                 </div>
-                
+
             </form>
-            </ng-template>
+            </ng-template>      
             <ng-template pTemplate="footer">
                 <button pButton pRipple label="Cancel" severity="danger" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
                 <button pButton pRipple label="Save" icon="pi pi-check" [disabled]="formGroup.invalid" class="p-button-text" (click)="save()"></button>
