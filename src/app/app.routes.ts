@@ -12,12 +12,17 @@ import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
 import { LoginAdminComponent } from './admin/auth/login/login.component';
 import { PolicyComponent } from './admin/component/policy/policy.component';
+<<<<<<< HEAD
 import { DashboardComponent } from './admin/component/dashboard/dashboard.component';
 import { TicketDetailComponent } from './client/component/ticket-detail/ticket-detail.component';
 import { PaymentComponent } from './client/component/payment/payment.component';
 import { ProfileComponent } from './client/component/profile/profile.component';
 import { DashboardClientComponent } from './client/component/dashboard/dashboard.component';
 import { ChangepasswordComponent } from './client/component/changepassword/changepassword.component';
+=======
+import { BusTypeComponent } from './admin/component/bustype/bustype.component';
+import { BusComponent } from './admin/component/bus/bus.component';
+>>>>>>> 6fc1f7e29ee0874734626188754ed7a35f62bbfa
 
 export const routes: Routes = [
     {
@@ -25,8 +30,17 @@ export const routes: Routes = [
         component: AdminComponent,
         children:[
             {
+<<<<<<< HEAD
                 path: '',
                 component: DashboardComponent
+=======
+                path: 'bus-type',
+                component: BusTypeComponent
+            },
+            {
+                path: 'bus',
+                component: BusComponent
+>>>>>>> 6fc1f7e29ee0874734626188754ed7a35f62bbfa
             },
             {
                 path:'agegroup',
