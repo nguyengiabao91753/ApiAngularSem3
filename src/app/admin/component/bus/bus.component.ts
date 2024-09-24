@@ -121,21 +121,8 @@ export class BusComponent implements OnInit {
       }
     )
 
-    // this.activatedRoute.paramMap.subscribe(p => {
-    //   let busId = p.get('busId');
-
-    //   this.busSeatService.getSeatsByBusId(busId).then(
-    //     res => {
-    //       this.busSeat = res as BusSeat;
-    //     },
-    //     error => {
-    //       console.log('error');
-    //     }
-    //   )
-    // })
-
     this.formGroup = this.formBuilder.group({
-      busId: [0],
+      busId: '0',
       busTypeId: ['', [Validators.required]], // bắt buộc chọn loại xe
       airConditioned: [{ value: '', disabled: true }],
       licensePlate: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)],
@@ -175,15 +162,18 @@ export class BusComponent implements OnInit {
     ]
   }
 
-  licensePlateExistsValidator(control: AbstractControl): Observable<{[key: string]: any} | null> {
+  licensePlateExistsValidator(control: AbstractControl): Observable<any> {
+    const currentBusId = this.formGroup?.get('busId')?.value; // Lấy busId hiện tại từ form
     return this.busService.checkLicensePlateExist(control.value).pipe(
-      map(
-        res => {
-          return res.exists ? {licensePlateExists: true} : null;
+      map(res => {
+        if (res.status && res.busId !== currentBusId) {
+          return { licensePlateExists: true };
         }
-      )
-    )
+        return null;
+      })
+    );
   }
+  
 
   showDialog(busId: string) {
     if (!busId) {
@@ -215,6 +205,7 @@ export class BusComponent implements OnInit {
   }
 
   editBusType(bus: Bus) {
+    // this.bus = {...bus};
     this.formGroup.patchValue({
       busId: bus.busId,
       busTypeId: bus.busTypeId,
@@ -247,7 +238,7 @@ export class BusComponent implements OnInit {
       } else {
         console.error('Not found');
       }
-      this.bus.airConditioned = this.formGroup.get('airConditioned')?.value ? 1 : 0;
+      this.bus.airConditioned = this.formGroup.get('airConditioned')?.value ? 1 : 2;
       this.bus.licensePlate = this.formGroup.get('licensePlate')?.value.toString();
       this.bus.seatCount = this.formGroup.get('seatCount')?.value.toString();
       this.bus.basePrice = this.formGroup.get('basePrice')?.value.toString();
@@ -275,7 +266,8 @@ export class BusComponent implements OnInit {
       } else {
         console.error('Not found');
       }
-      this.bus.airConditioned = this.formGroup.get('airConditioned')?.value ? 1 : 0;
+
+      this.bus.airConditioned = this.formGroup.get('airConditioned')?.value ? 1 : 2;
       this.bus.licensePlate = this.formGroup.get('licensePlate')?.value.toString();
       this.bus.seatCount = this.formGroup.get('seatCount')?.value.toString();
       this.bus.basePrice = this.formGroup.get('basePrice')?.value.toString();
@@ -283,12 +275,16 @@ export class BusComponent implements OnInit {
       console.log('Bus Object:', this.bus);
       this.busService.update(this.bus).then(
         res => {
-          this.busDialog = false;
-          this.formGroup.reset();
-
-          this.buses = this.buses.map(b =>
-            b.busId === this.bus.busId ? { ...this.bus } : b
-          )
+          if(res['status']){
+            this.busDialog = false;
+            this.formGroup.reset();
+  
+            this.buses = this.buses.map(b =>
+              b.busId === this.bus.busId ? { ...this.bus } : b
+            )
+          }else{
+            alert('Failed to update bus');
+          }
         },
         error => {
           alert('Error');
