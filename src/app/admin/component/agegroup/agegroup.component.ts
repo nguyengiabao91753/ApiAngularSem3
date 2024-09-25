@@ -223,16 +223,12 @@ export class AgegroupComponent implements OnInit {
             );
             //{...agegroup} là copy đối tượng đó gắn cho đối tượng đc gắn, [...aaa] là copy mảng
           }
-
-
         },
         error => {
           alert("Lỗi")
         }
       )
     }
-
-
   }
 
   onGlobalFilter(table: Table, event: Event) {

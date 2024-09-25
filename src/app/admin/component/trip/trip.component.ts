@@ -62,6 +62,7 @@ export class TripComponent implements OnInit {
   cols: any[] = [];
   statuses: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
+  dateEndSelected: boolean = false; // Biến điều khiển
 
   constructor(
     private tripService: TripService,
@@ -80,8 +81,6 @@ export class TripComponent implements OnInit {
       tripId : '0',
       departureLocationId: ['', [Validators.required]],
       arrivalLocationId: ['', [Validators.required]],
-      // dateStart: ['', [Validators.required]],
-      dateStart: [new Date().toISOString().slice(0, 16), [Validators.required]], // Ngày giờ hiện tại
       dateEnd: ['', [Validators.required]],
     });
 
@@ -94,6 +93,11 @@ export class TripComponent implements OnInit {
       { field: 'status', header: 'Status' }
     ];
 
+  }
+  onDateEndChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.formGroup.patchValue({ dateEnd: input.value });
+    this.dateEndSelected = true; // Đánh dấu là đã chọn ngày
   }
 
     //Này là mở hộp thoại thêm mới
@@ -155,7 +159,7 @@ export class TripComponent implements OnInit {
       if (this.formGroup.get('tripId').value == 0) {
         //Nếu ID == 0, nghĩa là dữ liệu mới
         this.trip = this.formGroup.value as Trip;
-  
+        this.trip.dateStart = new Date().toISOString(); // Thời gian bắt đầu là thời điểm hiện tại
         this.trip.status = 1;
         this.tripService.create(this.trip).then(
           res => {
@@ -180,6 +184,7 @@ export class TripComponent implements OnInit {
         //Khác 0 nghĩa là đã có dữ liệu khác => Update
         this.trip = this.formGroup.value as Trip;
         this.trip.status = 1;
+        this.trip.dateStart = new Date().toISOString(); // Thời gian bắt đầu là thời điểm hiện tại
         this.tripService.update(this.trip).then(
           res => {
             if (res['status']) {

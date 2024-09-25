@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseUrlService } from "./baseUrl.service";
-import { lastValueFrom } from "rxjs";
+import { lastValueFrom, Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -23,5 +23,9 @@ export class LocationService{
     }
     async delete(id: number){
         return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'location/delete', id));
+    }
+    checkLocationName(name : string): Observable<any>
+    {
+        return this.httpClient.get(this.baseurl.BASE_URL + `location/check-location-name-exists?name=${name}`);
     }
 }

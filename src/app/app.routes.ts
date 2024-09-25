@@ -14,12 +14,23 @@ import { LoginAdminComponent } from './admin/auth/login/login.component';
 import { PolicyComponent } from './admin/component/policy/policy.component';
 import { LocationComponent } from './admin/component/location/location.component';
 import { TripComponent } from './admin/component/trip/trip.component';
+import { BusTypeComponent } from './admin/component/bustype/bustype.component';
+import { BusComponent } from './admin/component/bus/bus.component';
+
 
 export const routes: Routes = [
     {
         path: 'admin',
         component: AdminComponent,
         children:[
+            {
+                path: 'bus-type',
+                component: BusTypeComponent
+            },
+            {
+                path: 'bus',
+                component: BusComponent
+            },
             {
                 path:'agegroup',
                 component: AgegroupComponent
