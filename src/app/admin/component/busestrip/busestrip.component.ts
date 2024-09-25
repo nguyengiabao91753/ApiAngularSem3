@@ -1,28 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, forwardRef, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { RatingModule } from 'primeng/rating';
+import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-
-import { RippleModule } from 'primeng/ripple';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { MessageService } from 'primeng/api';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RatingModule } from 'primeng/rating';
-import { AgeGroup } from '../../../entity/agegroup.entity';
-import { AgeGroupService } from '../../../service/agegroup.service';
+import { BusesTrip } from '../../../entity/bustrip.entity';
+import { BusesTripService } from '../../../service/busestrip.service';
 
 @Component({
-  selector: 'app-agegroup',
+  selector: 'app-busestrip',
   standalone: true,
-  providers: [MessageService],
+  providers:[MessageService],
   imports: [
     CommonModule,
     TableModule,
@@ -41,23 +40,24 @@ import { AgeGroupService } from '../../../service/agegroup.service';
     DialogModule,
     RatingModule
   ],
-  templateUrl: './agegroup.component.html',
-  styleUrl: './agegroup.component.css'
+  templateUrl: './busestrip.component.html',
+  styleUrl: './busestrip.component.css'
 })
-export class AgegroupComponent implements OnInit {
-  agegroup: AgeGroup = {}
-  agegroups: AgeGroup[] = []
-  originAgeList : AgeGroup[] = []
+export class BusestripComponent implements OnInit {
+
+  busestrip: BusesTrip = {}
+  busestrips: BusesTrip[] = []
+  originBusTripList : BusesTrip[] = []
 
   formGroup!: FormGroup
 
   //For notications
-  agegroupDialog: boolean = false
-  deleteAgeGroupDialog: boolean = false
-  deleteAgeGroupsDialog: boolean = false
+  bustripDialog: boolean = false
+  deleteBusTripDialog: boolean = false
+  deleteBusTripsDialog: boolean = false
 
   //For multi selected
-  selectedAgeGroups: AgeGroup[] = []
+  selectedBusTrips: BusesTrip[] = []
 
   //For Table
   submitted: boolean = false;
@@ -66,34 +66,35 @@ export class AgegroupComponent implements OnInit {
   rowsPerPageOptions = [5, 10, 20];
 
   constructor(
-    private ageGroupService: AgeGroupService,
+    private busestripService: BusesTripService,
     private messageService: MessageService,
     private formBuilder: FormBuilder
   ) {
 
   }
   ngOnInit(): void {
-    this.ageGroupService.getAll().then(
+    this.busestripService.getAll().then(
       res => {
-        this.agegroups = res as AgeGroup[];
+        this.busestrips = res as BusesTrip[];
 
       }
     );
-    this.ageGroupService.getAll().then(
+    this.busestripService.getAll().then(
       res => {
-        this.originAgeList = res as AgeGroup[];
+        this.originBusTripList = res as BusesTrip[];
 
       }
     );
     
     this.formGroup = this.formBuilder.group({
-      ageGroupId: '0',
-      name: ['', [Validators.required]],
-      discount: ['', [Validators.required]],
+      busTripId: '0',
+      busId: ['', [Validators.required]],
+      tripId: ['', [Validators.required]],
+      price: ['', [Validators.required]]
     });
 
     this.cols = [
-      { field: 'Id', header: 'Id' },
+      { field: 'id', header: 'Id' },
       { field: 'name', header: 'Name' },
       { field: 'discount', header: 'Discount' },
       { field: 'status', header: 'Status' }
@@ -103,30 +104,29 @@ export class AgegroupComponent implements OnInit {
 
   //Này là mở hộp thoại thêm mới
   openNew() {
-    this.agegroup = {};
+    this.busestrip = {};
     this.submitted = false;
-    this.agegroupDialog = true;
+    this.bustripDialog = true;
   }
 
   //Cái này xóa nhiều
-  deleteSelectedAgeGroups() {
-    this.deleteAgeGroupsDialog = true;
+  deleteSelectedBusesTrips() {
+    this.deleteBusTripDialog = true;
   }
 
-  editProduct(agegroup: AgeGroup) {
+  editBusTrip(bustrip: BusesTrip) {
     //Gán dữ liệu được chọn vào form
     this.formGroup.patchValue({
-      ageGroupId: agegroup.ageGroupId,
-      name: agegroup.name,
-      discount: agegroup.discount
+      ageGroupId: bustrip.busTripId,
+      
     });
     //Mở hộp thoại thêm
-    this.agegroupDialog = true;
+    this.bustripDialog = true;
   }
 
-  deleteAgeGroup(agegroup: AgeGroup) {
-    this.deleteAgeGroupDialog = true;
-    this.agegroup = { ...agegroup };
+  deleteBusTrip(bustrip: BusesTrip) {
+    this.deleteBusTripDialog = true;
+    this.busestrip = { ...bustrip };
 
   }
 
@@ -157,16 +157,16 @@ export class AgegroupComponent implements OnInit {
   // }
 
   confirmDelete() {
-    this.deleteAgeGroupDialog = false;
-    this.agegroup.status = 0;
+    this.deleteBusTripDialog = false;
+    this.busestrip.status = 0;
     //Xóa ở đây chỉ là set cái status về lại = 0 =>Update
-    console.log(this.agegroup);
-    this.ageGroupService.update(this.agegroup).then(
+    console.log(this.busestrip);
+    this.busestripService.update(this.busestrip).then(
       res => {
         if (res['status']) {
 
-          this.agegroups = this.agegroups.filter(a => a.ageGroupId !== this.agegroup.ageGroupId);
-          console.log(this.agegroup);
+          this.busestrips = this.busestrips.filter(a => a.busTripId !== this.busestrip.busTripId);
+          console.log(this.busestrip);
           
           // this.agegroups = this.agegroups.map(a =>
           //   a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
@@ -175,7 +175,7 @@ export class AgegroupComponent implements OnInit {
           // this.changeDetectorRef.detectChanges();
 
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'AgeGroup Deleted', life: 3000 });
-          this.agegroup = {};
+          this.busestrip = {};
         }
       },
       error => {
@@ -187,7 +187,7 @@ export class AgegroupComponent implements OnInit {
   }
 
   hideDialog() {
-    this.agegroupDialog = false;
+    this.bustripDialog = false;
     this.submitted = false;
     this.formGroup.reset()
   }
@@ -196,18 +196,17 @@ export class AgegroupComponent implements OnInit {
     this.submitted = true;
     if (this.formGroup.get('ageGroupId').value == 0) {
       //Nếu ID == 0, nghĩa là dữ liệu mới
-      this.agegroup = this.formGroup.value as AgeGroup;
-      this.agegroup.discount = this.formGroup.get('discount')?.value?.toString();
-      this.agegroup.status = 1;
-      this.ageGroupService.create(this.agegroup).then(
+      this.busestrip = this.formGroup.value as BusesTrip;
+      
+      this.busestripService.create(this.busestrip).then(
         res => {
           if (res['status']) {
-            this.agegroupDialog = false;
+            this.bustripDialog = false;
             this.formGroup.reset()
 
-            let newId = this.originAgeList[this.originAgeList.length-1].ageGroupId + 1;
-            this.agegroup.ageGroupId = newId;
-            this.agegroups.push(this.agegroup);
+            let newId = this.originBusTripList[this.originBusTripList.length-1].busTripId + 1;
+            this.busestrip.busTripId = newId;
+            this.busestrips.push(this.busestrip);
           }
 
         },
@@ -217,27 +216,30 @@ export class AgegroupComponent implements OnInit {
       )
     } else {
       //Khác 0 nghĩa là đã có dữ liệu khác => Update
-      this.agegroup = this.formGroup.value as AgeGroup;
-      this.agegroup.discount = this.formGroup.get('discount')?.value?.toString();
-      this.agegroup.status = 1;
-      this.ageGroupService.update(this.agegroup).then(
+      this.busestrip = this.formGroup.value as BusesTrip;
+      
+      this.busestripService.update(this.busestrip).then(
         res => {
           if (res['status']) {
-            this.agegroupDialog = false;
+            this.bustripDialog = false;
             this.formGroup.reset()
 
             // Tạo ra mảng mới với đối tượng đã được cập nhật
-            this.agegroups = this.agegroups.map(a =>
-              a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
+            this.busestrips = this.busestrips.map(a =>
+              a.busTripId === this.busestrip.busTripId ? { ...this.busestrip } : a
             );
             //{...agegroup} là copy đối tượng đó gắn cho đối tượng đc gắn, [...aaa] là copy mảng
           }
+
+
         },
         error => {
           alert("Lỗi")
         }
       )
     }
+
+
   }
 
   onGlobalFilter(table: Table, event: Event) {

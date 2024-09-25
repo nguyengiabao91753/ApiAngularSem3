@@ -30,7 +30,8 @@ export class BusService{
         return lastValueFrom(this.httpClient.post(this.baseUrl.BASE_URL + 'Bus/update-bus' , bus))
     }
 
-    checkLicensePlateExist(licensePlate: string): Observable<any>{
+    checkLicensePlateExist(licensePlate: string): Observable<any> {
         return this.httpClient.get(this.baseUrl.BASE_URL + `Bus/check-license-plate-exists?licensePlate=${licensePlate}`);
-    }
+      }
+      
 }
