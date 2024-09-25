@@ -8,25 +8,25 @@
                     <div class="my-2">
                         <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
                             (click)="openNew()"></button>
-                        <!-- <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedAgeGroups()" [disabled]="!selectedAgeGroups || !selectedAgeGroups.length"></button> -->
+                        <!-- <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedbusGroups()" [disabled]="!selectedbusGroups || !selectedbusGroups.length"></button> -->
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+                    <!-- <p-fileUpload mode="basic" accept="imbus/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
                     <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"
                         (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="agegroups" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="busestrips" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [(selection)]="selectedAgeGroups" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                currentPbusReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedBusTrips" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Manage Age Group</h5>
+                        <h5 class="m-0">Manbus Bus Trips</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
@@ -46,32 +46,32 @@
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-age>
-                    <tr *ngIf="age.status == 1">
+                <ng-template pTemplate="body" let-bus>
+                    <tr *ngIf="bus.status == 1">
                         <!-- <td>
-                            <p-tableCheckbox [value]="age"></p-tableCheckbox>
+                            <p-tableCheckbox [value]="bus"></p-tableCheckbox>
                         </td> -->
                         <td><span class="p-column-title">Id</span>
-                            {{age.ageGroupId}}
+                            {{bus.busGroupId}}
                         </td>
                         <td>
                             <span class="p-column-title">Name</span>
-                            {{age.name}}
+                            {{bus.name}}
                         </td>
                         <td>
                             <span class="p-column-title">Discount</span>
-                            {{age.discount}}
+                            {{bus.discount}}
                         </td>
                         <td><span class="p-column-title">Status</span>
                             <span
-                                [class]="'product-badge status-' + (age.status==1?'instock':'outofstock')">{{age.status==1?'Active':'Deleted'}}</span>
+                                [class]="'product-badge status-' + (bus.status==1?'instock':'outofstock')">{{bus.status==1?'Active':'Deleted'}}</span>
                         </td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2" (click)="editProduct(age)"></button>
+                                    class="p-button-rounded p-button-success mr-2" (click)="editBusTrip(bus)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteAgeGroup(age)"></button>
+                                    (click)="deleteBusTrip(bus)"></button>
                             </div>
                         </td>
                     </tr>
@@ -79,7 +79,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="agegroupDialog" [style]="{width: '450px'}" header="AgeGroup Details" [modal]="true"
+        <p-dialog [(visible)]="bustripDialog" [style]="{width: '450px'}" header="busGroup Details" [modal]="true"
             class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
@@ -109,26 +109,26 @@
             </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteAgeGroupDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <p-dialog [(visible)]="deleteBusTripDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="agegroup">Are you sure you want to delete</span>
+                <span *ngIf="busestrip">Are you sure you want to delete</span>
             </div>
             <ng-template pTemplate="footer">
                 <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" severity="danger"
-                    (click)="deleteAgeGroupDialog = false"></button>
+                    (click)="deleteBusTripDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
                     (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
-        <!-- <p-dialog [(visible)]="deleteAgeGroupsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <!-- <p-dialog [(visible)]="deletebusGroupsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">
                 <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Are you sure you want to delete selected agegroups?</span>
+                <span>Are you sure you want to delete selected busgroups?</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteAgeGroupsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deletebusGroupsDialog = false"></button>
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
             </ng-template>
         </p-dialog> -->

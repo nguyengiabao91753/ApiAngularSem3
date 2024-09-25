@@ -12,6 +12,12 @@ import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
 import { LoginAdminComponent } from './admin/auth/login/login.component';
 import { PolicyComponent } from './admin/component/policy/policy.component';
+import { DashboardComponent } from './admin/component/dashboard/dashboard.component';
+import { TicketDetailComponent } from './client/component/ticket-detail/ticket-detail.component';
+import { PaymentComponent } from './client/component/payment/payment.component';
+import { ProfileComponent } from './client/component/profile/profile.component';
+import { DashboardClientComponent } from './client/component/dashboard/dashboard.component';
+import { ChangepasswordComponent } from './client/component/changepassword/changepassword.component';
 import { BusTypeComponent } from './admin/component/bustype/bustype.component';
 import { BusComponent } from './admin/component/bus/bus.component';
 
@@ -20,6 +26,10 @@ export const routes: Routes = [
         path: 'admin',
         component: AdminComponent,
         children:[
+            {
+                path: '',
+                component: DashboardComponent
+            },
             {
                 path: 'bus-type',
                 component: BusTypeComponent
@@ -74,7 +84,27 @@ export const routes: Routes = [
             {
                 path:'contact-us',
                 component: ContactComponent
-            }
+            },
+            {
+                path:'ticket-detail',
+                component: TicketDetailComponent
+            },
+            {
+                path:'payment',
+                component: PaymentComponent
+            },
+            {
+                path:'profile',
+                component: ProfileComponent
+            },
+            {
+                path:'dashboard',
+                component: DashboardClientComponent
+            },
+            {
+                path:'changepassword',
+                component: ChangepasswordComponent
+            },
         ]
     },
     {
