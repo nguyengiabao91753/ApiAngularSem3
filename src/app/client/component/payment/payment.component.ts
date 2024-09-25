@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PaymentService } from '../../../service/payment.service';
 import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
 
 @Component({
@@ -14,7 +13,6 @@ import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal'
 export class PaymentComponent implements OnInit{
 
   constructor(
-    private paymentService: PaymentService
   ){}
 
   public payPalConfig?: IPayPalConfig;

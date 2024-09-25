@@ -1,14 +1,16 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@microsoft/signalr";
-import { BaseUrlService } from "./baseUrl.service";
+// import { Injectable } from "@angular/core";
+// import { HttpClient } from "@microsoft/signalr";
+// import { BaseUrlService } from "./baseUrl.service";
 
-@Injectable({
-    providedIn : 'root'
-})
+// @Injectable({
+//     providedIn : 'root'
+// })
 
-export class PaymentService{
-    constructor(
-        private httpClient: HttpClient,
-        private baseUrl: BaseUrlService
-    ){}
-}
+// export class PaymentService{
+//     constructor(
+//         private httpClient: HttpClient,
+//         private baseUrl: BaseUrlService
+//     ){}
+
+    
+// }
