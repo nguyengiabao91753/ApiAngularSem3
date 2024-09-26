@@ -23,10 +23,10 @@
                 [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPbusReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [(selection)]="selectedBusTrips" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                [(selection)]="selectedBusTrips" selectionMode="multiple" [rowHover]="true" dataKey="busTripId">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Manbus Bus Trips</h5>
+                        <h5 class="m-0">Manage Bus Trips</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
@@ -36,9 +36,9 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
+                        <!-- <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
+                        </th> -->
                         <th *ngFor="let col of cols" pSortableColumn="{{col.field}}">
                             {{col.header}}
                             <p-sortIcon field="{{col.field}}"></p-sortIcon>
@@ -46,32 +46,49 @@
                         <th></th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-bus>
-                    <tr *ngIf="bus.status == 1">
+                <ng-template pTemplate="body" let-bt>
+                    <tr *ngIf="bt.status == 1">
                         <!-- <td>
                             <p-tableCheckbox [value]="bus"></p-tableCheckbox>
                         </td> -->
                         <td><span class="p-column-title">Id</span>
-                            {{bus.busGroupId}}
+                            {{bt.busTripId}}
                         </td>
                         <td>
-                            <span class="p-column-title">Name</span>
-                            {{bus.name}}
+                            <span class="p-column-title">Bus Type</span>
+                            {{bt.busTypeName}}
                         </td>
                         <td>
-                            <span class="p-column-title">Discount</span>
-                            {{bus.discount}}
+                            <span class="p-column-title">Departure Location</span>
+                            {{bt.departureLocationName}}
                         </td>
-                        <td><span class="p-column-title">Status</span>
+                        <td>
+                            <span class="p-column-title">Arrival Location</span>
+                            {{bt.arrivalLocationName}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Start</span>
+                            {{bt.dateStart}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">End</span>
+                            {{bt.dateEnd}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Price</span>
+                            {{bt.price}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Status</span>
                             <span
-                                [class]="'product-badge status-' + (bus.status==1?'instock':'outofstock')">{{bus.status==1?'Active':'Deleted'}}</span>
+                                [class]="'product-badge status-' + (bt.status==1?'instock':'outofstock')">{{bt.status==1?'Active':'Deleted'}}</span>
                         </td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2" (click)="editBusTrip(bus)"></button>
+                                    class="p-button-rounded p-button-success mr-2" (click)="editBusTrip(bt)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteBusTrip(bus)"></button>
+                                    (click)="deleteBusTrip(bt)"></button>
                             </div>
                         </td>
                     </tr>
@@ -84,7 +101,7 @@
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                     <div class="field">
-                        <label for="name">Name</label>
+                        <label for="name">Bus</label>
                         <input type="text" pInputText id="name" formControlName="name" autofocus
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('name')?.invalid}" />
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('name')?.invalid">Name is

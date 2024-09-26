@@ -20,6 +20,7 @@ import { DashboardClientComponent } from './client/component/dashboard/dashboard
 import { ChangepasswordComponent } from './client/component/changepassword/changepassword.component';
 import { BusTypeComponent } from './admin/component/bustype/bustype.component';
 import { BusComponent } from './admin/component/bus/bus.component';
+import { BusestripComponent } from './admin/component/busestrip/busestrip.component';
 
 export const routes: Routes = [
     {
@@ -45,7 +46,11 @@ export const routes: Routes = [
             {
                 path:'policy',
                 component: PolicyComponent
-            }
+            },
+            {
+                path:'busestrip',
+                component: BusestripComponent
+            },
             
         ]
     },

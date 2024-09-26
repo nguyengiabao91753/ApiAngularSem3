@@ -17,6 +17,8 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { BusesTrip } from '../../../entity/bustrip.entity';
 import { BusesTripService } from '../../../service/busestrip.service';
+import { Bus } from '../../../entity/bus.entity';
+import { BusService } from '../../../service/bus.service';
 
 @Component({
   selector: 'app-busestrip',
@@ -49,6 +51,9 @@ export class BusestripComponent implements OnInit {
   busestrips: BusesTrip[] = []
   originBusTripList : BusesTrip[] = []
 
+  buses: Bus[]=[]
+  
+
   formGroup!: FormGroup
 
   //For notications
@@ -67,26 +72,18 @@ export class BusestripComponent implements OnInit {
 
   constructor(
     private busestripService: BusesTripService,
+    private busService: BusService,
     private messageService: MessageService,
     private formBuilder: FormBuilder
   ) {
 
   }
-  ngOnInit(): void {
-    this.busestripService.getAll().then(
-      res => {
-        this.busestrips = res as BusesTrip[];
-
-      }
-    );
-    this.busestripService.getAll().then(
-      res => {
-        this.originBusTripList = res as BusesTrip[];
-
-      }
-    );
+  async ngOnInit() {
+    this.busestrips = await this.busestripService.getAll() as BusesTrip[]
+    this.originBusTripList = await this.busestripService.getAll() as BusesTrip[]
+    this.buses = await this.busService.getAll() as Bus[]
     
-    this.formGroup = this.formBuilder.group({
+    this.formGroup =await this.formBuilder.group({
       busTripId: '0',
       busId: ['', [Validators.required]],
       tripId: ['', [Validators.required]],
@@ -94,9 +91,13 @@ export class BusestripComponent implements OnInit {
     });
 
     this.cols = [
-      { field: 'id', header: 'Id' },
-      { field: 'name', header: 'Name' },
-      { field: 'discount', header: 'Discount' },
+      { field: 'busTripId', header: 'Id' },
+      { field: 'busTypeName', header: 'Bus Type' },
+      { field: 'departureLocationName', header: 'Departure' },
+      { field: 'arrivalLocationName', header: 'Arrival' },
+      { field: 'dateStart', header: 'Start' },
+      { field: 'DateEnd', header: 'End' },
+      { field: 'price', header: 'Price' },
       { field: 'status', header: 'Status' }
     ];
 
@@ -167,12 +168,6 @@ export class BusestripComponent implements OnInit {
 
           this.busestrips = this.busestrips.filter(a => a.busTripId !== this.busestrip.busTripId);
           console.log(this.busestrip);
-          
-          // this.agegroups = this.agegroups.map(a =>
-          //   a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
-          // );
-          
-          // this.changeDetectorRef.detectChanges();
 
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'AgeGroup Deleted', life: 3000 });
           this.busestrip = {};
@@ -194,7 +189,7 @@ export class BusestripComponent implements OnInit {
 
   save() {
     this.submitted = true;
-    if (this.formGroup.get('ageGroupId').value == 0) {
+    if (this.formGroup.get('busTripId').value == 0) {
       //Nếu ID == 0, nghĩa là dữ liệu mới
       this.busestrip = this.formGroup.value as BusesTrip;
       
