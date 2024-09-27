@@ -99,16 +99,16 @@ export class TripComponent implements OnInit {
       dateEnd: ['', [Validators.required]],
     });
 
-    this.formGroup.get('departureLocationId')?.valueChanges.subscribe(selectedLocationId => {
-      // Tìm kiếm địa điểm đã chọn trong danh sách locations
-      const selectedDeparture = this.locations.find(location => location.locationId === selectedLocationId);
-      console.log(selectedDeparture);
-    });
-    this.formGroup.get('arrivalLocationId')?.valueChanges.subscribe(selectedLocationId => {
-      // Tìm kiếm địa điểm đã chọn trong danh sách locations
-      const selectedArrival = this.locations.find(location => location.locationId === selectedLocationId);
-      console.log(selectedArrival);
-    });
+    // this.formGroup.get('departureLocationId')?.valueChanges.subscribe(selectedLocationId => {
+    //   // Tìm kiếm địa điểm đã chọn trong danh sách locations
+    //   const selectedDeparture = this.locations.find(location => location.locationId === selectedLocationId);
+    //   console.log(selectedDeparture);
+    // });
+    // this.formGroup.get('arrivalLocationId')?.valueChanges.subscribe(selectedLocationId => {
+    //   // Tìm kiếm địa điểm đã chọn trong danh sách locations
+    //   const selectedArrival = this.locations.find(location => location.locationId === selectedLocationId);
+    //   console.log(selectedArrival);
+    // });
     this.formGroup.get('dateStart')?.valueChanges.subscribe((value) => {
       if (value) {
         const formattedDateStart = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
