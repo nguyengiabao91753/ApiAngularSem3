@@ -17,7 +17,7 @@ export class BusesTripService{
     }
 
     async update(busestrip: any){
-        return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'busestrip/update', busestrip));
+        return lastValueFrom(this.httpClient.put(this.baseurl.BASE_URL+'busestrip/update', busestrip));
     }
 
     async getById(id: any){

@@ -181,7 +181,7 @@ export class BusComponent implements OnInit {
         res => {
           return res.exists ? {licensePlateExists: true} : null;
         }
-      )
+      ) 
     )
   }
 

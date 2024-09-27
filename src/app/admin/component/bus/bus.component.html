@@ -49,7 +49,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-bus>
-                    <tr *ngIf="bus.status == 1">
+                    <tr *ngIf="bus.status != 0">
                         <!-- <td>
                             <p-tableCheckbox [value]="age"></p-tableCheckbox>
                         </td> -->
@@ -85,8 +85,8 @@
                             <span class="p-column-title">Status</span>
                             <span [class]="
                   'product-badge status-' +
-                  (bus.status == 1 ? 'instock' : 'outofstock')
-                ">{{ bus.status == 1 ? "Active" : "Deleted" }}
+                  (bus.status == 1 ? 'instock' : 'lowstock')
+                ">{{ bus.status == 1 ? "Available" : "Occupied" }}
                             </span>
                         </td>
                         <td>
@@ -113,11 +113,10 @@
                         <p-dropdown id="name" formControlName="busTypeId" [options]="busTypes" optionLabel="name"
                             placeholder="Select Bus" optionValue="busTypeId" autofocus [ngClass]="{
                 'ng-invalid ng-dirty':
-                  (submitted && formGroup.get('busTypeId')?.invalid) ||
-                  formGroup.get('busTypeId')?.touched
+                  submitted && formGroup.get('busTypeId')?.invalid
               }">
                             <small class="ng-dirty ng-invalid"
-                                *ngIf="(submitted || formGroup.get('busTypeId')?.touched) && formGroup.get('busTypeId')?.errors?.['required']">
+                                *ngIf="submitted && formGroup.get('busTypeId')?.errors?.['required']">
                                 Bus Name is required.
                             </small>
                         </p-dropdown>
@@ -128,8 +127,7 @@
                         <p-checkbox id="airConditioned" formControlName="airConditioned" [binary]="true"
                             inputId="binary" [ngClass]="{
                 'ng-invalid ng-dirty':
-                  (submitted && formGroup.get('airConditioned')?.invalid) ||
-                  formGroup.get('airConditioned')?.touched
+                  submitted && formGroup.get('airConditioned')?.invalid
               }" />
                     </div>
                     <div class="field">
@@ -137,22 +135,22 @@
                         <input type="text" pInputText id="licensePlate" formControlName="licensePlate" autofocus
                             placeholder="Enter license plate" [ngClass]="{
                 'ng-invalid ng-dirty':
-                  (submitted && formGroup.get('licensePlate')?.invalid) ||
-                  formGroup.get('licensePlate')?.touched
+                  submitted && formGroup.get('licensePlate')?.invalid
               }" />
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('licensePlate')?.touched) && formGroup.get('licensePlate')?.errors?.['required']">
+                            *ngIf="submitted && formGroup.get('licensePlate')?.errors?.['required']">
                             License Plate is required.
                         </small>
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('licensePlate')?.touched) && formGroup.get('licensePlate')?.errors?.['minLength']">
+                            *ngIf="submitted && formGroup.get('licensePlate')?.errors?.['minLength']">
                             License Plate must be at least 5 characters.
                         </small>
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('licensePlate')?.touched) && formGroup.get('licensePlate')?.errors?.['maxLength']">
+                            *ngIf="submitted && formGroup.get('licensePlate')?.errors?.['maxLength']">
                             License Plate cannot exceed 10 characters.
                         </small>
-                        <small class="ng-dirty ng-invalid" *ngIf="(submitted || formGroup.get('licensePlate')?.touched) && formGroup.get('licensePlate')?.errors?.['licensePlateExists']">
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.get('licensePlate')?.touched) && formGroup.get('licensePlate')?.errors?.['licensePlateExists']">
                             License Plate is already taken.
                         </small>
                     </div>
@@ -161,20 +159,19 @@
                         <p-dropdown id="seatCount" formControlName="seatCount" [options]="seatOptions"
                             optionLabel="label" optionValue="value" placeholder="Select Seat Count" [ngClass]="{
                 'ng-invalid ng-dirty':
-                  (submitted && formGroup.get('seatCount')?.invalid) ||
-                  formGroup.get('seatCount')?.touched
+                  submitted && formGroup.get('seatCount')?.invalid
               }">
                         </p-dropdown>
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('seatCount')?.touched) && formGroup.get('seatCount')?.errors?.['required']">
+                            *ngIf="submitted && formGroup.get('seatCount')?.errors?.['required']">
                             Seat Count is required.
                         </small>
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('seatCount')?.touched) && formGroup.get('seatCount')?.errors?.['min']">
+                            *ngIf="submitted && formGroup.get('seatCount')?.errors?.['min']">
                             Minimum seat count is 10.
                         </small>
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('seatCount')?.touched) && formGroup.get('seatCount')?.errors?.['max']">
+                            *ngIf="submitted && formGroup.get('seatCount')?.errors?.['max']">
                             Maximum seat count is 60.
                         </small>
                     </div>
@@ -183,15 +180,14 @@
                         <input type="text" pInputText id="basePrice" formControlName="basePrice" autofocus
                             placeholder="Enter Price" [ngClass]="{
                 'ng-invalid ng-dirty':
-                  (submitted && formGroup.get('basePrice')?.invalid) ||
-                  formGroup.get('basePrice')?.touched
+                  submitted && formGroup.get('basePrice')?.invalid
               }" />
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('basePrice')?.touched) && formGroup.get('basePrice')?.errors?.['required']">
+                            *ngIf="submitted && formGroup.get('basePrice')?.errors?.['required']">
                             Price is required.
                         </small>
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('basePrice')?.touched) && formGroup.get('basePrice')?.errors?.['pattern']">
+                            *ngIf="submitted && formGroup.get('basePrice')?.errors?.['pattern']">
                             Price must be a valid number with up to 2 decimal places.
                         </small>
                     </div>
@@ -205,6 +201,7 @@
                     class="p-button-text" (click)="save()"></button>
             </ng-template>
         </p-dialog>
+
 
         <!-- <p-dialog header="Details" [(visible)]="visible" [style]="{ width: '1400px', height: '800px' }" contentStyleClass="custom-dialog">
             <p-table #dt [value]="busSeats" [columns]="cols" responsiveLayout="scroll" [rows]="10"

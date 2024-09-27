@@ -101,19 +101,43 @@
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                     <div class="field">
-                        <label for="name">Bus</label>
-                        <input type="text" pInputText id="name" formControlName="name" autofocus
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('name')?.invalid}" />
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('name')?.invalid">Name is
+                        <label for="bus">Bus</label>
+                        <p-dropdown [options]="buses" name="bus" formControlName="busId" optionValue="busId"
+                            placeholder="Select Bus" >
+                            <ng-template let-bus pTemplate="item">
+                                {{bus.busName }} - {{ bus.licensePlate }}
+                            </ng-template>
+                            <ng-template let-bus pTemplate="selectedItem">
+                                {{ bus.busName }} - {{ bus.licensePlate }}
+                            </ng-template>
+                        </p-dropdown>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('busId')?.invalid">Bus is
                             required.</small>
                     </div>
                     <div class="field">
-                        <label for="description">Discount</label>
-                        <p-inputNumber id="price" formControlName="discount" inputId="percent"
+                        <label for="trip">Trip</label>
+                        <p-dropdown formControlName="tripId" name="trip" [options]="trips" optionValue="tripId"
+                            placeholder="Select a Trip">
+                            
+                            <ng-template let-trip pTemplate="item">
+                                {{trip.departureLocationId }} {{ trip.arrivalLocationId }}
+                            </ng-template>
+                            <ng-template let-trip pTemplate="selectedItem">
+                                {{ trip.departureLocationId }} - {{ trip.arrivalLocationId }}
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="price">Ticket Price</label>
+                        <p-inputNumber id="price" name="price" formControlName="price" mode="currency" 
+                        currency="USD" 
+                        locale="en-US"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('discount')?.invalid}"
-                            prefix="%"></p-inputNumber>
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('discount')?.invalid">Name
-                            is required.</small>
+                           ></p-inputNumber>
+                            <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.get('price')?.touched) && formGroup.get('price')?.errors?.['required']">
+                            Price is required.
+                        </small>
                     </div>
                 </form>
             </ng-template>

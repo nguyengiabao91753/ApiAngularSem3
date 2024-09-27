@@ -19,11 +19,13 @@ import { BusesTrip } from '../../../entity/bustrip.entity';
 import { BusesTripService } from '../../../service/busestrip.service';
 import { Bus } from '../../../entity/bus.entity';
 import { BusService } from '../../../service/bus.service';
+import { Trip } from '../../../entity/trip.entity';
+import { TripService } from '../../../service/trip.service';
 
 @Component({
   selector: 'app-busestrip',
   standalone: true,
-  providers:[MessageService],
+  providers: [MessageService],
   imports: [
     CommonModule,
     TableModule,
@@ -49,10 +51,10 @@ export class BusestripComponent implements OnInit {
 
   busestrip: BusesTrip = {}
   busestrips: BusesTrip[] = []
-  originBusTripList : BusesTrip[] = []
+  originBusTripList: BusesTrip[] = []
 
-  buses: Bus[]=[]
-  
+  buses: Bus[] = []
+  trips: Trip[] = []
 
   formGroup!: FormGroup
 
@@ -72,6 +74,7 @@ export class BusestripComponent implements OnInit {
 
   constructor(
     private busestripService: BusesTripService,
+    private tripService: TripService,
     private busService: BusService,
     private messageService: MessageService,
     private formBuilder: FormBuilder
@@ -82,12 +85,16 @@ export class BusestripComponent implements OnInit {
     this.busestrips = await this.busestripService.getAll() as BusesTrip[]
     this.originBusTripList = await this.busestripService.getAll() as BusesTrip[]
     this.buses = await this.busService.getAll() as Bus[]
-    
-    this.formGroup =await this.formBuilder.group({
+    console.log(this.buses);
+
+    this.trips = await this.tripService.getAll() as Trip[]
+
+    this.formGroup = await this.formBuilder.group({
       busTripId: '0',
       busId: ['', [Validators.required]],
       tripId: ['', [Validators.required]],
-      price: ['', [Validators.required]]
+      price: ['', [Validators.required]],
+      status: 1
     });
 
     this.cols = [
@@ -118,8 +125,11 @@ export class BusestripComponent implements OnInit {
   editBusTrip(bustrip: BusesTrip) {
     //Gán dữ liệu được chọn vào form
     this.formGroup.patchValue({
-      ageGroupId: bustrip.busTripId,
-      
+      busTripId: bustrip.busTripId,
+      busId: bustrip.busId,
+      tripId: bustrip.tripId,
+      price: bustrip.price
+
     });
     //Mở hộp thoại thêm
     this.bustripDialog = true;
@@ -178,7 +188,7 @@ export class BusestripComponent implements OnInit {
 
       }
     )
-    
+
   }
 
   hideDialog() {
@@ -192,16 +202,16 @@ export class BusestripComponent implements OnInit {
     if (this.formGroup.get('busTripId').value == 0) {
       //Nếu ID == 0, nghĩa là dữ liệu mới
       this.busestrip = this.formGroup.value as BusesTrip;
-      
+      this.busestrip.price = this.busestrip.price.toString()
       this.busestripService.create(this.busestrip).then(
         res => {
           if (res['status']) {
             this.bustripDialog = false;
             this.formGroup.reset()
-
-            let newId = this.originBusTripList[this.originBusTripList.length-1].busTripId + 1;
-            this.busestrip.busTripId = newId;
-            this.busestrips.push(this.busestrip);
+            this.ngOnInit();
+            // let newId = this.originBusTripList[this.originBusTripList.length - 1].busTripId + 1;
+            // this.busestrip.busTripId = newId;
+            // this.busestrips.push(this.busestrip);
           }
 
         },
@@ -212,17 +222,21 @@ export class BusestripComponent implements OnInit {
     } else {
       //Khác 0 nghĩa là đã có dữ liệu khác => Update
       this.busestrip = this.formGroup.value as BusesTrip;
-      
+      this.busestrip.price = this.busestrip.price.toString()
       this.busestripService.update(this.busestrip).then(
         res => {
           if (res['status']) {
             this.bustripDialog = false;
             this.formGroup.reset()
 
-            // Tạo ra mảng mới với đối tượng đã được cập nhật
+            console.log(this.busestrip);
+
             this.busestrips = this.busestrips.map(a =>
-              a.busTripId === this.busestrip.busTripId ? { ...this.busestrip } : a
+              a.busTripId === this.busestrip.busTripId ? { ...a, ...this.busestrip } : a 
             );
+            //kết hợp cả hai đối tượng. Nếu có trường nào trùng lặp giữa a và this.busestrip, 
+            //giá trị từ this.busestrip sẽ ghi đè giá trị trong a, trong khi các trường khác không có trong this.busestrip 
+            //vẫn được giữ lại từ a.
             //{...agegroup} là copy đối tượng đó gắn cho đối tượng đc gắn, [...aaa] là copy mảng
           }
 
