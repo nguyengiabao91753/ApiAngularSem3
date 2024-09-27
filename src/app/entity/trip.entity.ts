@@ -5,4 +5,7 @@ export interface Trip {
     dateStart?: string;
     dateEnd?: string;
     status?: number;
+    departureLocationName? :string ;
+    arrivalLocationName? : string ;
+
 }

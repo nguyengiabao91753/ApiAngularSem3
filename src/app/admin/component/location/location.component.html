@@ -87,7 +87,7 @@
                             *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['required']">
                             Name is required.
                         </small>
-                        <small class="ng-dirty ng-invalid"
+                        <!-- <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['minLength']">
                             Name must be at least 5 characters.
                         </small>
@@ -98,7 +98,7 @@
                         <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['nameExistsValidator']">
                             License Plate is already taken.
-                        </small>
+                        </small> -->
                     </div>
                 </form>
             </ng-template>
