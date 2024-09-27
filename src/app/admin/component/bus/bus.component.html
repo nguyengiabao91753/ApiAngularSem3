@@ -150,7 +150,7 @@
                             License Plate cannot exceed 10 characters.
                         </small>
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="submitted && formGroup.get('licensePlate')?.errors?.['licensePlateExists']">
+                            *ngIf="(submitted || formGroup.get('licensePlate')?.touched) && formGroup.get('licensePlate')?.errors?.['licensePlateExists']">
                             License Plate is already taken.
                         </small>
                     </div>
