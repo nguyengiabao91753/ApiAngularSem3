@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
+import { Payment } from '../../../entity/payment.entity';
+import { PaymentService } from '../../../service/payment.service';
 
 @Component({
   selector: 'app-payment',
@@ -13,71 +15,66 @@ import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal'
 export class PaymentComponent implements OnInit{
 
   constructor(
+    private paymentService: PaymentService
   ){}
 
+  payment: Payment = {};
+  payments: Payment[] =[];
+  
   public payPalConfig?: IPayPalConfig;
 
-    ngOnInit(): void {
+  ngOnInit(): void {
+    this.paymentService.getAll().then(
+      res => {
+        this.payment = res as Payment;
+        console.log(this.payment);
+      }
+    )
       this.initConfig();
-    }
+  }
 
-    private initConfig(): void {
+  private initConfig(): void {
+      
+
       this.payPalConfig = {
-      currency: 'EUR',
-      clientId: 'sb',
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
-        intent: 'CAPTURE',
-        purchase_units: [
-          {
-            amount: {
-              currency_code: 'EUR',
-              value: '9.99',
-              breakdown: {
-                item_total: {
-                  currency_code: 'EUR',
-                  value: '9.99'
-                }
-              }
+          clientId: 'Aa6muE0xAPvHoWCDO5dDj-0w2zo4baRpI_oo92tRDOYVhJppD5EBwgUwieECjMAS5Sh9oBeCV8qLhLuF',
+          // for creating orders (transactions) on server see
+          // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
+          createOrderOnServer: (data: any) => fetch('https://localhost:7273/api/Payment/create-paypal', {
+            method: 'post',
+            headers: {
+              "Content-Type": "application/json"
             },
-            items: [
+            body: JSON.stringify([
               {
-                name: 'Enterprise Subscription',
-                quantity: '1',
-                category: 'DIGITAL_GOODS',
-                unit_amount: {
-                  currency_code: 'EUR',
-                  value: '9.99',
-                },
+                name: "ABCD",
+                price: 500000
               }
-            ]
-          }
-        ]
-      },
-      advanced: {
-        commit: 'true'
-      },
-      style: {
-        label: 'paypal',
-        layout: 'vertical'
-      },
-      onApprove: (data, actions) => {
-        console.log('onApprove - transaction was approved, but not authorized', data, actions);
-        actions.order.get().then((details: any) => {
-          console.log('onApprove - you can get full order details inside onApprove: ', details);
-        });
-      },
-      onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
-      },
-      onCancel: (data, actions) => {
-        console.log('OnCancel', data, actions);
-      },
-      onError: err => {
-        console.log('OnError', err);
-      },
-      onClick: (data, actions) => {
-        console.log('onClick', data, actions);
-      },
-    };
+            ])
+          })
+              .then((res) => res.json())
+              .then((order) => order.token),
+          authorizeOnServer: (approveData: any) => {
+              return fetch('https://localhost:7273/api/Payment/execute-paypal', {
+              body: JSON.stringify({
+                payerId: approveData.payerID,
+                paymentId: approveData.paymentID
+              })
+            }).then((res) => {
+              return res.json();
+            }).then((details) => {
+              alert('Authorization created for ' + details.payer_given_name);
+            });
+          },
+          onCancel: (data, actions) => {
+              console.log('OnCancel', data, actions);
+          },
+          onError: err => {
+              console.log('OnError', err);
+          },
+          onClick: (data, actions) => {
+              console.log('onClick', data, actions);
+          },
+      };
   }
 }
