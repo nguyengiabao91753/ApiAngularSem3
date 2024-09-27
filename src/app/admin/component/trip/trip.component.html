@@ -56,11 +56,11 @@
                         </td>
                         <td>
                             <span class="p-column-title">DepartureLocationId</span>
-                            {{tri.departureLocationId}}
+                            {{tri.departureLocationName}}
                         </td>
                         <td>
                             <span class="p-column-title">ArrivalLocationId</span>
-                            {{tri.arrivalLocationId}}
+                            {{tri.arrivalLocationName}}
                         </td>
                         <td>
                             <span class="p-column-title">DateStart</span>
@@ -90,7 +90,7 @@
             class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
-                    <div class="field">
+                    <!-- <div class="field">
                         <label for="departureLocationId">Departure Location Id</label>
                         <input type="text" pInputText id="departureLocationId" formControlName="departureLocationId"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('departureLocationId')?.invalid || formGroup.get('departureLocationId')?.touched}">
@@ -98,15 +98,43 @@
                             *ngIf="(submitted || formGroup.get('departureLocationId')?.touched) && formGroup.get('departureLocationId')?.errors?.['required']">
                             DepartureLocationId is required.
                         </small>
+                    </div> -->
+                    <div class="field">
+                        <label for="departureLocationName">Departure Location Name</label>
+                        <p-dropdown id="departureLocationName" formControlName="departureLocationId"
+                            [options]="locations" optionLabel="name" placeholder="Select Location"
+                            optionValue="locationId" autofocus [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('departureLocationId')?.invalid
+              }">
+                            <small class="ng-dirty ng-invalid"
+                                *ngIf="submitted && formGroup.get('departureLocationId')?.errors?.['required']">
+                                Departure Location is required.
+                            </small>
+                        </p-dropdown>
                     </div>
 
                     <div class="field">
-                        <label for="arrivalLocationId">Arrival Location Id</label>
-                        <input type="text" pInputText id="arrivalLocationId" formControlName="arrivalLocationId"
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('arrivalLocationId')?.invalid || formGroup.get('arrivalLocationId')?.touched}" />
+                        <label for="arrivalLocationName">Arrival Location Name</label>
+                        <p-dropdown id="departureLocationName" formControlName="arrivalLocationId" [options]="locations"
+                            optionLabel="name" placeholder="Select Bus" optionValue="locationId" autofocus [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('arrivalLocationId')?.invalid
+              }">
                             <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('arrivalLocationId')?.touched) && formGroup.get('arrivalLocationId')?.errors?.['required']">
-                            ArrivalLocationId is required.
+                                *ngIf="submitted && formGroup.get('arrivalLocationId')?.errors?.['required']">
+                                Arrival Location is required.
+                            </small>
+                        </p-dropdown>
+                    </div>
+
+                    <div class="field">
+                        <label for="dateStart">Date Start</label>
+                        <input type="datetime-local" pInputText id="dateStart" formControlName="dateStart"
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateStart')?.invalid || formGroup.get('dateStart')?.touched}" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.get('dateStart')?.touched) && formGroup.get('dateStart')?.errors?.['required']">
+                            DateStart is required.
                         </small>
                     </div>
 
@@ -114,11 +142,12 @@
                         <label for="dateEnd">Date End</label>
                         <input type="datetime-local" pInputText id="dateEnd" formControlName="dateEnd"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateEnd')?.invalid || formGroup.get('dateEnd')?.touched}" />
-                            <small class="ng-dirty ng-invalid"
+                        <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('dateEnd')?.touched) && formGroup.get('dateEnd')?.errors?.['required']">
                             DateEnd is required.
                         </small>
                     </div>
+
                 </form>
             </ng-template>
             <ng-template pTemplate="footer">
