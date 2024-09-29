@@ -164,7 +164,10 @@ export class LocationComponent implements OnInit {
   hideDialog() {
     this.locationDialog = false;
     this.submitted = false;
-    this.formGroup.reset()
+    this.formGroup.reset(
+      {
+        locationId: '0'
+      })
   }
 
   save() {

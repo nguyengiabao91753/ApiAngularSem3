@@ -130,7 +130,7 @@ export class TripComponent implements OnInit {
       { field: 'dateEnd', header: 'DateEnd' },
       { field: 'status', header: 'Status' }
     ];
-
+ 
   }
   onDateEndChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -189,7 +189,9 @@ export class TripComponent implements OnInit {
   hideDialog() {
     this.tripDialog = false;
     this.submitted = false;
-    this.formGroup.reset()
+    this.formGroup.reset({
+      tripId : '0'
+    })
   }
 
   save() {
