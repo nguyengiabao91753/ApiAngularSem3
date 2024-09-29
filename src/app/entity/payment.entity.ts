@@ -3,5 +3,4 @@ export interface Payment{
     bookingId? : number;
     paymentDate? : string,
     amount? : number,
-    busTicketCode? : string
 }

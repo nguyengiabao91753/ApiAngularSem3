@@ -47,8 +47,7 @@ export class PaymentComponent implements OnInit{
             },
             body: JSON.stringify([
               {
-                name: "ABCD",
-                price: 500000
+                 
               }
             ])
           })
