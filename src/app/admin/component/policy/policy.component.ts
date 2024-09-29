@@ -178,6 +178,10 @@ export class PolicyComponent implements OnInit {
     this.policyDialog = false;
     this.submitted = false;
     this.formGroup.reset()
+    this.formGroup.reset({
+      policyId: '0'
+    });
+    
   }
 
   save() {
@@ -193,12 +197,13 @@ export class PolicyComponent implements OnInit {
             this.policyDialog = false;
             this.formGroup.reset()
             
-            //Tăng ID mới lên 1
-            let newPolicyId =this.policies[this.policies.length - 1].policyId + 1;
+            // //Tăng ID mới lên 1
+            // let newPolicyId =this.policies[this.policies.length - 1].policyId + 1;
 
-            // Gán policyId cho đối tượng policy
-            this.policy.policyId = newPolicyId;
-            this.policies.push(this.policy);
+            // // Gán policyId cho đối tượng policy
+            // this.policy.policyId = newPolicyId;
+            // this.policies.push(this.policy);
+            this.ngOnInit();
           }
 
         },
@@ -217,9 +222,10 @@ export class PolicyComponent implements OnInit {
             this.formGroup.reset()
 
             // Tạo ra mảng mới với đối tượng đã được cập nhật
-            this.policies = this.policies.map(a =>
-              a.policyId === this.policy.policyId ? { ...this.policy } : a
-            );
+            // this.policies = this.policies.map(a =>
+            //   a.policyId === this.policy.policyId ? { ...this.policy } : a
+            // );
+            this.ngOnInit();
             //{...policy} là copy đối tượng đó gắn cho đối tượng đc gắn, [...aaa] là copy mảng
           }
 

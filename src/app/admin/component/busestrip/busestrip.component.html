@@ -120,10 +120,10 @@
                             placeholder="Select a Trip">
                             
                             <ng-template let-trip pTemplate="item">
-                                {{trip.departureLocationId }} {{ trip.arrivalLocationId }}
+                                {{trip.departureLocationName }} - {{ trip.arrivalLocationName }}
                             </ng-template>
                             <ng-template let-trip pTemplate="selectedItem">
-                                {{ trip.departureLocationId }} - {{ trip.arrivalLocationId }}
+                                {{ trip.departureLocationName }} - {{ trip.arrivalLocationName }}
                             </ng-template>
                         </p-dropdown>
                     </div>
@@ -132,7 +132,7 @@
                         <p-inputNumber id="price" name="price" formControlName="price" mode="currency" 
                         currency="USD" 
                         locale="en-US"
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('discount')?.invalid}"
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('discount')?.invalid}" readonly="true"
                            ></p-inputNumber>
                             <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('price')?.touched) && formGroup.get('price')?.errors?.['required']">

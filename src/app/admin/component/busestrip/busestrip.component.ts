@@ -195,6 +195,9 @@ export class BusestripComponent implements OnInit {
     this.bustripDialog = false;
     this.submitted = false;
     this.formGroup.reset()
+    this.formGroup.reset({
+      busTripId: '0'
+    });
   }
 
   save() {

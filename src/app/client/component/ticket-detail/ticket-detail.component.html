@@ -2,7 +2,7 @@
     style="background: url(client/assets/images/frontend/breadcrumb/66868cfc051ae1720093948.jpg) center">
     <div class="container">
         <div class="inner-banner-content">
-            <h2 class="title">AC - Kansas - Echo Bass</h2>
+            <h2 class="title">{{ bustrip.departureLocationName }} - {{ bustrip.arrivalLocationName }}</h2>
         </div>
     </div>
 </section>
@@ -13,104 +13,75 @@
         <div class="row gx-xl-5 gy-4 gy-sm-5 justify-content-center">
             <div class="col-lg-4 col-md-6">
                 <div class="seat-overview-wrapper">
-                    <form method="POST" id="bookingForm" class="row gy-2">
+                    <form id="bookingForm" class="row gy-2" #bookingForm="ngForm">
                         <input type="hidden" name="_token" value="RAwNpTkKcCcI11Tlqyfym5FrDl7GyCjp7TSIJuQe"
                             autocomplete="off"> <input type="text" name="price" hidden>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="date_of_journey" class="form-label">Journey Date</label>
-                                <input type="text" id="date_of_journey" class="form--control date-range"
-                                    value="09/09/2024" name="date_of_journey">
+                              
+                                <label for="fullname" class="form-label">Full Name</label>
+                                <input type="text" id="date_of_journey" [(ngModel)]="booking.fullName" class="form--control date-range" value=""
+                                    name="fullname" placeholder="Enter Your Name" required>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="pickup_point" class="form-label">Pickup Point</label>
-                                <select name="pickup_point" id="pickup_point" class="form--control select2">
-                                    <option value="">Select One</option>
-                                    <option value="1">
-                                        Kansas
-                                    </option>
-                                    <option value="2">
-                                        Dallas
-                                    </option>
-                                    <option value="3">
-                                        Wichita
-                                    </option>
-                                    <option value="4">
-                                        Emi Davenport
-                                    </option>
-                                    <option value="5">
-                                        Echo Bass
-                                    </option>
-                                </select>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" [(ngModel)]="booking.email" class="form--control date-range" value="" name="email"
+                                    placeholder="Enter Your Email" required>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="dropping_point" class="form-label">Dropping Point</label>
-                                <select name="dropping_point" id="dropping_point" class="form--control select2">
-                                    <option value="">Select One</option>
-                                    <option value="1">
-                                        Kansas
-                                    </option>
-                                    <option value="2">
-                                        Dallas
-                                    </option>
-                                    <option value="3">
-                                        Wichita
-                                    </option>
-                                    <option value="4">
-                                        Emi Davenport
-                                    </option>
-                                    <option value="5">
-                                        Echo Bass
-                                    </option>
-                                </select>
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="phone" id="phone" [(ngModel)]="booking.phoneNumber" class="form--control date-range" value="" name="phone"
+                                    placeholder="Enter Your Phone Number" required>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <label class="form-label">Select Gender</label>
-                            <div class="d-flex flex-wrap justify-content-between">
-                                <div class="form-group custom--radio">
-                                    <input id="male" type="radio" name="gender" value="1">
-                                    <label class="form-label" for="male">Male</label>
-                                </div>
-                                <div class="form-group custom--radio">
-                                    <input id="female" type="radio" name="gender" value="2">
-                                    <label class="form-label" for="female">Female</label>
-                                </div>
-                                <div class="form-group custom--radio">
-                                    <input id="other" type="radio" name="gender" value="3">
-                                    <label class="form-label" for="other">Other</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="booked-seat-details my-3 d-none">
+                       
+                        <div *ngIf="selectedSeats.length > 0" class="booked-seat-details my-3">
                             <label>Selected Seats</label>
                             <div class="list-group seat-details-animate">
                                 <span class="list-group-item d-flex bg--base text-white justify-content-between">Seat
                                     Details<span>Price</span></span>
+
                                 <div class="selected-seat-details">
+                                    <ng-container *ngFor="let seat of selectedSeats; let i = index">
+                                        <span class="list-group-item d-flex justify-content-between">Seat: {{ seat.name
+                                            }}
+                                            <span>{{ seat.price }} {{ currency }}</span>
+                                        </span>
+                                        <span class="list-group-item d-flex justify-content-between">
+                                            <p-dropdown id="agegroup-{{i}}" [options]="agegroups"
+                                                [(ngModel)]="seat.ageGroupId" name="agegroup-{{i}}" optionValue="ageGroupId" [placeholder]="'Select Age Group'"  optionLabel="name"
+                                                (onChange)="updatePriceAfterDiscount(seat)" required>
+                                            </p-dropdown>
+                                            <span style="color: red;"><i class="las la-arrow-down"></i>{{ seat.discount }}%</span>
+                                        </span>
+                                        
+                                        <!-- <hr> -->
+                                    </ng-container>
+                                    <span class="list-group-item d-flex justify-content-between">Sub total
+                                        <span style="color: #0e9e4d;">{{ subtotal }} {{ currency }}</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <input type="text" name="seats" hidden>
                         <div class="col-12">
-                            <button type="submit" class="book-bus-btn">Continue</button>
+                            <button type="submit" class="book-bus-btn" (click)="Submit(bookingForm)">Continue</button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <h6 class="title">Click on Seat to select or deselect</h6>
-                <span class="fs--14px">
+                <!-- <span class="fs--14px">
                     Off Days :
                     <span class="badge badge--success">
                         Friday
                     </span>
-                </span>
+                </span> -->
                 <div class="seat-plan-inner">
                     <div class="single">
 
@@ -151,33 +122,31 @@
 
                         <div class="seat-wrapper" *ngFor="let row of seatRows">
                             <div class="left-side">
-                              <div *ngFor="let seat of row.left">
-                                <div [ngClass]="{ 'selected-by-others disabled': isSeatDisabled(seat) }">
-                                  <span class="seat"
-                                    [style.cursor]="isSeatDisabled(seat) ? 'not-allowed' : 'pointer'"
-                                    [attr.data-seat]="seat.Id + '-' + seat.name"
-                                    (click)="toggleSeat(seat)">
-                                    {{ seat.name }}
-                                    <span></span>
-                                  </span>
+                                <div *ngFor="let seat of row.left">
+                                    <div [ngClass]="{ 'selected-by-others disabled': isSeatDisabled(seat) }">
+                                        <span class="seat" [ngClass]="{ 'selected': !isSeatSelected(seat) }"
+                                            [style.cursor]="isSeatDisabled(seat) ? 'not-allowed' : 'pointer'"
+                                            [attr.data-seat]="seat.Id + '-' + seat.name" (click)="toggleSeat(seat)">
+                                            {{ seat.name }}
+                                            <span></span>
+                                        </span>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
                             <div class="right-side">
-                              <div *ngFor="let seat of row.right">
-                                <div [ngClass]="{ 'selected-by-others disabled': isSeatDisabled(seat) }">
-                                  <span class="seat"
-                                    [style.cursor]="isSeatDisabled(seat) ? 'not-allowed' : 'pointer'"
-                                    [attr.data-seat]="seat.Id + '-' + seat.name"
-                                    (click)="toggleSeat(seat)">
-                                    {{ seat.name }}
-                                    <span></span>
-                                  </span>
+                                <div *ngFor="let seat of row.right">
+                                    <div [ngClass]="{ 'selected-by-others disabled': isSeatDisabled(seat) }">
+                                        <span class="seat" [ngClass]="{ 'selected': !isSeatSelected(seat) }"
+                                            [style.cursor]="isSeatDisabled(seat) ? 'not-allowed' : 'pointer'"
+                                            [attr.data-seat]="seat.Id + '-' + seat.name" (click)="toggleSeat(seat)">
+                                            {{ seat.name }}
+                                            <span></span>
+                                        </span>
+                                    </div>
                                 </div>
-                              </div>
                             </div>
-                          </div>
-                          
+                        </div>
+
                     </div>
                 </div>
                 <div class="seat-for-reserved">

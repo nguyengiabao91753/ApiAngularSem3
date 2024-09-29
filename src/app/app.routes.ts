@@ -103,8 +103,9 @@ export const routes: Routes = [
                 component: ContactComponent
             },
             {
-                path:'ticket-detail',
-                component: TicketDetailComponent
+                path:'ticket-detail/:id',
+                component: TicketDetailComponent,
+                runGuardsAndResolvers: 'always' //bắt buộc chạy lại ngOnInit
             },
             {
                 path:'payment',

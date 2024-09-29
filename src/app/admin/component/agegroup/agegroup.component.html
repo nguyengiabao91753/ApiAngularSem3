@@ -36,9 +36,9 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th style="width: 3rem">
+                        <!-- <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
+                        </th> -->
                         <th *ngFor="let col of cols" pSortableColumn="{{col.field}}">
                             {{col.header}}
                             <p-sortIcon field="{{col.field}}"></p-sortIcon>
@@ -60,7 +60,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">Discount</span>
-                            {{age.discount}}
+                            {{age.discount}}%
                         </td>
                         <td><span class="p-column-title">Status</span>
                             <span

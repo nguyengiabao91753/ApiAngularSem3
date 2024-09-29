@@ -24,7 +24,7 @@ export class TripService{
     async delete(id: number){
         return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'trip/delete', id));
     }
-    async findById(id: string){
+    async findById(id: any){
         return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL + 'trip/find-by-id/' + id))
     }
 }
