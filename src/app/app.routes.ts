@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { AgegroupComponent } from './admin/component/agegroup/agegroup.component';
 import { ClientComponent } from './client/client.component';
@@ -10,22 +10,47 @@ import { AboutComponent } from './client/component/about/about.component';
 import { FaqsComponent } from './client/component/faqs/faqs.component';
 import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
-import { LoginAdminComponent } from './admin/auth/login/login.component';
+import { LoginAdminComponent } from './admin/auth/loginAdmin/loginAdmin.component';
+import { PolicyComponent } from './admin/component/policy/policy.component';
+import { UserComponent } from './admin/auth/user/user.component';
+import { AccountComponent } from './admin/auth/account/account.component';
+import { AuthGuard } from './entity/auth.services';
+import { InActiveComponent } from './admin/auth/in-active/in-active.component';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
     {
         path: 'admin',
         component: AdminComponent,
+        canActivate: [AuthGuard],
+        
         children:[
             {
                 path:'agegroup',
                 component: AgegroupComponent
             },
-            
+            {
+                path:'policy',
+                component: PolicyComponent
+            },
+
+            {
+                path:'user',
+                component: UserComponent    
+            },
+            {
+                path:'account',
+                component: AccountComponent
+            },
+            {
+                path:'inActive',
+                component: InActiveComponent
+            },
         ]
     },
+    // login danh cho admin
     {
-        path:'auth/login',
+        path:'auth/loginAdmin',
         component: LoginAdminComponent
     },
     {
@@ -71,3 +96,8 @@ export const routes: Routes = [
         component: RegisterComponent
     }
 ];
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
+  })
+export class AppRoutingModule {}

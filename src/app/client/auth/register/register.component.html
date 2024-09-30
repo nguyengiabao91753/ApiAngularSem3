@@ -63,8 +63,8 @@
                         autocomplete="off">
                     <div class="col-sm-6">
                         <div class="form-group form--group">
-                            <label class="form-label">First Name</label>
-                            <input class="form--control" name="firstname" type="text" value="" required>
+                            <label class="form-label">Full Name</label>aaaa
+                            <input class="form--control" name="fullname" type="text" value="" required>
                         </div>
                     </div>
 
@@ -130,7 +130,7 @@
                         <button class="btn btn--base w-100" id="recaptcha" type="submit"> Register</button>
                     </div>
 
-                    <p class="mb-0">Already have an account? <a href="login.html">Login</a></p>
+                    <p class="mb-0">Already have an account? <a [routerLink]="['/login']">Login Client</a></p>
                 </form>
             </div>
 

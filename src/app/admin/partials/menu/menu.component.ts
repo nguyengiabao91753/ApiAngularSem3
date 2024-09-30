@@ -32,8 +32,9 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Personal Information',
                 items: [
-                    { label: 'User', icon: 'pi pi-fw pi-users', routerLink: ['/'] },
-                    { label: 'Account', icon: 'pi pi-fw pi-unlock', routerLink: ['/'] },
+                    { label: 'User', icon: 'pi pi-fw pi-users', routerLink: ['/admin/user'] },
+                    { label: 'Account', icon: 'pi pi-fw pi-unlock', routerLink: ['/admin/account'] },
+                    { label: 'InActive', icon: 'pi pi-fw pi-trash', routerLink: ['/admin/inActive'] },
                     
                 ]
             },
@@ -63,7 +64,7 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Policy & Discount',
                 items: [
-                    { label: 'Policy', icon: 'pi pi-fw pi-folder', routerLink: ['/'] },
+                    { label: 'Policy', icon: 'pi pi-fw pi-folder', routerLink: ['/admin/policy'] },
                     { label: 'Agegroup', icon: 'pi pi-fw pi-percentage', routerLink: ['/admin/agegroup'] },
                 ]
             }

@@ -9,12 +9,12 @@
                     <span class="text-600 font-medium">Sign in to continue</span>
                 </div>
 
-                <div>
-                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                    <input id="email1" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem">
+                <form [formGroup]="loginFormGroup">
+                    <label for="username" class="block text-900 text-xl font-medium mb-2" >Username</label>
+                    <input id="username" type="text" placeholder="Username" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem"  name="username" formControlName="username">
 
                     <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                    <p-password id="password1"  placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                    <p-password id="password"  placeholder="Password" [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem" name="password" formControlName="password"></p-password>
 
                     <div class="flex align-items-center justify-content-between mb-5 gap-5">
                         <div class="flex align-items-center">
@@ -23,8 +23,14 @@
                         </div>
                         <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
                     </div>
-                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" [routerLink]="['/']"></button>
-                </div>
+                    
+                    <div class="card flex justify-content-center">
+                        <!-- <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" /> -->
+                        <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" type="submit" (click)="login()" >
+                            <i class="pi pi-sign-in mr-3" style="font-size: 2rem"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

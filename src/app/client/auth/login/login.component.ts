@@ -1,16 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { AssetService } from '../../../service/AssetService.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AccountUserService } from '../../../service/accountUser.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink
+
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
+  loginFormGroup: FormGroup;
+
   constructor(
-    private assetService: AssetService
+    private assetService: AssetService,
+    private accountUserService: AccountUserService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+
+
   ){}
   ngOnInit(): void {
       // CSS files
@@ -39,6 +53,46 @@ export class LoginComponent implements OnInit {
       this.assetService.addJs('client/assets/global/js/iziToast.min.js');
   
       this.assetService.setTitle('Bus Booking')
-  }
 
+
+      // Validate form
+      this.loginFormGroup = this.formBuilder.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
+      });
+  }
+  
+  login() {
+    if (this.loginFormGroup.valid) {
+      const loginData = this.loginFormGroup.value;
+      console.log('Login data:', loginData); // Kiểm tra dữ liệu từ form
+
+      this.accountUserService
+        .Login(loginData.username, loginData.password)
+        .subscribe(
+          (response) => {
+            if (response.token) {
+              localStorage.setItem('jwtToken', response.token);
+              localStorage.setItem('userId', response.userId);
+              localStorage.setItem('email', response.email);
+              localStorage.setItem('levelId', response.levelId);
+              localStorage.setItem('status', response.status);
+
+              console.log('Token saved:', localStorage.getItem('jwtToken')); // Kiểm tra token có được lưu không
+              this.router.navigate(['/home']);
+
+
+              alert('Login success');
+            } else {
+              alert('Login failed: No token received');
+            }
+          },
+          (error) => {
+            alert('Invalid username or password ' + error);
+          }
+        );
+    } else {
+      alert('Please enter valid username and password');
+    }
+  }
 }

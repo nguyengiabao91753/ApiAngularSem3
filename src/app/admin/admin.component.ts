@@ -8,6 +8,7 @@ import { TopBarComponent } from './partials/topbar/topbar.component';
 import { AppConfigComponent } from './partials/config/app.config.component';
 import { filter, Subscription } from 'rxjs';
 import { LayoutService } from '../service/applayout.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
@@ -18,15 +19,18 @@ import { LayoutService } from '../service/applayout.service';
     SidebarComponent,
     AppConfigComponent,
     FooterComponent,
-    TopBarComponent
+    TopBarComponent,
+    ToastModule, // Thêm dòng này
 
 ],
   templateUrl: './admin.component.html',
-//   styleUrl: './app.component.css'
 })
 export class AdminComponent implements OnInit {
   ngOnInit(): void {
-      
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      this.router.navigate(['/auth/loginAdmin']); // Chuyển hướng nếu không có userId
+    }      
   }
   overlayMenuOpenSubscription: Subscription;
 

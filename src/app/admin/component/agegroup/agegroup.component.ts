@@ -67,8 +67,7 @@ export class AgegroupComponent implements OnInit {
   constructor(
     private ageGroupService: AgeGroupService,
     private messageService: MessageService,
-    private formBuilder: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef
+    private formBuilder: FormBuilder
   ) {
 
   }
@@ -80,7 +79,7 @@ export class AgegroupComponent implements OnInit {
       }
     )
     this.formGroup = this.formBuilder.group({
-      ageGroupId: 0,
+      ageGroupId: '0',
       name: ['', [Validators.required]],
       discount: ['', [Validators.required]],
     });
@@ -191,12 +190,15 @@ export class AgegroupComponent implements OnInit {
       this.agegroup = this.formGroup.value as AgeGroup;
       this.agegroup.discount = this.formGroup.get('discount')?.value?.toString();
       this.agegroup.status = 1;
+      
       this.ageGroupService.create(this.agegroup).then(
         res => {
           if (res['status']) {
             this.agegroupDialog = false;
             this.formGroup.reset()
 
+            let newId = this.agegroups[this.agegroups.length-1].ageGroupId + 1;
+            this.agegroup.ageGroupId = newId;
             this.agegroups.push(this.agegroup);
           }
 
