@@ -13,7 +13,7 @@
         <div class="row gx-xl-5 gy-4 gy-sm-5 justify-content-center">
             <div class="col-lg-4 col-md-6">
                 <div class="seat-overview-wrapper">
-                    <form id="bookingForm" class="row gy-2" #bookingForm="ngForm">
+                    <form id="bookingForm" class="row gy-2" #bookingForm="ngForm" (ngSubmit)="Submit(bookingForm)">
                         <input type="hidden" name="_token" value="RAwNpTkKcCcI11Tlqyfym5FrDl7GyCjp7TSIJuQe"
                             autocomplete="off"> <input type="text" name="price" hidden>
                         <div class="col-12">
@@ -67,9 +67,9 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="text" name="seats" hidden>
+                        
                         <div class="col-12">
-                            <button type="submit" class="book-bus-btn" (click)="Submit(bookingForm)">Continue</button>
+                            <button type="submit" class="book-bus-btn">Continue</button>
                         </div>
                     </form>
                 </div>

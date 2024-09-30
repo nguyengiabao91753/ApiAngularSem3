@@ -25,6 +25,10 @@ export class BookingService{
         return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'booking/create', payload));
     }
 
+    async getAll(){
+        return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL+'booking/getall'));
+    }
+
     setBooking(booking: Booking) {
         this.booking = booking;
       }
