@@ -75,16 +75,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // sessionStorage.removeItem('ticket-detail-reloaded');
   }
   async ngOnInit() {
-    // const reloaded = sessionStorage.getItem('ticket-detail-reloaded');
-
-    // if (!reloaded) {
-    //   // Nếu chưa reload, thì reload lại trang
-    //   sessionStorage.setItem('ticket-detail-reloaded', 'true');
-    //   window.location.reload();
-    // }
-    // this.assetService.addJs('client/assets/templates/basic/js/main43a0.js');
-    // this.assetService.addJs('client/assets/global/js/selectedseat.js');
-
+   
     // Kết nối đến SignalR Hub
     this.seatService.startConnection();
     this.seatService.listenForSeatSelection();
@@ -109,8 +100,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.bustrip = await this.bustripService.getById(this.bustripId) as BusesTrip;
     this.agegroups = await this.agegroupService.getAll() as AgeGroup[];
     this.seats = await this.busSeatService.getSeatsByBusId(this.bustrip.busId) as BusSeat[];
-
     this.price = parseInt(this.bustrip.price);
+    this.booking=this.bookingService.getBooking();
+    this.selectedSeats = this.bookingService.getBookingDetails() as [];
+
   }
 
   toggleSeat(seat: any): void {
@@ -200,6 +193,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         seatId: s.Id,
         seatName: s.name,
         ageGroupId: s.ageGroupId,
+        ageGroupName:"",
         priceAfterDiscount: s.price,
         ticketCode: "",
         ticketStatus: 1
@@ -210,7 +204,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // console.log(this.selectedSeats);
     // console.log(bookingdetails);
     
-    //Demo Add
+    // Demo Add
     // this.bookingService.create(this.booking, bookingdetails).then(
     //   res=>{
     //     if(res['status']){
