@@ -205,14 +205,16 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // console.log(bookingdetails);
     
     // Demo Add
-    // this.bookingService.create(this.booking, bookingdetails).then(
-    //   res=>{
-    //     if(res['status']){
-    //       this.booking={};
-    //       this.router.navigate(['/payment']);
-    //     }
-    //   }
-    // )
+
+    
+    this.bookingService.create(this.booking, bookingdetails).then(
+      res=>{
+        if(res['status']){
+          // this.booking={};
+          this.router.navigate(['/payment']);
+        }
+      }
+    )
 
     this.bookingService.setBooking(this.booking);
     this.bookingService.setBookingDetails(bookingdetails);

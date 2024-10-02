@@ -53,7 +53,7 @@
                                         </span>
                                         <span class="list-group-item d-flex justify-content-between">
                                             <p-dropdown id="agegroup-{{i}}" [options]="agegroups"
-                                                [(ngModel)]="seat.ageGroupId" name="agegroup-{{i}}" optionValue="ageGroupId" [placeholder]="'Select Age Group'"  optionLabel="name"
+                                                [(ngModel)]="seat.ageGroupId" name="agegroup-{{i}}" styleClass="custom-dropdown" optionValue="ageGroupId" [placeholder]="'Select Age Group'"  optionLabel="name"
                                                 (onChange)="updatePriceAfterDiscount(seat)" required>
                                             </p-dropdown>
                                             <span style="color: red;"><i class="las la-arrow-down"></i>{{ seat.discount }}%</span>
