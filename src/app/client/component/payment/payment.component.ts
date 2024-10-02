@@ -5,22 +5,36 @@ import { BookingDetail } from '../../../entity/bookingdetail.entity';
 import { BookingService } from '../../../service/booking.service';
 import { Payment } from '../../../entity/payment.entity';
 import { PaymentService } from '../../../service/payment.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Toast, ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
   imports: [
-    NgxPayPalModule
+    NgxPayPalModule,
+    ToastModule,
+    CommonModule
   ],
+  providers:[MessageService],
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
+
+
 export class PaymentComponent implements OnInit {
+
+  selectedPaymentMethod: string = '';
+
   booking: Booking = {};
   bookingdetails: BookingDetail[] = []
   constructor(
     private bookingService: BookingService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private messageService: MessageService
   ) { }
 
   payment: Payment = {};
@@ -29,26 +43,30 @@ export class PaymentComponent implements OnInit {
   public payPalConfig?: IPayPalConfig;
 
   ngOnInit(): void {
-    this.booking = this.bookingService.getBooking() || { bookingId: 9 };
+    this.booking = this.bookingService.getBooking();
     this.bookingdetails = this.bookingService.getBookingDetails();
     console.log(this.booking);
 
     this.initConfig();
   }
 
+  onPaymentMethodChange(method: string) {
+    this.selectedPaymentMethod = method;
+  }
+
   private initConfig(): void {
-    const mockBookingId = this.booking.bookingId ?? 9;
     this.payPalConfig = {
       clientId: 'sb',
       // for creating orders (transactions) on server see
       // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
-      createOrderOnServer: (data: any) => fetch(`https://localhost:7273/api/Payment/create-paypal/${mockBookingId}`, {
+      createOrderOnServer: (data: any) => fetch('https://localhost:7273/api/Payment/create-paypal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          bookingId: mockBookingId
+          bookingDTO: this.booking,
+          bookingDetailDTOs: this.bookingdetails
         })
       })
         .then((res) => res.json())
@@ -62,27 +80,35 @@ export class PaymentComponent implements OnInit {
         }),
       authorizeOnServer: (approveData: any) => {
         console.log('approveData:', approveData);
-        return fetch(`https://localhost:7273/api/Payment/execute-paypal/${mockBookingId}`, {
+        var executedto ={
+            payerId: approveData.payerID,
+            paymentId: approveData.paymentID,
+        }
+        return fetch('https://localhost:7273/api/Payment/execute-paypal', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
+
           body: JSON.stringify({
-            payerId: approveData.payerID,
-            paymentId: approveData.paymentID
+            dto:executedto,           
+            bookingDTO: this.booking,
+            bookingDetailDTOs: this.bookingdetails
           })
         }).then((response: any) => {
           return response.json();
         }).then((details) => {
           console.log('Payment details:', details);
-          alert('Authorization created for ' + details.payer_given_name);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Authorization created for ' + details.payer_given_name });
         });
       },
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'Transaction cancelled' });
       },
       onError: err => {
         console.log('OnError', err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Transaction error' });
       },
       onClick: (data, actions) => {
         console.log('onClick', data, actions);
