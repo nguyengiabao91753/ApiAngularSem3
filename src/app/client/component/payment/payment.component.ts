@@ -3,86 +3,112 @@ import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal'
 import { Booking } from '../../../entity/booking.entity';
 import { BookingDetail } from '../../../entity/bookingdetail.entity';
 import { BookingService } from '../../../service/booking.service';
+import { Payment } from '../../../entity/payment.entity';
+import { PaymentService } from '../../../service/payment.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Toast, ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
   imports: [
-    NgxPayPalModule
+    NgxPayPalModule,
+    ToastModule,
+    CommonModule
   ],
+  providers:[MessageService],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.css'
+  styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent implements OnInit{
-  booking: Booking={};
-  bookingdetails: BookingDetail[]=[]
+
+
+export class PaymentComponent implements OnInit {
+
+  selectedPaymentMethod: string = '';
+
+  booking: Booking = {};
+  bookingdetails: BookingDetail[] = []
   constructor(
-    private bookingService: BookingService
-  ){}
+    private bookingService: BookingService,
+    private paymentService: PaymentService,
+    private messageService: MessageService
+  ) { }
+
+  payment: Payment = {};
+  payments: Payment[] = [];
 
   public payPalConfig?: IPayPalConfig;
 
-    ngOnInit(): void {
-      this.booking=this.bookingService.getBooking();
-      this.bookingdetails = this.bookingService.getBookingDetails();
-      console.log(this.booking);
-      
-      this.initConfig();
-    }
+  ngOnInit(): void {
+    this.booking = this.bookingService.getBooking();
+    this.bookingdetails = this.bookingService.getBookingDetails();
+    console.log(this.booking);
 
-    private initConfig(): void {
-      this.payPalConfig = {
-      currency: 'EUR',
+    this.initConfig();
+  }
+
+  onPaymentMethodChange(method: string) {
+    this.selectedPaymentMethod = method;
+  }
+
+  private initConfig(): void {
+    this.payPalConfig = {
       clientId: 'sb',
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
-        intent: 'CAPTURE',
-        purchase_units: [
-          {
-            amount: {
-              currency_code: 'EUR',
-              value: '9.99',
-              breakdown: {
-                item_total: {
-                  currency_code: 'EUR',
-                  value: '9.99'
-                }
-              }
-            },
-            items: [
-              {
-                name: 'Enterprise Subscription',
-                quantity: '1',
-                category: 'DIGITAL_GOODS',
-                unit_amount: {
-                  currency_code: 'EUR',
-                  value: '9.99',
-                },
-              }
-            ]
-          }
-        ]
-      },
-      advanced: {
-        commit: 'true'
-      },
-      style: {
-        label: 'paypal',
-        layout: 'vertical'
-      },
-      onApprove: (data, actions) => {
-        console.log('onApprove - transaction was approved, but not authorized', data, actions);
-        actions.order.get().then((details: any) => {
-          console.log('onApprove - you can get full order details inside onApprove: ', details);
+      // for creating orders (transactions) on server see
+      // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
+      createOrderOnServer: (data: any) => fetch('https://localhost:7273/api/Payment/create-paypal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          bookingDTO: this.booking,
+          bookingDetailDTOs: this.bookingdetails
+        })
+      })
+        .then((res) => res.json())
+        .then((order) => {
+          console.log('Order created on server:', order);
+          return order.token;  
+        })
+        .catch(error => {
+          console.error('Error creating PayPal transaction:', error);
+          throw error;
+        }),
+      authorizeOnServer: (approveData: any) => {
+        console.log('approveData:', approveData);
+        var executedto ={
+            payerId: approveData.payerID,
+            paymentId: approveData.paymentID,
+        }
+        return fetch('https://localhost:7273/api/Payment/execute-paypal', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+
+          body: JSON.stringify({
+            dto:executedto,           
+            bookingDTO: this.booking,
+            bookingDetailDTOs: this.bookingdetails
+          })
+        }).then((response: any) => {
+          return response.json();
+        }).then((details) => {
+          console.log('Payment details:', details);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Authorization created for ' + details.payer_given_name });
         });
-      },
-      onClientAuthorization: (data) => {
-        console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
       },
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
+        this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'Transaction cancelled' });
       },
       onError: err => {
         console.log('OnError', err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Transaction error' });
       },
       onClick: (data, actions) => {
         console.log('onClick', data, actions);
