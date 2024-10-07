@@ -100,8 +100,8 @@ export class TripComponent implements OnInit {
       tripId: '0',
       departureLocationId: ['', [Validators.required]],
       arrivalLocationId: ['', [Validators.required]],
-      dateStart: ['', [Validators.required, this.noPastDateValidator.bind(this), this.checkTripExistsValidator.bind(this)]],  // Áp dụng nhiều validators
-      dateEnd: ['', [Validators.required]],
+      dateStart: ['', [Validators.required, this.noPastDateValidator.bind(this), this.checkTripExistsValidator.bind(this) , this.noMoreThan30DaysValidator.bind(this)]],  // Áp dụng nhiều validators
+      dateEnd: ['', [Validators.required,]],
     }, { validators: this.validateDifferentLocations.bind(this)});  
 
     this.formGroup.get('arrivalLocationId').setValidators([Validators.required, this.checkTripExistsValidator.bind(this)]);
@@ -181,10 +181,24 @@ noPastDateValidator(control: any): { [key: string]: any } | null {
   }
 
   return null;
+};
+
+// Hàm không cho phép chọn ngày và giờ quá 30 ngày so với hiện tại
+noMoreThan30DaysValidator(control: any): { [key: string]: any } | null {
+  const inputDate = new Date(control.value);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const thirtyDaysLater = new Date(today);
+  thirtyDaysLater.setDate(today.getDate() + 30);
+
+  if (inputDate > thirtyDaysLater) {
+    return { futureDate: true };
+  }
+
+  return null;
 }
 
 
-// Hàm kiểm tra logic dateEnd 
 checkDateEnd() {
   const dateStartValue = this.formGroup.get('dateStart')?.value;
   const dateEndValue = this.formGroup.get('dateEnd')?.value;
@@ -193,17 +207,35 @@ checkDateEnd() {
     const dateStart = new Date(dateStartValue);
     const dateEnd = new Date(dateEndValue);
 
-
+    // Thiết lập minDateEnd (1 giờ sau dateStart)
     const minDateEnd = new Date(dateStart);
     minDateEnd.setHours(minDateEnd.getHours() + 1);
+    
+    // Thiết lập maxDateEnd (2 ngày sau dateStart)
+    const maxDateEnd = new Date(dateStart);
+    maxDateEnd.setDate(maxDateEnd.getDate() + 2);
 
+    const errors = {};
+
+    // Kiểm tra nếu dateEnd quá sớm (ít hơn 1 giờ)
     if (dateEnd < minDateEnd) {
-      this.formGroup.get('dateEnd')?.setErrors({ dateEndTooSoon: true });
+      errors['dateEndTooSoon'] = true; // Lỗi nếu dateEnd quá sớm
+    }
+
+    // Kiểm tra nếu dateEnd vượt quá 2 ngày
+    if (dateEnd > maxDateEnd) {
+      errors['dateEndTooLongs'] = true; // Lỗi nếu dateEnd vượt quá 2 ngày
+    }
+
+    // Thiết lập lỗi nếu có
+    if (Object.keys(errors).length) {
+      this.formGroup.get('dateEnd')?.setErrors(errors);
     } else {
-      this.formGroup.get('dateEnd')?.setErrors(null);
+      this.formGroup.get('dateEnd')?.setErrors(null); // Xóa lỗi nếu không có
     }
   }
 }
+
 
 
 
