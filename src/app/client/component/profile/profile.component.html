@@ -1,104 +1,69 @@
 <section class="inner-banner bg_img"
-    style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/breadcrumb/66868cfc051ae1720093948.jpg) center">
-    <div class="container">
-        <div class="inner-banner-content">
-            <h2 class="title">Profile Setting</h2>
-        </div>
+  style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/breadcrumb/66868cfc051ae1720093948.jpg) center">
+  <div class="container">
+    <div class="inner-banner-content">
+      <h2 class="title">Profile Setting</h2>
     </div>
+  </div>
 </section>
 
 <div class="padding-top padding-bottom">
-    <div class="container">
-        <div class="profile__edit__wrapper">
-            <div class="profile__edit__form">
-                <form class="register prevent-double-click" action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="_token" value="glPUSeblg4k1rirwfOIrqogiQc6FLwpjnGM0Z62M"
-                        autocomplete="off">
-                    <div class="row justify-content-center">
-                        <div class="col-xl-10">
-                            <div class="profile__content__edit p-0">
-                                <div class="row gy-3 p-4">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">First Name</label>
-                                            <input type="text" class="form-control form--control radius-0"
-                                                name="firstname" placeholder="First Name" value="Bảo_0004 Nguyễn"
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Last Name</label>
-                                            <input type="text" class="form-control form--control radius-0" id="lastname"
-                                                name="lastname" placeholder="Last Name" value="Gia" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">E-mail Address</label>
-                                            <input class="form-control form--control radius-0"
-                                                value="[Email is protected for the demo]" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Mobile Number</label>
-                                            <input class="form-control form--control radius-0"
-                                                value="[Mobile is protected for the demo]" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Address</label>
-                                            <input type="text" class="form-control form--control radius-0"
-                                                name="address" placeholder="Address" value="12 An Duong Vuong"
-                                                required="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">State</label>
-                                            <input type="text" class="form-control form--control radius-0" name="state"
-                                                placeholder="state" value="" required="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Zip Code</label>
-                                            <input type="text" class="form-control form--control radius-0" name="zip"
-                                                placeholder="Zip Code" value="70000" required="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">City</label>
-                                            <input type="text" class="form-control form--control radius-0" name="city"
-                                                placeholder="City" value="Ho Chi Minh" required="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Zip Code</label>
-                                            <input type="text" class="form-control form--control radius-0" name="zip"
-                                                placeholder="Zip Code" value="70000" required="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Country</label>
-                                            <input class="form-control form--control radius-0" value="Vietnam" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <button type="submit" class="btn btn--base btn--block h-auto">Update
-                                            Profile</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+  <div class="container">
+    <div class="profile__edit__wrapper">
+      <div class="row justify-content-center">
+        <div class="col-xl-10">
+          <div class="profile__content__edit p-0">
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+              <div class="row gy-3 p-4">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" class="form-control" formControlName="username" readonly>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input id="fullName" type="text" class="form-control" formControlName="fullName">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" class="form-control" formControlName="email">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input id="phoneNumber" type="text" class="form-control" formControlName="phoneNumber">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="birthDate">Birth Date</label>
+                    <input id="birthDate" type="date" format="yyyy-MM-dd" class="form-control" formControlName="birthDate">
+    
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input id="address" type="text" class="form-control" formControlName="address">
+                  </div>
+                </div>
+
+
+
+                <div class="col">
+                  <button type="submit" class="btn btn--base btn--block h-auto">Update
+                    Profile</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

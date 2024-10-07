@@ -20,13 +20,13 @@
             </p-toolbar>
 
             <p-table #dt [value]="trips" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+                [globalFilterFields]="['name','country.name','representative.name']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedTrips" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Manage Trips</h5>
+                        <h5 class="m-0">Trips</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
@@ -46,33 +46,19 @@
                         <th></th>
                     </tr>
                 </ng-template>
+
                 <ng-template pTemplate="body" let-tri>
-                    <tr *ngIf="tri.status == 1">
-                        <!-- <td>   
-                            <p-tableCheckbox [value]="age"></p-tableCheckbox>
-                        </td> -->
-                        <td><span class="p-column-title">Id</span>
-                            {{tri.tripId}}
-                        </td>
+                    <tr *ngIf="tri.status != 0">
+                        <td><span class="p-column-title">Id</span>{{tri.tripId}}</td>
+                        <td><span class="p-column-title">DepartureLocationId</span>{{tri.departureLocationName}}</td>
+                        <td><span class="p-column-title">ArrivalLocationId</span>{{tri.arrivalLocationName}}</td>
+                        <td><span class="p-column-title">DateStart</span>{{tri.dateStart}}</td>
+                        <td><span class="p-column-title">DateEnd</span>{{tri.dateEnd}}</td>
                         <td>
-                            <span class="p-column-title">DepartureLocationId</span>
-                            {{tri.departureLocationName}}
-                        </td>
-                        <td>
-                            <span class="p-column-title">ArrivalLocationId</span>
-                            {{tri.arrivalLocationName}}
-                        </td>
-                        <td>
-                            <span class="p-column-title">DateStart</span>
-                            {{tri.dateStart}}
-                        </td>
-                        <td>
-                            <span class="p-column-title">DateEnd</span>
-                            {{tri.dateEnd}}
-                        </td>
-                        <td><span class="p-column-title">Status</span>
-                            <span
-                                [class]="'product-badge status-' + (tri.status==1?'instock':'outofstock')">{{tri.status==1?'Active':'Deleted'}}</span>
+                            <span class="p-column-title">Status</span>
+                            <span [class]="'product-badge status-' + (tri.status == 1 ? 'instock' : 'outofstock')">
+                                {{tri.status == 1 ? 'Active' : 'Deleted'}}
+                            </span>
                         </td>
                         <td>
                             <div class="flex">
@@ -86,68 +72,79 @@
                 </ng-template>
             </p-table>
         </div>
+
         <p-dialog [(visible)]="tripDialog" [style]="{width: '450px'}" header="Trip Details" [modal]="true"
             class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
-                    <!-- <div class="field">
-                        <label for="departureLocationId">Departure Location Id</label>
-                        <input type="text" pInputText id="departureLocationId" formControlName="departureLocationId"
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('departureLocationId')?.invalid || formGroup.get('departureLocationId')?.touched}">
-                        <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('departureLocationId')?.touched) && formGroup.get('departureLocationId')?.errors?.['required']">
-                            DepartureLocationId is required.
-                        </small>
-                    </div> -->
                     <div class="field">
                         <label for="departureLocationName">Departure Location Name</label>
                         <p-dropdown id="departureLocationName" formControlName="departureLocationId"
                             [options]="locations" optionLabel="name" placeholder="Select Location"
                             optionValue="locationId" autofocus [ngClass]="{
-                'ng-invalid ng-dirty':
-                  submitted && formGroup.get('departureLocationId')?.invalid
-              }">
-                            <small class="ng-dirty ng-invalid"
-                                *ngIf="submitted && formGroup.get('departureLocationId')?.errors?.['required']">
-                                Departure Location is required.
-                            </small>
+                                'ng-invalid ng-dirty': submitted && (formGroup.get('departureLocationId')?.invalid || formGroup.get('departureLocationId')?.touched),
+                                'p-invalid': submitted && (formGroup.get('departureLocationId')?.invalid || formGroup.get('departureLocationId')?.touched)
+                            }">
                         </p-dropdown>
                     </div>
 
                     <div class="field">
                         <label for="arrivalLocationName">Arrival Location Name</label>
-                        <p-dropdown id="departureLocationName" formControlName="arrivalLocationId" [options]="locations"
-                            optionLabel="name" placeholder="Select Bus" optionValue="locationId" autofocus [ngClass]="{
-                'ng-invalid ng-dirty':
-                  submitted && formGroup.get('arrivalLocationId')?.invalid
-              }">
-                            <small class="ng-dirty ng-invalid"
-                                *ngIf="submitted && formGroup.get('arrivalLocationId')?.errors?.['required']">
-                                Arrival Location is required.
-                            </small>
+                        <p-dropdown id="arrivalLocationName" formControlName="arrivalLocationId" [options]="locations"
+                            optionLabel="name" placeholder="Select Location" optionValue="locationId" autofocus
+                            [ngClass]="{
+                                'ng-invalid ng-dirty': submitted && (formGroup.get('arrivalLocationId')?.invalid || formGroup.get('arrivalLocationId')?.touched),
+                                'p-invalid': submitted && (formGroup.get('arrivalLocationName')?.invalid || formGroup.get('arrivalLocationName')?.touched)
+                            }">
                         </p-dropdown>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.touched) && formGroup.errors?.['sameLocation']">
+                            Departure and Arrival locations cannot be the same.
+                        </small>
                     </div>
 
                     <div class="field">
                         <label for="dateStart">Date Start</label>
-                        <input type="datetime-local" pInputText id="dateStart" formControlName="dateStart"
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateStart')?.invalid || formGroup.get('dateStart')?.touched}" />
+                        <p-calendar type="datetime-local" inputId="dateStart" formControlName="dateStart"
+                            [showTime]="true" timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'"
+                            appendTo="body" [ngClass]="{
+                                'ng-invalid ng-dirty': submitted && (formGroup.get('dateStart')?.invalid || formGroup.get('dateStart')?.touched)
+                            }">
+                        </p-calendar>
                         <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('dateStart')?.touched) && formGroup.get('dateStart')?.errors?.['required']">
                             DateStart is required.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.get('dateStart')?.touched) && formGroup.get('dateStart')?.errors?.['pastDate']">
+                            DateStart must be at least three days in the future.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.get('dateStart')?.touched) && formGroup.get('dateStart')?.errors?.['futureDate']">
+                            Trips cannot be created for more than 30 days .
                         </small>
                     </div>
 
                     <div class="field">
                         <label for="dateEnd">Date End</label>
-                        <input type="datetime-local" pInputText id="dateEnd" formControlName="dateEnd"
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('dateEnd')?.invalid || formGroup.get('dateEnd')?.touched}" />
+                        <p-calendar type="datetime-local" inputId="dateEnd" formControlName="dateEnd" [showTime]="true"
+                            timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'" appendTo="body" [ngClass]="{
+                                'ng-invalid ng-dirty': submitted && (formGroup.get('dateEnd')?.invalid || formGroup.get('dateEnd')?.touched)
+                            }">
+                        </p-calendar>
                         <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('dateEnd')?.touched) && formGroup.get('dateEnd')?.errors?.['required']">
                             DateEnd is required.
                         </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.get('dateEnd')?.touched) && formGroup.get('dateEnd')?.errors?.['dateEndTooSoon']">
+                            DateEnd cannot be earlier or equal to DateStart .
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                        *ngIf="(submitted || formGroup.get('dateEnd')?.touched) && formGroup.get('dateEnd')?.errors?.['dateEndTooLongs']">
+                        DateEnd cannot be earlier or equal to DateStart and cannot exceed true day .
+                    </small>
                     </div>
-
                 </form>
             </ng-template>
             <ng-template pTemplate="footer">
@@ -157,8 +154,6 @@
                     class="p-button-text" (click)="save()"></button>
             </ng-template>
         </p-dialog>
-
-
 
         <p-dialog [(visible)]="deleteTripDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
             <div class="flex align-items-center justify-content-center">

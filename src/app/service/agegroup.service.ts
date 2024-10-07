@@ -24,4 +24,5 @@ export class AgeGroupService{
     async delete(id: number){
         return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'agegroup/delete', id));
     }
+    
 }
