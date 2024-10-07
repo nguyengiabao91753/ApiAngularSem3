@@ -27,8 +27,7 @@
         <div class="account-form-wrapper">
             <div class="account-header">
                 <div class="logo mb-4">
-                    <a href="https://script.viserlab.com/viserbus"><img src="client/assets/images/logo_icon/logo.png"
-                            alt="Logo"></a>
+                    <a [routerLink]="['/home']"><img src="client/assets/images/logo_icon/logo.png" alt="Logo"></a>
                 </div>
             </div>
             <div class="w-100 ">
@@ -39,98 +38,113 @@
                             <img src="client/assets/templates/basic/images/google.svg" alt="Google">
                         </span> Register with Google </a>
                 </div>
-                <div class="continue-facebook mb-3">
-                    <a class="btn w-100 social-login-btn"
-                        href="https://www.facebook.com/v3.3/dialog/oauth?client_id=705296487382875&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Ffacebook&amp;scope=email&amp;response_type=code&amp;state=JmmPq6nkOhDuCPL83IQUUEhoguvrYiSfxu7Jpdx3">
-                        <span class="facebook-icon">
-                            <img src="client/assets/templates/basic/images/facebook.svg" alt="Facebook">
-                        </span> Register with Facebook </a>
-                </div>
-                <div class="continue-facebook mb-3">
-                    <a class="btn w-100 social-login-btn"
-                        href="https://www.linkedin.com/oauth/v2/authorization?client_id=772t1ej48e6ezg&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Flinkedin&amp;scope=r_liteprofile+r_emailaddress&amp;response_type=code&amp;state=2JWvWXxrRQ9yES0iuhvDIIvLtZW8mklJsTIlkwSe">
-                        <span class="facebook-icon">
-                            <img src="client/assets/templates/basic/images/linkdin.svg" alt="Linkedin">
-                        </span> Register with Linkedin </a>
-                </div>
 
                 <div class="w-100 another-login mb-4 text-center">
                     <span class="another-login__or">OR</span>
                 </div>
-                <form class="account-form row verify-gcaptcha disableSubmission"
-                    method="POST">
-                    <input type="hidden" name="_token" value="RAwNpTkKcCcI11Tlqyfym5FrDl7GyCjp7TSIJuQe"
-                        autocomplete="off">
+
+                <form class="account-form row" [formGroup]="formGroup" (ngSubmit)="register()">
                     <div class="col-sm-6">
                         <div class="form-group form--group">
-                            <label class="form-label">Full Name</label>aaaa
-                            <input class="form--control" name="fullname" type="text" value="" required>
+                            <label class="content">Full Name</label>
+                            <input class="form--control" formControlName="fullName" type="text" required>
+                            <div *ngIf="formGroup.get('fullName')?.invalid && formGroup.get('fullName')?.touched">
+                                <small class="p-error">Full Name is required.</small>
+                            </div>
                         </div>
                     </div>
-
                     <div class="col-sm-6">
                         <div class="form-group form--group">
-                            <label class="form-label">Last Name</label>
-                            <input class="form--control" name="lastname" type="text" value="" required>
+                            <label class="content">Date Of Birth</label>
+                            <input class="form--control" formControlName="birthDate" type="text"
+                                placeholder="dd/mm/yyyy" required>
+                            <div *ngIf="formGroup.get('birthDate')?.invalid && formGroup.get('birthDate')?.touched">
+                                <small class="p-error">Date of Birth is required.</small>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group form--group">
-                            <label class="form-label">E-Mail Address</label>
-                            <input class="form--control checkUser" name="email" type="email" value="" required>
-                        </div>
-                    </div>
-
                     <div class="col-md-6">
                         <div class="form-group form--group">
-                            <label class="form-label">Password</label>
-                            <input class="form--control " name="password" type="password" required>
+                            <label class="content">E-Mail</label>
+                            <input class="form--control" formControlName="email" type="email" required>
+                            <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                                <small class="p-error">Valid Email is required.</small>
+                            </div>
                         </div>
                     </div>
-
+                    <div class="col-sm-6">
+                        <div class="form-group form--group">
+                            <label class="content">Phone</label>
+                            <input class="form--control" formControlName="phoneNumber" type="text" required>
+                            <div *ngIf="formGroup.get('phoneNumber')?.invalid && formGroup.get('phoneNumber')?.touched">
+                                <small class="p-error">Phone Number is required.</small>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group form--group">
-                            <label class="form-label">Confirm Password</label>
-                            <input class="form--control" name="password_confirmation" type="password" required>
+                            <label class="content">Address</label>
+                            <input class="form--control" formControlName="address" type="text" required>
+                            <div *ngIf="formGroup.get('address')?.invalid && formGroup.get('address')?.touched">
+                                <small class="p-error">Address is required.</small>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- <div class="col-12">
-                        <div class="mb-3">
-
-                            <script src="../../../www.google.com/recaptcha/api.js"></script>
-                            <div class="g-recaptcha" data-sitekey="6LdPC88fAAAAADQlUf_DV6Hrvgm-pZuLJFSLDOWV"
-                                data-callback="verifyCaptcha"></div>
-                            <div id="g-recaptcha-error"></div>
+                    <div class="col-md-6">
+                        <div class="form-group form--group">
+                            <label class="content">Username</label>
+                            <input class="form--control" formControlName="username" type="text" required>
+                            <div *ngIf="formGroup.get('username')?.invalid && formGroup.get('username')?.touched">
+                                <small class="p-error">Username is required.</small>
+                            </div>
                         </div>
-                    </div> -->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form--group">
+                            <label class="content">Password</label>
+                            <p-password formControlName="password" id="password" placeholder="Password"
+                                [toggleMask]="true" styleClass="mb-3" inputStyleClass="w-full p-3 md:w-20rem"
+                                required></p-password>
+                            <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched">
+                                <small class="p-error">Password is required.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form--group">
+                            <label class="content">Confirm Password</label>
+                            <p-password formControlName="confirmPassword" id="confirmPassword"
+                                placeholder="Confirm Password" [toggleMask]="true" styleClass="mb-3"
+                                inputStyleClass="w-full p-3 md:w-20rem" required>
+                            </p-password>
+                            <div *ngIf="formGroup.hasError('mismatch') && formGroup.get('confirmPassword')?.touched">
+                                <small class="p-error">Passwords do not match.</small>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form--group custom--checkbox">
                         <input id="agree" name="agree" type="checkbox" required>
                         <label for="agree">
                             I agree with <span>
                                 <a class="acount-link" href="../policy/privacy-policy.html" target="_blank">Privacy
-                                    Policy</a>
-                                ,
+                                    Policy</a>,
                                 <a class="acount-link" href="../policy/terms-of-service.html" target="_blank">Terms of
-                                    Service</a>
-                                ,
+                                    Service</a>,
                                 <a class="acount-link" href="../policy/ticket-policies.html" target="_blank">Ticket
-                                    Policies</a>
-                                ,
+                                    Policies</a>,
                                 <a class="acount-link" href="../policy/refund-policy.html" target="_blank">Refund
                                     Policy</a>
                             </span>
-
                         </label>
                     </div>
 
                     <div class="form--group">
-                        <button class="btn btn--base w-100" id="recaptcha" type="submit"> Register</button>
+                        <button class="btn btn--base w-100" type="submit"
+                            [disabled]="formGroup.invalid">Register</button>
                     </div>
 
-                    <p class="mb-0">Already have an account? <a [routerLink]="['/login']">Login Client</a></p>
+                    <p class="mb-0">Already have an account? <a [routerLink]="['/login']">Login</a></p>
                 </form>
             </div>
 

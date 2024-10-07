@@ -1,0 +1,219 @@
+<section class="inner-banner bg_img"
+    style="background: url(client/assets/images/frontend/breadcrumb/66868cfc051ae1720093948.jpg) center">
+    <div class="container">
+        <div class="inner-banner-content">
+            <h2 class="title">{{ bustrip.departureLocationName }} - {{ bustrip.arrivalLocationName }}</h2>
+        </div>
+    </div>
+</section>
+
+
+<div class="padding-top padding-bottom">
+    <div class="container">
+        <div class="row gx-xl-5 gy-4 gy-sm-5 justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="seat-overview-wrapper">
+                    <form id="bookingForm" class="row gy-2" #bookingForm="ngForm">
+                        <input type="hidden" name="_token" value="RAwNpTkKcCcI11Tlqyfym5FrDl7GyCjp7TSIJuQe"
+                            autocomplete="off"> <input type="text" name="price" hidden>
+                        <div class="col-12">
+                            <div class="form-group">
+                              
+                                <label for="fullname" class="form-label">Full Name</label>
+                                <input type="text" id="date_of_journey" [(ngModel)]="booking.fullName" class="form--control date-range" value=""
+                                    name="fullname" placeholder="Enter Your Name" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" [(ngModel)]="booking.email" class="form--control date-range" value="" name="email"
+                                    placeholder="Enter Your Email" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="phone" id="phone" [(ngModel)]="booking.phoneNumber" class="form--control date-range" value="" name="phone"
+                                    placeholder="Enter Your Phone Number" required>
+                            </div>
+                        </div>
+                       
+                        <div *ngIf="selectedSeats.length > 0" class="booked-seat-details my-3">
+                            <label>Selected Seats</label>
+                            <div class="list-group seat-details-animate">
+                                <span class="list-group-item d-flex bg--base text-white justify-content-between">Seat
+                                    Details<span>Price</span></span>
+
+                                <div class="selected-seat-details">
+                                    <ng-container *ngFor="let seat of selectedSeats; let i = index">
+                                        <span class="list-group-item d-flex justify-content-between">Seat: {{ seat.name
+                                            }}
+                                            <span>{{ seat.price }} {{ currency }}</span>
+                                        </span>
+                                        <span class="list-group-item d-flex justify-content-between">
+                                            <p-dropdown id="agegroup-{{i}}" [options]="agegroups"
+                                                [(ngModel)]="seat.ageGroupId" name="agegroup-{{i}}" optionValue="ageGroupId" [placeholder]="'Select Age Group'"  optionLabel="name"
+                                                (onChange)="updatePriceAfterDiscount(seat)" required>
+                                            </p-dropdown>
+                                            <span style="color: red;"><i class="las la-arrow-down"></i>{{ seat.discount }}%</span>
+                                        </span>
+                                        
+                                        <!-- <hr> -->
+                                    </ng-container>
+                                    <span class="list-group-item d-flex justify-content-between">Sub total
+                                        <span style="color: #0e9e4d;">{{ subtotal }} {{ currency }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="text" name="seats" hidden>
+                        <div class="col-12">
+                            <button type="submit" class="book-bus-btn" (click)="Submit(bookingForm)">Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <h6 class="title">Click on Seat to select or deselect</h6>
+                <!-- <span class="fs--14px">
+                    Off Days :
+                    <span class="badge badge--success">
+                        Friday
+                    </span>
+                </span> -->
+                <div class="seat-plan-inner">
+                    <div class="single">
+
+
+                        <span class="front">Front</span>
+                        <span class="rear">Rear</span>
+
+                        <span class="lower">Door</span>
+                        <span class="driver"><img src="client/assets/templates/basic/images/icon/wheel.svg"
+                                alt="icon"></span>
+
+                        <!-- <div class="seat-wrapper" *ngFor="let row of seatRows">
+                            <div class="left-side">
+                                <div *ngFor="let seat of row.left">
+                                    <div [ngClass]="{ 'selected-by-others disabled': seat.status == '0' }">
+                                        <span class="seat"
+                                            [style.cursor]="seat.status == '0' ? 'not-allowed' : 'pointer'"
+                                            [attr.data-seat]="seat.Id + '-' + seat.name">
+                                            {{ seat.name }}
+                                            <span></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right-side">
+                                <div *ngFor="let seat of row.right">
+                                    <div [ngClass]="{ 'selected-by-others disabled': seat.status == '0' }">
+                                        <span class="seat"
+                                            [style.cursor]="seat.status == '0' ? 'not-allowed' : 'pointer'"
+                                            [attr.data-seat]="seat.Id + '-' + seat.name">
+                                            {{ seat.name }}
+                                            <span></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="seat-wrapper" *ngFor="let row of seatRows">
+                            <div class="left-side">
+                                <div *ngFor="let seat of row.left">
+                                    <div [ngClass]="{ 'selected-by-others disabled': isSeatDisabled(seat) }">
+                                        <span class="seat" [ngClass]="{ 'selected': !isSeatSelected(seat) }"
+                                            [style.cursor]="isSeatDisabled(seat) ? 'not-allowed' : 'pointer'"
+                                            [attr.data-seat]="seat.Id + '-' + seat.name" (click)="toggleSeat(seat)">
+                                            {{ seat.name }}
+                                            <span></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right-side">
+                                <div *ngFor="let seat of row.right">
+                                    <div [ngClass]="{ 'selected-by-others disabled': isSeatDisabled(seat) }">
+                                        <span class="seat" [ngClass]="{ 'selected': !isSeatSelected(seat) }"
+                                            [style.cursor]="isSeatDisabled(seat) ? 'not-allowed' : 'pointer'"
+                                            [attr.data-seat]="seat.Id + '-' + seat.name" (click)="toggleSeat(seat)">
+                                            {{ seat.name }}
+                                            <span></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="seat-for-reserved">
+                    <div class="seat-condition available-seat">
+                        <span class="seat"><span></span></span>
+                        <p>Available Seats</p>
+                    </div>
+                    <div class="seat-condition selected-by-you">
+                        <span class="seat"><span></span></span>
+                        <p>Selected by You</p>
+                    </div>
+                    <!-- <div class="seat-condition selected-by-gents">
+                        <div class="seat"><span></span></div>
+                        <p>Booked by Gents</p>
+                    </div>
+                    <div class="seat-condition selected-by-ladies">
+                        <div class="seat"><span></span></div>
+                        <p>Booked by Ladies</p>
+                    </div> -->
+                    <div class="seat-condition selected-by-others">
+                        <div class="seat"><span></span></div>
+                        <p>Booked by Others</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="bookConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Confirm Booking</h5>
+                <button type="button" class="w-auto btn--close" data-bs-dismiss="modal"><i
+                        class="las la-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <strong class="text-dark">Are you sure to book these seats?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--danger w-auto btn--sm px-3" data-bs-dismiss="modal">
+                    Close </button>
+                <button type="submit" class="btn btn--base btn--sm w-auto" id="btnBookConfirm">Confirm </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Alert Message</h5>
+                <button type="button" class="w-auto btn--close" data-bs-dismiss="modal"><i
+                        class="las la-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <strong>
+                    <p class="error-message text-danger"></p>
+                </strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn--danger w-auto btn--sm px-3" data-bs-dismiss="modal">
+                    Continue </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -47,6 +47,7 @@ import { AgeGroupService } from '../../../service/agegroup.service';
 export class AgegroupComponent implements OnInit {
   agegroup: AgeGroup = {}
   agegroups: AgeGroup[] = []
+  originAgeList : AgeGroup[] = []
 
   formGroup!: FormGroup
 
@@ -77,7 +78,14 @@ export class AgegroupComponent implements OnInit {
         this.agegroups = res as AgeGroup[];
 
       }
-    )
+    );
+    this.ageGroupService.getAll().then(
+      res => {
+        this.originAgeList = res as AgeGroup[];
+
+      }
+    );
+    
     this.formGroup = this.formBuilder.group({
       ageGroupId: '0',
       name: ['', [Validators.required]],
@@ -101,9 +109,9 @@ export class AgegroupComponent implements OnInit {
   }
 
   //Cái này xóa nhiều
-  // deleteSelectedProducts() {
-  //   this.deleteAgeGroupsDialog = true;
-  // }
+  deleteSelectedAgeGroups() {
+    this.deleteAgeGroupsDialog = true;
+  }
 
   editProduct(agegroup: AgeGroup) {
     //Gán dữ liệu được chọn vào form
@@ -135,6 +143,7 @@ export class AgegroupComponent implements OnInit {
   //           this.agegroups = this.agegroups.map(a =>
   //             a.ageGroupId === this.agegroup.ageGroupId ? { ...agegroup } : a
   //           );
+  //           this.selectedAgeGroups = this.selectedAgeGroups.filter(val => val.ageGroupId !== agegroup.ageGroupId)
   //         }
   //       }
   //     )
@@ -142,7 +151,7 @@ export class AgegroupComponent implements OnInit {
 
   //   this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'AgeGroup Deleted', life: 3000 });
   //   this.deleteAgeGroupDialog = false;
-  //   this.selectedAgeGroups = [];
+  //   //this.selectedAgeGroups = [];
 
 
   // }
@@ -156,8 +165,9 @@ export class AgegroupComponent implements OnInit {
       res => {
         if (res['status']) {
 
-          this.agegroups = this.agegroups.filter(a => a.ageGroupId !== this.agegroup.ageGroupId);
-          console.log(this.agegroup);
+          // this.agegroups = this.agegroups.filter(a => a.ageGroupId !== this.agegroup.ageGroupId);
+          // console.log(this.agegroup);
+          this.ngOnInit()
           
           // this.agegroups = this.agegroups.map(a =>
           //   a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
@@ -181,6 +191,9 @@ export class AgegroupComponent implements OnInit {
     this.agegroupDialog = false;
     this.submitted = false;
     this.formGroup.reset()
+    this.formGroup.reset({
+      ageGroupId: '0'
+    });
   }
 
   save() {
@@ -196,10 +209,10 @@ export class AgegroupComponent implements OnInit {
           if (res['status']) {
             this.agegroupDialog = false;
             this.formGroup.reset()
-
-            let newId = this.agegroups[this.agegroups.length-1].ageGroupId + 1;
-            this.agegroup.ageGroupId = newId;
-            this.agegroups.push(this.agegroup);
+            this.ngOnInit();
+            // let newId = this.originAgeList[this.originAgeList.length-1].ageGroupId + 1;
+            // this.agegroup.ageGroupId = newId;
+            // this.agegroups.push(this.agegroup);
           }
 
         },
@@ -217,23 +230,19 @@ export class AgegroupComponent implements OnInit {
           if (res['status']) {
             this.agegroupDialog = false;
             this.formGroup.reset()
-
+            this.ngOnInit()
             // Tạo ra mảng mới với đối tượng đã được cập nhật
-            this.agegroups = this.agegroups.map(a =>
-              a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
-            );
+            // this.agegroups = this.agegroups.map(a =>
+            //   a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
+            // );
             //{...agegroup} là copy đối tượng đó gắn cho đối tượng đc gắn, [...aaa] là copy mảng
           }
-
-
         },
         error => {
           alert("Lỗi")
         }
       )
     }
-
-
   }
 
   onGlobalFilter(table: Table, event: Event) {

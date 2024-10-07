@@ -26,7 +26,7 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Home',
                 items: [
-                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] }
+                    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/admin'] }
                 ]
             },
             {
@@ -41,8 +41,8 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Bus Information',
                 items: [
-                    { label: 'Bus Type', icon: 'pi pi-fw pi-align-justify', routerLink: ['/'] },
-                    { label: 'Buses', icon: 'pi pi-fw pi-truck', routerLink: ['/'] },
+                    { label: 'Bus Type', icon: 'pi pi-fw pi-align-justify', routerLink: ['/admin/bus-type'] },
+                    { label: 'Buses', icon: 'pi pi-fw pi-truck', routerLink: ['/admin/bus'] },
                     
                     
                 ]
@@ -50,14 +50,14 @@ export class MenuComponent implements OnInit {
             {
                 label: 'Trip Information',
                 items: [
-                    { label: 'Location', icon: 'pi pi-fw pi-map', routerLink: ['/'] },
-                    { label: 'Trip', icon: 'pi pi-fw pi-angle-double-up', routerLink: ['/'] },
+                    { label: 'Location', icon: 'pi pi-fw pi-map', routerLink: ['/admin/location'] },
+                    { label: 'Trip', icon: 'pi pi-fw pi-angle-double-up', routerLink: ['/admin/trip'] },
                 ]
             },
             {
                 label: 'BusTrip & Booking',
                 items: [
-                    { label: 'BusTrip', icon: 'pi pi-fw pi-arrow-up-right', routerLink: ['/'] },
+                    { label: 'BusTrip', icon: 'pi pi-fw pi-arrow-up-right', routerLink: ['/admin/busestrip'] },
                     { label: 'Booking', icon: 'pi pi-fw pi-bookmark', routerLink: ['/'] },
                 ]
             },

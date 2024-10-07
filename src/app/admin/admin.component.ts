@@ -9,6 +9,7 @@ import { AppConfigComponent } from './partials/config/app.config.component';
 import { filter, Subscription } from 'rxjs';
 import { LayoutService } from '../service/applayout.service';
 import { ToastModule } from 'primeng/toast';
+import { AssetService } from '../service/AssetService.service';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ export class AdminComponent implements OnInit {
     if (!userId) {
       this.router.navigate(['/auth/loginAdmin']); // Chuyển hướng nếu không có userId
     }      
+      this.assetService.addCss('assets/layout/styles/theme/lara-light-indigo/theme.css');
   }
   overlayMenuOpenSubscription: Subscription;
 
@@ -42,7 +44,7 @@ export class AdminComponent implements OnInit {
 
     @ViewChild(TopBarComponent) appTopbar!: TopBarComponent;
 
-    constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
+    constructor(private assetService: AssetService,public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {

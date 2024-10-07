@@ -23,11 +23,13 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { MessageService } from 'primeng/api';
 import { AccountUser } from '../../../entity/accountUser.entity';
 import { AccountUserService } from '../../../service/accountUser.service';
+import { CalendarModule } from 'primeng/calendar';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  providers: [MessageService],
+  providers: [MessageService,DatePipe],
   imports: [
     CommonModule,
     TableModule,
@@ -45,6 +47,7 @@ import { AccountUserService } from '../../../service/accountUser.service';
     InputNumberModule,
     DialogModule,
     RatingModule,
+    CalendarModule,
   ],
   templateUrl: './account.component.html',
 })
@@ -63,6 +66,7 @@ export class AccountComponent implements OnInit {
   ];
   formGroup!: FormGroup;
   passwordFormGroup!: FormGroup;
+  date: Date | undefined;
 
   //For notications
   accountUserDialog: boolean = false;
@@ -77,7 +81,9 @@ export class AccountComponent implements OnInit {
   constructor(
     private accountUserService: AccountUserService,
     private messageService: MessageService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe
+
   ) {}
 
   ngOnInit(): void {
@@ -121,6 +127,7 @@ export class AccountComponent implements OnInit {
     this.accountUserDialog = true;
   }
   editAccountUser(accountUser: AccountUser) {
+    const birthDate = accountUser.birthDate ? new Date(accountUser.birthDate) : null;
     //Gán dữ liệu được chọn vào form
     this.formGroup.patchValue({
       userId: accountUser.userId,
@@ -131,7 +138,7 @@ export class AccountComponent implements OnInit {
       levelId: accountUser.levelId,
 
       fullName: accountUser.fullName,
-      birthDate: accountUser.birthDate,
+      birthDate: birthDate,
       email: accountUser.email,
       phoneNumber: accountUser.phoneNumber,
       address: accountUser.address,
@@ -258,9 +265,10 @@ export class AccountComponent implements OnInit {
       this.accountUser.fullName = this.formGroup
         .get('fullName')
         ?.value?.toString();
-      this.accountUser.birthDate = this.formGroup
-        .get('birthDate')
-        ?.value?.toString();
+      // this.accountUser.birthDate = this.formGroup.get('birthDate')?.value?.toString();
+      this.accountUser.birthDate = this.datePipe.transform(
+        this.formGroup.get('birthDate')?.value,
+        'dd-MM-yyyy');      
       this.accountUser.phoneNumber = this.formGroup
         .get('phoneNumber')
         ?.value?.toString();
@@ -318,7 +326,7 @@ export class AccountComponent implements OnInit {
             this.messageService.add({
               severity: 'warn',
               summary: 'Warning',
-              detail: 'Error during updated ' + error.message,
+              detail: 'Error during Create ' + error.message,
               life: 3000,
             });
           }
@@ -329,17 +337,20 @@ export class AccountComponent implements OnInit {
       this.accountUser.username = this.formGroup
         .get('username')
         ?.value?.toString();
-      if (!this.formGroup.get('password').value) {
-        this.accountUser.password = null; // Không gửi mật khẩu mới nếu không thay đổi
-      }
+        if (!this.formGroup.get('password').value) {
+          delete this.accountUser.password; // If no password is provided, remove it from the object
+        }        
+        
       this.accountUser.status = this.formGroup.get('status')?.value;
       this.accountUser.levelId = this.formGroup.get('levelId')?.value;
       this.accountUser.fullName = this.formGroup
         .get('fullName')
         ?.value?.toString();
-      this.accountUser.birthDate = this.formGroup
-        .get('birthDate')
-        ?.value?.toString();
+      // this.accountUser.birthDate = this.formGroup.get('birthDate')?.value?.toString();
+      this.accountUser.birthDate = this.datePipe.transform(
+        this.formGroup.get('birthDate')?.value,
+        'dd-MM-yyyy'
+      );
       this.accountUser.phoneNumber = this.formGroup
         .get('phoneNumber')
         ?.value?.toString();

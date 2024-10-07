@@ -17,6 +17,18 @@ import { AccountComponent } from './admin/auth/account/account.component';
 import { AuthGuard } from './entity/auth.services';
 import { InActiveComponent } from './admin/auth/in-active/in-active.component';
 import { NgModule } from '@angular/core';
+import { LocationComponent } from './admin/component/location/location.component';
+import { TripComponent } from './admin/component/trip/trip.component';
+import { BusTypeComponent } from './admin/component/bustype/bustype.component';
+import { BusComponent } from './admin/component/bus/bus.component';
+import { TicketDetailComponent } from './client/component/ticket-detail/ticket-detail.component';
+import { PaymentComponent } from './client/component/payment/payment.component';
+import { ProfileComponent } from './client/component/profile/profile.component';
+import { DashboardClientComponent } from './client/component/dashboard/dashboard.component';
+import { ChangepasswordComponent } from './client/component/changepassword/changepassword.component';
+import { BusestripComponent } from './admin/component/busestrip/busestrip.component';
+import { DashboardComponent } from './admin/component/dashboard/dashboard.component';
+
 
 export const routes: Routes = [
     {
@@ -25,6 +37,18 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         
         children:[
+            {
+                path: '',
+                component: DashboardComponent
+            },
+            {
+                path: 'bus-type',
+                component: BusTypeComponent
+            },
+            {
+                path: 'bus',
+                component: BusComponent
+            },
             {
                 path:'agegroup',
                 component: AgegroupComponent
@@ -46,6 +70,20 @@ export const routes: Routes = [
                 path:'inActive',
                 component: InActiveComponent
             },
+            {
+                path:'busestrip',
+             
+               component: BusestripComponent
+            },
+            {
+                path:'location',
+                component: LocationComponent
+            },
+            {
+                path:'trip',
+                component: TripComponent
+            },
+            
         ]
     },
     // login danh cho admin
@@ -84,7 +122,28 @@ export const routes: Routes = [
             {
                 path:'contact-us',
                 component: ContactComponent
-            }
+            },
+            {
+                path:'ticket-detail/:id',
+                component: TicketDetailComponent,
+                runGuardsAndResolvers: 'always' //bắt buộc chạy lại ngOnInit
+            },
+            {
+                path:'payment',
+                component: PaymentComponent
+            },
+            {
+                path:'profile',
+                component: ProfileComponent
+            },
+            {
+                path:'dashboard',
+                component: DashboardClientComponent
+            },
+            {
+                path:'changepassword',
+                component: ChangepasswordComponent
+            },
         ]
     },
     {

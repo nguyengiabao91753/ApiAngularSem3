@@ -1,33 +1,40 @@
 <div class="grid">
     <div class="col-12">
-        
+
         <div class="card px-6 py-6">
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"
+                        (click)="dt.exportCSV()"></button>
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="accountUsers" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['username','status','levelId']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" selectionMode="multiple" [rowHover]="true" dataKey="id">
+            <p-table #dt [value]="accountUsers" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['username','status','levelId']" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" selectionMode="multiple"
+                [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
                         <h5 class="m-0">Manage Account</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                                class="w-full sm:w-auto" />
                         </span>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-        
+
                         <th *ngFor="let col of cols" pSortableColumn="{{col.field}}">
                             {{col.header}}
                             <p-sortIcon field="{{col.field}}"></p-sortIcon>
@@ -38,13 +45,13 @@
                 <!-- Bảng dữ liệu -->
                 <ng-template pTemplate="body" let-accountUser>
                     <tr *ngIf="accountUser.status == 1 || accountUser.status == 2">
-                        <td ><span class="p-column-title">Account Id</span>
+                        <td><span class="p-column-title">Account Id</span>
                             {{accountUser.userId}}
                         </td>
-                        <td ><span class="p-column-title">Username</span>
+                        <td><span class="p-column-title">Username</span>
                             {{accountUser.username}}
                         </td>
-                        <td >
+                        <td>
                             <span class="p-column-title">Password</span>
                             <p-button (onClick)="changePassword(accountUser)" label=" Encrypted" severity="help" />
                         </td>
@@ -74,8 +81,11 @@
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editAccountUser(accountUser)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteAccountUser(accountUser)"></button>
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="editAccountUser(accountUser)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteAccountUser(accountUser)"></button>
                             </div>
                         </td>
                     </tr>
@@ -83,23 +93,24 @@
             </p-table>
         </div>
 
-          <!-- Hiện phần edit và new -->
-          <p-dialog [(visible)]="accountUserDialog" [style]="{width: '450px'}" header="Account User Form" [modal]="true" class="p-fluid">
+        <!-- Hiện phần edit và new -->
+        <p-dialog [(visible)]="accountUserDialog" [style]="{width: '450px'}" header="Account User Form" [modal]="true"
+            class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                     <div class="field" *ngIf="formGroup.get('userId').value == 0">
                         <label for="username">Username</label>
-                        <input type="text" pInputText id="username" formControlName="username" 
-                            [readonly]="formGroup.get('userId').value != 0"
-                            autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('username')?.invalid}" />
+                        <input type="text" pInputText id="username" formControlName="username"
+                            [readonly]="formGroup.get('userId').value != 0" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('username')?.invalid}" />
                         <small class="ng-dirty ng-invalid"
                             *ngIf="submitted && formGroup.get('username')?.invalid">Username is required.</small>
                     </div>
                     <div class="field" *ngIf="formGroup.get('userId').value != 0">
                         <label for="username">Username</label>
-                        <input type="text" pInputText id="username" formControlName="username" 
-                            [readonly]="formGroup.get('userId').value != 0"
-                            autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('username')?.invalid}" />
+                        <input type="text" pInputText id="username" formControlName="username"
+                            [readonly]="formGroup.get('userId').value != 0" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('username')?.invalid}" />
                         <small class="ng-dirty ng-invalid"
                             *ngIf="submitted && formGroup.get('username')?.invalid">Username is required.</small>
                     </div>
@@ -107,60 +118,76 @@
                         <label for="password">Password</label>
                         <input type="password" pInputText id="password" formControlName="password"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('password')?.invalid}"
-                            placeholder="Password is required when creating a new account"/>
+                            placeholder="Password is required when creating a new account" />
                         <small class="ng-dirty ng-invalid"
                             *ngIf="submitted && formGroup.get('password')?.invalid && formGroup.get('userId').value == 0">
                             Password is required when creating a new account.
                         </small>
                     </div>
-                <div class="field">
-                    <label for="levelId">Level</label>
-                    <p-dropdown id="levelId" [options]="levelOptions" optionLabel="label" optionValue="value"
-                        placeholder="Select Level" formControlName="levelId">
-                    </p-dropdown>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('levelId')?.invalid">Level
-                        is required.</small>
-                </div>
-                <div class="field">
-                    <label for="status">Status</label>
-                    <p-dropdown id="status" [options]="statusOptions" optionLabel="label" optionValue="value"
-                        placeholder="Select Status" formControlName="status">
-                    </p-dropdown>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('status')?.invalid">
-                        Status is required.
-                    </small>
-                </div>
-                <div class="field">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" pInputText id="fullName" formControlName="fullName" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('fullName')?.invalid}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('fullName')?.invalid">Full Name is required.</small>
-                </div>
-                <div class="field">
-                    <label for="birthDate">Birth Date</label>
-                    <input type="text" pInputText id="birthDate" formControlName="birthDate" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('birthDate')?.invalid}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('birthDate')?.invalid">Birth Date is required.</small>
-                </div>
-                <div class="field">
-                    <label for="email">Email</label>
-                    <input type="text" pInputText id="email" formControlName="email" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('email')?.invalid}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('email')?.invalid">Email is required.</small>
-                </div>
-                <div class="field">
-                    <label for="phoneNumber">Phone Number</label>
-                    <input type="text" pInputText id="phoneNumber" formControlName="phoneNumber" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('phoneNumber')?.invalid}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('phoneNumber')?.invalid">Phone Number is required.</small>
-                </div>
-                <div class="field">
-                    <label for="address">Address</label>
-                    <input type="text" pInputText id="address" formControlName="address" autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('address')?.invalid}"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('address')?.invalid">Address is required.</small>
-                </div>
+                    <div class="field">
+                        <label for="levelId">Level</label>
+                        <p-dropdown id="levelId" [options]="levelOptions" optionLabel="label" optionValue="value"
+                            placeholder="Select Level" formControlName="levelId">
+                        </p-dropdown>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('levelId')?.invalid">Level
+                            is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="status">Status</label>
+                        <p-dropdown id="status" [options]="statusOptions" optionLabel="label" optionValue="value"
+                            placeholder="Select Status" formControlName="status">
+                        </p-dropdown>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('status')?.invalid">
+                            Status is required.
+                        </small>
+                    </div>
+                    <div class="field">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" pInputText id="fullName" formControlName="fullName" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('fullName')?.invalid}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('fullName')?.invalid">Full
+                            Name is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="birthDate">Birth Date</label>
+                        <!-- <input type="text" pInputText id="birthDate" formControlName="birthDate" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('birthDate')?.invalid}" /> -->
+                        <p-calendar dateFormat="dd-mm-yy" id="birthDate" formControlName="birthDate"
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('birthDate')?.invalid}"></p-calendar>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('birthDate')?.invalid">
+                            Birth Date is required.
+                        </small>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input type="text" pInputText id="email" formControlName="email" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('email')?.invalid}" />
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('email')?.invalid">Email is
+                            required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="text" pInputText id="phoneNumber" formControlName="phoneNumber" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('phoneNumber')?.invalid}" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('phoneNumber')?.invalid">Phone Number is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="address">Address</label>
+                        <input type="text" pInputText id="address" formControlName="address" autofocus
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('address')?.invalid}" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('address')?.invalid">Address is required.</small>
+                    </div>
                 </form>
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" severity="danger" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-                <button pButton pRipple label="Save" icon="pi pi-save" [disabled]="formGroup.invalid" class="p-button-text" (click)="save()">
+                <button pButton pRipple label="Cancel" severity="danger" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-save" [disabled]="formGroup.invalid"
+                    class="p-button-text" (click)="save()">
                 </button>
             </ng-template>
         </p-dialog>
@@ -169,24 +196,27 @@
         <p-dialog header="Change Password" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
             <form [formGroup]="passwordFormGroup">
                 <div class="flex align-items-center gap-3 mb-3">
-                    <label for="password1" class="font-semibold w-6rem" >New Password</label>
-                    <input id="password1" class="flex-auto" autocomplete="off"  type="password" pInputText formControlName="Password"/>
-                    <small class="p-error" *ngIf="passwordFormGroup.get('Password')?.invalid && passwordFormGroup.get('Password')?.touched">
+                    <label for="password1" class="font-semibold w-6rem">New Password</label>
+                    <input id="password1" class="flex-auto" autocomplete="off" type="password" pInputText
+                        formControlName="Password" />
+                    <small class="p-error"
+                        *ngIf="passwordFormGroup.get('Password')?.invalid && passwordFormGroup.get('Password')?.touched">
                         Password must be at least 6 characters long.
                     </small>
                 </div>
                 <div class="flex align-items-center gap-3 mb-5">
                     <label for="password2" class="font-semibold w-6rem">Confirm Password</label>
-                    <input id="password2" class="flex-auto" autocomplete="off" type="password" pInputText formControlName="ConfirmPassword"/>
+                    <input id="password2" class="flex-auto" autocomplete="off" type="password" pInputText
+                        formControlName="ConfirmPassword" />
                     <small class="p-error" *ngIf="passwordFormGroup.errors?.['mismatch']">
                         Passwords do not match.
                     </small>
-                    
+
                 </div>
             </form>
             <div class="flex justify-content-end gap-2">
                 <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
-                <p-button label="Save" (onClick)="visible = false" (click)="savePassword()"/>
+                <p-button label="Save" (onClick)="visible = false" (click)="savePassword()" />
             </div>
         </p-dialog>
         <!-- Hiện phần hỏi xác nhận delete -->
@@ -196,11 +226,12 @@
                 <span *ngIf="accountUser">Are you sure you want to inactive account</span>
             </div>
             <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" severity="danger" (click)="deleteAccountUserDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" severity="danger"
+                    (click)="deleteAccountUserDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="confirmDelete()"></button>
             </ng-template>
         </p-dialog>
 
     </div>
 </div>
-

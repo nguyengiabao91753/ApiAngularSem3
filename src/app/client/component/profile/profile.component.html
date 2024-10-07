@@ -1,0 +1,69 @@
+<section class="inner-banner bg_img"
+  style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/breadcrumb/66868cfc051ae1720093948.jpg) center">
+  <div class="container">
+    <div class="inner-banner-content">
+      <h2 class="title">Profile Setting</h2>
+    </div>
+  </div>
+</section>
+
+<div class="padding-top padding-bottom">
+  <div class="container">
+    <div class="profile__edit__wrapper">
+      <div class="row justify-content-center">
+        <div class="col-xl-10">
+          <div class="profile__content__edit p-0">
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+              <div class="row gy-3 p-4">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" class="form-control" formControlName="username" readonly>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input id="fullName" type="text" class="form-control" formControlName="fullName">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" class="form-control" formControlName="email">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input id="phoneNumber" type="text" class="form-control" formControlName="phoneNumber">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="birthDate">Birth Date</label>
+                    <input id="birthDate" type="date" format="yyyy-MM-dd" class="form-control" formControlName="birthDate">
+    
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">Address</label>
+                    <input id="address" type="text" class="form-control" formControlName="address">
+                  </div>
+                </div>
+
+
+
+                <div class="col">
+                  <button type="submit" class="btn btn--base btn--block h-auto">Update
+                    Profile</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

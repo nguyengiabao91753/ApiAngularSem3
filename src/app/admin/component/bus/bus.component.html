@@ -1,0 +1,288 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
+                        <!-- <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedAgeGroups || !selectedAgeGroups.length"></button> -->
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"
+                        (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="buses" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="[
+          'name',
+          'country.name',
+          'representative.name',
+          'status'
+        ]" [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedBuses" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Manage Bus</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                                class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                        <th *ngFor="let col of cols" pSortableColumn="{{ col.field }}">
+                            {{ col.header }}
+                            <p-sortIcon field="{{ col.field }}"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-bus>
+                    <tr *ngIf="bus.status != 0">
+                        <!-- <td>
+                            <p-tableCheckbox [value]="age"></p-tableCheckbox>
+                        </td> -->
+                        <td>
+                            <span class="p-column-title">Id</span>
+                            {{ bus.busId }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Bus Name</span>
+                            {{ bus.busName }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Air Condition</span>
+                            <span [class]="
+                  'product-badge status-' +
+                  (bus.airConditioned == 1 ? 'instock' : 'outofstock')
+                ">{{ bus.airConditioned == 1 ? "Available" : "Not Available" }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="p-column-title">License Plate</span>
+                            {{ bus.licensePlate }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Seat Counts</span>
+                            {{ bus.seatCount }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Price</span>
+                            {{ bus.basePrice }}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Status</span>
+                            <span [class]="
+                  'product-badge status-' +
+                  (bus.status == 1 ? 'instock' : 'lowstock')
+                ">{{ bus.status == 1 ? "Available" : "Occupied" }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2" (click)="editBusType(bus)"></button>
+                                <button pButton pRipple icon="pi pi-trash"
+                                    class="p-button-rounded p-button-warning mr-2" (click)="deleteBus(bus)"></button>
+                                <!-- <button pButton pRipple icon="pi-align-justify" class="p-button-rounded p-button-primary"
+                                    (click)="showDialog(bus.busId)" ></button> -->
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="busDialog" [style]="{ width: '700px', height: '600px' }" header="Bus Type Details"
+            [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <form [formGroup]="formGroup">
+                    <div class="field">
+                        <label for="name">Bus Name</label>
+                        <p-dropdown id="name" formControlName="busTypeId" [options]="busTypes" optionLabel="name"
+                            placeholder="Select Bus" optionValue="busTypeId" autofocus [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('busTypeId')?.invalid
+              }">
+                            <small class="ng-dirty ng-invalid"
+                                *ngIf="submitted && formGroup.get('busTypeId')?.errors?.['required']">
+                                Bus Name is required.
+                            </small>
+                        </p-dropdown>
+                    </div>
+                    <div class="field">
+                        <label for="airConditioned">Air Condition</label>
+                        <br />
+                        <p-checkbox id="airConditioned" formControlName="airConditioned" [binary]="true"
+                            inputId="binary" [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('airConditioned')?.invalid
+              }" />
+                    </div>
+                    <div class="field">
+                        <label for="licensePlate">License Plate</label>
+                        <input type="text" pInputText id="licensePlate" formControlName="licensePlate" autofocus
+                            placeholder="Enter license plate" [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('licensePlate')?.invalid
+              }" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('licensePlate')?.errors?.['required']">
+                            License Plate is required.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('licensePlate')?.errors?.['minLength']">
+                            License Plate must be at least 5 characters.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('licensePlate')?.errors?.['maxLength']">
+                            License Plate cannot exceed 10 characters.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="(submitted || formGroup.get('licensePlate')?.touched) && formGroup.get('licensePlate')?.errors?.['licensePlateExists']">
+                            License Plate is already taken.
+                        </small>
+                    </div>
+                    <div class="field">
+                        <label for="seatCount">Seat Count</label>
+                        <p-dropdown id="seatCount" formControlName="seatCount" [options]="seatOptions"
+                            optionLabel="label" optionValue="value" placeholder="Select Seat Count" [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('seatCount')?.invalid
+              }">
+                        </p-dropdown>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('seatCount')?.errors?.['required']">
+                            Seat Count is required.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('seatCount')?.errors?.['min']">
+                            Minimum seat count is 10.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('seatCount')?.errors?.['max']">
+                            Maximum seat count is 60.
+                        </small>
+                    </div>
+                    <div class="field">
+                        <label for="basePrice">Price</label>
+                        <input type="text" pInputText id="basePrice" formControlName="basePrice" autofocus
+                            placeholder="Enter Price" [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('basePrice')?.invalid
+              }" />
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('basePrice')?.errors?.['required']">
+                            Price is required.
+                        </small>
+                        <small class="ng-dirty ng-invalid"
+                            *ngIf="submitted && formGroup.get('basePrice')?.errors?.['pattern']">
+                            Price must be a valid number with up to 2 decimal places.
+                        </small>
+                    </div>
+                </form>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" [disabled]="formGroup.invalid"
+                    class="p-button-text" (click)="save()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+        <!-- <p-dialog header="Details" [(visible)]="visible" [style]="{ width: '1400px', height: '800px' }" contentStyleClass="custom-dialog">
+            <p-table #dt [value]="busSeats" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [(selection)]="selectedBusSeats" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Bus Seats</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
+                                class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th *ngFor="let column of columns" pSortableColumn="{{column.field}}">
+                            {{column.header}}
+                            <p-sortIcon field="{{column.field}}"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-busSeat>
+                    <tr *ngIf="busSeat.status == 1">
+                        <td><span class="p-column-title">Id</span>
+                            {{busSeat.seatId}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Seat Name</span>
+                            {{busSeat.name}}
+                        </td>                        
+                        <td>
+                            <span class="p-column-title">License Plate</span>
+                            {{busSeat.busLicensePlate}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Status</span>
+                            <span
+                                [class]="'product-badge status-' + (busSeat.status==1?'instock':'outofstock')">{{busSeat.status==1?'Active':'Deleted'}}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="editBusType(busSeat)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mr-2"
+                                    (click)="deleteBus(busSeat)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-dialog>  -->
+
+        <p-dialog [(visible)]="deleteBusDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="bus">Are you sure you want to delete</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+                    (click)="deleteBusDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+                    (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- <p-dialog [(visible)]="deleteAgeGroupsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected agegroup?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteAgeGroupsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog> -->
+    </div>
+</div>
