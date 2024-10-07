@@ -1,5 +1,5 @@
 export interface BookingDetail {
-    bookingDetailId: number;
+    bookingDetailId?: number;
     bookingId?: number;
     seatId?: number;
     seatName?: string;

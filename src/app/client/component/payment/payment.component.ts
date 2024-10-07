@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Toast, ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
@@ -34,7 +35,8 @@ export class PaymentComponent implements OnInit {
   constructor(
     private bookingService: BookingService,
     private paymentService: PaymentService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   payment: Payment = {};
@@ -46,6 +48,10 @@ export class PaymentComponent implements OnInit {
     this.booking = this.bookingService.getBooking();
     this.bookingdetails = this.bookingService.getBookingDetails();
     console.log(this.booking);
+
+    if (!this.booking || Object.keys(this.booking).length === 0 || this.bookingdetails.length === 0) {
+      this.router.navigate(['/home']);
+    }
 
     this.initConfig();
   }
