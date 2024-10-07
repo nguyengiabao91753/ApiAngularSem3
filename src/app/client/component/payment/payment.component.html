@@ -64,65 +64,17 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <!-- <div class="deposit-info">
-                                        <div class="deposit-info__title">
-                                            <p class="text has-icon"> Limit <span></span>
-                                            </p>
-                                        </div>
-                                        <div class="deposit-info__input">
-                                            <p class="text"><span class="gateway-limit">0.00</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="deposit-info">
-                                        <div class="deposit-info__title">
-                                            <p class="text has-icon">Processing Charge <span data-bs-toggle="tooltip"
-                                                    title="Processing charge for payment gateways"
-                                                    class="proccessing-fee-info"><i class="las la-info-circle"></i>
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div class="deposit-info__input">
-                                            <p class="text"><span class="processing-fee">0.00</span>
-                                                USD
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div class="deposit-info total-amount pt-3">
-                                        <div class="deposit-info__title">
-                                            <p class="text">Total</p>
-                                        </div>
-                                        <div class="deposit-info__input">
-                                            <p class="text"><span class="final-amount">0.00</span>
-                                                USD</p>
-                                        </div>
-                                    </div> -->
                                     <div *ngIf="selectedPaymentMethod === 'paypal'">
                                         <ngx-paypal [config]="payPalConfig"></ngx-paypal>
                                     </div>
 
-                                    <!-- <div class="deposit-info gateway-conversion d-none total-amount pt-2">
-                                        <div class="deposit-info__title">
-                                            <p class="text">Conversion </p>
-                                        </div>
-                                        <div class="deposit-info__input">
-                                            <p class="text"></p>
-                                        </div>
+                                    <div *ngIf="selectedPaymentMethod === 'vnpay'">
+                                        <button type="button" class="btn btn-primary w-100 mt-4" (click)="createVnPayPayment()">
+                                            Pay with VN Pay
+                                        </button>
                                     </div>
-                                    <div class="deposit-info conversion-currency d-none total-amount pt-2">
-                                        <div class="deposit-info__title">
-                                            <p class="text">
-                                                In <span class="gateway-currency"></span>
-                                            </p>
-                                        </div>
-                                        <div class="deposit-info__input">
-                                            <p class="text">
-                                                <span class="in-currency"></span>
-                                            </p>
 
-                                        </div>
-                                    </div> -->
+                                
                                     <div class="info-text pt-3">
                                         <p class="text">Ensuring your funds grow safely through our secure payment
                                             process with world-class payment options.</p>
