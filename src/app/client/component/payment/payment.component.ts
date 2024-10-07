@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal';
+import { Booking } from '../../../entity/booking.entity';
+import { BookingDetail } from '../../../entity/bookingdetail.entity';
+import { BookingService } from '../../../service/booking.service';
 
 @Component({
   selector: 'app-payment',
@@ -11,13 +14,19 @@ import { ICreateOrderRequest, IPayPalConfig, NgxPayPalModule } from 'ngx-paypal'
   styleUrl: './payment.component.css'
 })
 export class PaymentComponent implements OnInit{
-
+  booking: Booking={};
+  bookingdetails: BookingDetail[]=[]
   constructor(
+    private bookingService: BookingService
   ){}
 
   public payPalConfig?: IPayPalConfig;
 
     ngOnInit(): void {
+      this.booking=this.bookingService.getBooking();
+      this.bookingdetails = this.bookingService.getBookingDetails();
+      console.log(this.booking);
+      
       this.initConfig();
     }
 

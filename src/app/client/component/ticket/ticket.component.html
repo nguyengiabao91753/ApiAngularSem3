@@ -132,37 +132,38 @@
             </div>
 
             <div class="col-lg-9">
-                <div class="ticket-wrapper">
+                <div class="ticket-wrapper" *ngFor="let bt of bustrips">
 
                     <div class="ticket-item">
                         <div class="ticket-item-inner">
-                            <h5 class="bus-name">AC - Kansas - Echo Bass</h5>
-                            <span class="bus-info">Seat Layout - 2 x 2</span>
-                            <span class="ratting"><i class="las la-bus"></i>AC</span>
+                            <h5 class="bus-name">{{ bt.departureLocationName }} - {{ bt.arrivalLocationName }}</h5>
+                            <span class="bus-info">Seat: {{ bt.seatCount }}</span>
+                            <span class="ratting" ><i class="las la-bus"></i>{{ bt.busTypeName }}</span>
                         </div>
                         <div class="ticket-item-inner travel-time">
                             <div class="bus-time">
-                                <p class="time">08:00 AM</p>
-                                <p class="place">Kansas</p>
+                                <p class="time">{{ bt.dateStart }}</p>
+                                <p class="place">{{ bt.departureLocationName }}</p>
                             </div>
                             <div class=" bus-time">
                                 <i class="las la-arrow-right"></i>
-                                <p>08:30 min</p>
+                                <p>{{ calculateTimeDifference(bt.dateStart, bt.dateEnd) }}</p>
                             </div>
                             <div class=" bus-time">
-                                <p class="time">04:30 PM</p>
-                                <p class="place">Echo Bass</p>
+                                <p class="time">{{ bt.dateEnd }}</p>
+                                <p class="place">{{ bt.arrivalLocationName }}</p>
                             </div>
                         </div>
                         <div class="ticket-item-inner book-ticket">
                             <p class="rent mb-0">
-                                $100.00</p>
-                            <div class="seats-left mt-2 mb-3 fs--14px">
+                                ${{ bt.price }}</p>
+                            <!-- <div class="seats-left mt-2 mb-3 fs--14px">
                                 Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
                                     <span class="badge badge--primary">Friday</span>
                                 </div>
-                            </div>
-                            <a class="btn btn--base" href="ticket/1/ac-kansas-echo-bass.html">Select Seat</a>
+                            </div> -->
+                            <a class="btn btn--base" *ngIf="bt.status==1" [routerLink]="['/ticket-detail', bt.busTripId ]">Select Seat</a>
+                            <span class="btn btn-secondary" *ngIf="bt.status==2">Sold Out</span>
                         </div>
                         <div class="ticket-item-footer">
                             <div class="d-flex content-justify-center">
@@ -171,12 +172,13 @@
                                     <span class="facilities">Water Bottle</span>
                                     <span class="facilities">Pillow</span>
                                     <span class="facilities">Wifi</span>
+                                    <span class="facilities" *ngIf="bt.airConditioned ==1">A/C</span>
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="ticket-item">
+                    <!-- <div class="ticket-item">
                         <div class="ticket-item-inner">
                             <h5 class="bus-name">Coach - Kansas - Echo Bass</h5>
                             <span class="bus-info">Seat Layout - 2 x 2</span>
@@ -337,7 +339,7 @@
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

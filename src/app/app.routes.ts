@@ -21,6 +21,7 @@ import { PaymentComponent } from './client/component/payment/payment.component';
 import { ProfileComponent } from './client/component/profile/profile.component';
 import { DashboardClientComponent } from './client/component/dashboard/dashboard.component';
 import { ChangepasswordComponent } from './client/component/changepassword/changepassword.component';
+import { BusestripComponent } from './admin/component/busestrip/busestrip.component';
 import { DashboardComponent } from './admin/component/dashboard/dashboard.component';
 
 
@@ -48,6 +49,11 @@ export const routes: Routes = [
             {
                 path:'policy',
                 component: PolicyComponent
+            },
+            {
+                path:'busestrip',
+             
+               component: BusestripComponent
             },
             {
                 path:'location',
@@ -97,8 +103,9 @@ export const routes: Routes = [
                 component: ContactComponent
             },
             {
-                path:'ticket-detail',
-                component: TicketDetailComponent
+                path:'ticket-detail/:id',
+                component: TicketDetailComponent,
+                runGuardsAndResolvers: 'always' //bắt buộc chạy lại ngOnInit
             },
             {
                 path:'payment',

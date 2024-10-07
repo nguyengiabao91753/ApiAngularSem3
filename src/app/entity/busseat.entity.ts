@@ -1,5 +1,5 @@
 export interface BusSeat{
-    SeatId? : number,
+    seatId? : number,
     busId? : number,
     name? : string,
     status? : number,

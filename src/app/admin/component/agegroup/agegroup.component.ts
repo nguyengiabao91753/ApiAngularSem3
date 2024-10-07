@@ -165,8 +165,9 @@ export class AgegroupComponent implements OnInit {
       res => {
         if (res['status']) {
 
-          this.agegroups = this.agegroups.filter(a => a.ageGroupId !== this.agegroup.ageGroupId);
-          console.log(this.agegroup);
+          // this.agegroups = this.agegroups.filter(a => a.ageGroupId !== this.agegroup.ageGroupId);
+          // console.log(this.agegroup);
+          this.ngOnInit()
           
           // this.agegroups = this.agegroups.map(a =>
           //   a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
@@ -190,6 +191,9 @@ export class AgegroupComponent implements OnInit {
     this.agegroupDialog = false;
     this.submitted = false;
     this.formGroup.reset()
+    this.formGroup.reset({
+      ageGroupId: '0'
+    });
   }
 
   save() {
@@ -204,10 +208,10 @@ export class AgegroupComponent implements OnInit {
           if (res['status']) {
             this.agegroupDialog = false;
             this.formGroup.reset()
-
-            let newId = this.originAgeList[this.originAgeList.length-1].ageGroupId + 1;
-            this.agegroup.ageGroupId = newId;
-            this.agegroups.push(this.agegroup);
+            this.ngOnInit();
+            // let newId = this.originAgeList[this.originAgeList.length-1].ageGroupId + 1;
+            // this.agegroup.ageGroupId = newId;
+            // this.agegroups.push(this.agegroup);
           }
 
         },
@@ -225,11 +229,11 @@ export class AgegroupComponent implements OnInit {
           if (res['status']) {
             this.agegroupDialog = false;
             this.formGroup.reset()
-
+            this.ngOnInit()
             // Tạo ra mảng mới với đối tượng đã được cập nhật
-            this.agegroups = this.agegroups.map(a =>
-              a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
-            );
+            // this.agegroups = this.agegroups.map(a =>
+            //   a.ageGroupId === this.agegroup.ageGroupId ? { ...this.agegroup } : a
+            // );
             //{...agegroup} là copy đối tượng đó gắn cho đối tượng đc gắn, [...aaa] là copy mảng
           }
         },

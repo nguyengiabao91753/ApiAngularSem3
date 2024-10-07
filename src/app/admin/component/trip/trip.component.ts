@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
@@ -20,6 +20,10 @@ import { Location } from '../../../entity/location.entity';
 import { TripService } from '../../../service/trip.service';
 import { LocationService } from '../../../service/locationService';
 import { DatePipe } from '@angular/common';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CalendarModule } from 'primeng/calendar';
+
 
 @Component({
   selector: 'app-trip',
@@ -41,7 +45,8 @@ import { DatePipe } from '@angular/common';
     RadioButtonModule,
     InputNumberModule,
     DialogModule,
-    RatingModule
+    RatingModule,
+    CalendarModule
   ],
   templateUrl: './trip.component.html',
   styleUrl: './trip.component.css',
@@ -95,20 +100,34 @@ export class TripComponent implements OnInit {
       tripId: '0',
       departureLocationId: ['', [Validators.required]],
       arrivalLocationId: ['', [Validators.required]],
-      dateStart: ['', [Validators.required]],
+      dateStart: ['', [Validators.required, this.noPastDateValidator.bind(this), this.checkTripExistsValidator.bind(this)]],  // Áp dụng nhiều validators
       dateEnd: ['', [Validators.required]],
+    }, { validators: this.validateDifferentLocations.bind(this)});  
+
+    this.formGroup.get('arrivalLocationId').setValidators([Validators.required, this.checkTripExistsValidator.bind(this)]);
+    this.formGroup.get('arrivalLocationId').updateValueAndValidity(); // Cập nhật trạng thái
+
+
+    // Lắng nghe thay đổi dateStart để định dạng và kiểm tra logic dateEnd
+    this.formGroup.get('dateStart')?.valueChanges.subscribe((value) => {
+      if (value) {
+        const formattedDateStart = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
+        console.log('Formatted Date Start:', formattedDateStart);
+        this.checkDateEnd();  // Gọi hàm kiểm tra dateEnd khi dateStart thay đổi
+      }
     });
 
-    // this.formGroup.get('departureLocationId')?.valueChanges.subscribe(selectedLocationId => {
-    //   // Tìm kiếm địa điểm đã chọn trong danh sách locations
-    //   const selectedDeparture = this.locations.find(location => location.locationId === selectedLocationId);
-    //   console.log(selectedDeparture);
-    // });
-    // this.formGroup.get('arrivalLocationId')?.valueChanges.subscribe(selectedLocationId => {
-    //   // Tìm kiếm địa điểm đã chọn trong danh sách locations
-    //   const selectedArrival = this.locations.find(location => location.locationId === selectedLocationId);
-    //   console.log(selectedArrival);
-    // });
+    // Lắng nghe thay đổi dateEnd để định dạng
+    this.formGroup.get('dateEnd')?.valueChanges.subscribe((value) => {
+      if (value) {
+        const formattedDateEnd = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
+        console.log('Formatted Date End:', formattedDateEnd);
+        this.checkDateEnd();  // Gọi hàm kiểm tra dateEnd khi dateEnd thay đổi
+      }
+    });
+
+
+
     this.formGroup.get('dateStart')?.valueChanges.subscribe((value) => {
       if (value) {
         const formattedDateStart = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
@@ -130,8 +149,72 @@ export class TripComponent implements OnInit {
       { field: 'dateEnd', header: 'DateEnd' },
       { field: 'status', header: 'Status' }
     ];
- 
+
+
   }
+
+  checkTripExistsValidator(): (formGroup: AbstractControl) => Observable<{ [key: string]: any } | null> {
+    return (formGroup: AbstractControl): Observable<{ [key: string]: any } | null> => {
+        const departureLocationId = formGroup.get('departureLocationId')?.value;
+        const arrivalLocationId = formGroup.get('arrivalLocationId')?.value;
+        const dateStart = formGroup.get('dateStart')?.value;
+
+        // Gửi yêu cầu kiểm tra trùng lặp
+        return this.tripService.checkDuplicateTrip(departureLocationId, arrivalLocationId ,dateStart).pipe(
+            map(res => {
+                return res.exists ? { tripExists: true } : null; // Nếu cặp ID đã tồn tại, trả về lỗi
+            })
+        );
+    };
+}
+
+
+ // Hàm không cho phép chọn ngày và giờ trước ít nhất 3 ngày so với hiện tại
+noPastDateValidator(control: any): { [key: string]: any } | null {
+  const inputDate = new Date(control.value);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const oneDayLater = new Date(today);
+  oneDayLater.setDate(today.getDate() + 3);
+  if (inputDate < oneDayLater) {
+    return { pastDate: true };  
+  }
+
+  return null;
+}
+
+
+// Hàm kiểm tra logic dateEnd 
+checkDateEnd() {
+  const dateStartValue = this.formGroup.get('dateStart')?.value;
+  const dateEndValue = this.formGroup.get('dateEnd')?.value;
+
+  if (dateStartValue && dateEndValue) {
+    const dateStart = new Date(dateStartValue);
+    const dateEnd = new Date(dateEndValue);
+
+
+    const minDateEnd = new Date(dateStart);
+    minDateEnd.setHours(minDateEnd.getHours() + 1);
+
+    if (dateEnd < minDateEnd) {
+      this.formGroup.get('dateEnd')?.setErrors({ dateEndTooSoon: true });
+    } else {
+      this.formGroup.get('dateEnd')?.setErrors(null);
+    }
+  }
+}
+
+
+
+  // check trùng địa điểm .
+  validateDifferentLocations(formGroup: FormGroup) {
+    const departureId = formGroup.get('departureLocationId')?.value;
+    const arrivalId = formGroup.get('arrivalLocationId')?.value;
+
+    return departureId && arrivalId && departureId === arrivalId ? { sameLocation: true } : null;
+  }
+
   onDateEndChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.formGroup.patchValue({ dateEnd: input.value });
@@ -190,29 +273,28 @@ export class TripComponent implements OnInit {
     this.tripDialog = false;
     this.submitted = false;
     this.formGroup.reset({
-      tripId : '0'
+      tripId: '0'
     })
   }
 
   save() {
     this.submitted = true;
+    // Kiểm tra trùng lặp trước khi lưu
     if (this.formGroup.get('tripId').value == 0) {
       //Nếu ID == 0, nghĩa là dữ liệu mỚI
       this.trip = this.formGroup.value as Trip;
-      const selectedLocationId = this.formGroup.get('departureLocationId')?.value;
-      const selectedDeparture = this.locations.find(location => location.locationId === selectedLocationId);
+      const selectedDepartureLocationId = this.formGroup.get('departureLocationId')?.value;
+      const selectedDeparture = this.locations.find(location => location.locationId === selectedDepartureLocationId);
       if (selectedDeparture) {
         this.trip.departureLocationId = selectedDeparture.locationId;
         this.trip.departureLocationName = selectedDeparture.name;
-      } else {
-        console.error('Not found');
       }
-      const selectedArrival = this.locations.find(location => location.locationId === selectedLocationId);
+
+      const selectedArrivalLocationId = this.formGroup.get('arrivalLocationId')?.value;
+      const selectedArrival = this.locations.find(location => location.locationId === selectedArrivalLocationId);
       if (selectedArrival) {
         this.trip.arrivalLocationId = selectedArrival.locationId;
         this.trip.arrivalLocationName = selectedArrival.name;
-      } else {
-        console.error('Not found');
       }
       this.trip.dateStart = this.datePipe.transform(this.formGroup.get('dateStart')?.value, 'HH:mm:ss dd/MM/yyyy');
       this.trip.dateEnd = this.datePipe.transform(this.formGroup.get('dateEnd')?.value, 'HH:mm:ss dd/MM/yyyy');
@@ -239,13 +321,18 @@ export class TripComponent implements OnInit {
     } else {
       //Khác 0 nghĩa là đã có dữ liệu khác => Update
       this.trip = this.formGroup.value as Trip;
-      const selectedLocationId = this.formGroup.get('locationId')?.value;
-      const selectedDeparture = this.locations.find(location => location.locationId === selectedLocationId);
+      const selectedDepartureLocationId = this.formGroup.get('departureLocationId')?.value;
+      const selectedDeparture = this.locations.find(location => location.locationId === selectedDepartureLocationId);
       if (selectedDeparture) {
-        this.trip.tripId = selectedDeparture.locationId;
+        this.trip.departureLocationId = selectedDeparture.locationId;
         this.trip.departureLocationName = selectedDeparture.name;
-      } else {
-        console.error('Not found');
+      }
+
+      const selectedArrivalLocationId = this.formGroup.get('arrivalLocationId')?.value;
+      const selectedArrival = this.locations.find(location => location.locationId === selectedArrivalLocationId);
+      if (selectedArrival) {
+        this.trip.arrivalLocationId = selectedArrival.locationId;
+        this.trip.arrivalLocationName = selectedArrival.name;
       }
       this.trip.dateStart = this.datePipe.transform(this.formGroup.get('dateStart')?.value, 'HH:mm:ss dd/MM/yyyy');
       this.trip.dateEnd = this.datePipe.transform(this.formGroup.get('dateEnd')?.value, 'HH:mm:ss dd/MM/yyyy');
@@ -277,4 +364,5 @@ export class TripComponent implements OnInit {
   onGlobalFilter(table: Table, event: Event) {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
+
 }

@@ -37,6 +37,8 @@ export class ClientComponent implements OnInit, OnDestroy {
     this.assetService.addJs('client/assets/global/js/jquery-3.7.1.min.js');
     this.assetService.addJs('client/assets/global/js/bootstrap.bundle.min.js');
     this.assetService.addJs('client/assets/templates/basic/js/main43a0.js?v3');
+    // this.assetService.addJs('client/assets/global/js/main.js');
+
     this.assetService.addJs('client/assets/global/js/select2.min.js');
     this.assetService.addJs('client/assets/global/js/moment.min.js');
     this.assetService.addJs('client/assets/global/js/daterangepicker.min.js');

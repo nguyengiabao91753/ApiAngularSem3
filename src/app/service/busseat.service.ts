@@ -15,7 +15,7 @@ export class BusSeatService {
         private baseUrl: BaseUrlService
     ){}
 
-    async getSeatsByBusId(id: string){
+    async getSeatsByBusId(id: any){
         return lastValueFrom(this.httpClient.get(this.baseUrl.BASE_URL + 'BusesSeat/find-seats-by-busId/' + id));
     }
 }
