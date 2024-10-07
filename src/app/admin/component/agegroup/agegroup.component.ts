@@ -203,6 +203,7 @@ export class AgegroupComponent implements OnInit {
       this.agegroup = this.formGroup.value as AgeGroup;
       this.agegroup.discount = this.formGroup.get('discount')?.value?.toString();
       this.agegroup.status = 1;
+      
       this.ageGroupService.create(this.agegroup).then(
         res => {
           if (res['status']) {

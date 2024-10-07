@@ -1,0 +1,115 @@
+<div class="grid">
+    <div class="col-12">
+        
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+   
+
+            <p-table #dt [value]="accountUsers" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['username','status','levelId']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" selectionMode="multiple" [rowHover]="true" dataKey="userId">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0" >
+                            Manage 
+                            <span [ngStyle]="{backgroundColor:'var(--red-500)', color: 'var(--surface-100)', borderRadius: 'var(--border-radius)', padding: '.5rem'}"><strong>In</strong><strong>Active</strong></span>
+                            Account
+                        </h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+        
+                        <th *ngFor="let col of cols" pSortableColumn="{{col.field}}">
+                            {{col.header}}
+                            <p-sortIcon field="{{col.field}}"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <!-- Bảng dữ liệu -->
+                <ng-template pTemplate="body" let-accountUser>
+                    <tr *ngIf="accountUser.status == 0">
+                        <td ><span class="p-column-title">Account Id</span>
+                            {{accountUser.userId}}
+                        </td>
+                        <td ><span class="p-column-title">Username</span>
+                            {{accountUser.username}}
+                        </td>
+                        <td >
+                            <span class="p-column-title">Password</span>
+                            Encrypted
+                        </td>
+                        <td>
+                            <span class="p-column-title">Level</span>
+                            <span *ngIf="accountUser.levelId === 1"
+                                [ngStyle]="{color: 'var(--yellow-700)', borderRadius: 'var(--border-radius)', padding: '1rem'}">
+                                <i class="pi pi-crown"></i>
+                                <strong> Admin</strong></span>
+                            <span *ngIf="accountUser.levelId === 2"
+                                [ngStyle]="{color: 'var(--pink-700)', borderRadius: 'var(--border-radius)', padding: '1rem'}">
+                                <i class="pi pi-users"></i>
+                                <strong> Employee</strong></span>
+                            <span *ngIf="accountUser.levelId ===3"
+                                [ngStyle]="{color: 'var(--indigo-500)', borderRadius: 'var(--border-radius)', padding: '1rem'}">
+                                <i class="pi pi-car"></i>
+                                <strong> Passenger</strong></span>
+                        </td>
+                        <td ><span class="p-column-title">Name</span>
+                            {{accountUser.fullName}}
+                        </td>
+                        <td ><span class="p-column-title">Birth</span>
+                            {{accountUser.birthDate}}
+                        </td>
+                        <td ><span class="p-column-title">Email</span>
+                            {{accountUser.email}}
+                        </td>
+                        <td ><span class="p-column-title">Phone</span>
+                            {{accountUser.phoneNumber}}
+                        </td>
+                        <td ><span class="p-column-title">Address</span>
+                            {{accountUser.address}}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-refresh" class="p-button-rounded p-button-success mr-2" (click)="activeAccountUser(accountUser)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteAccountUser(accountUser)"></button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <!-- Hiện phần hỏi xác nhận active account -->
+        <p-dialog [(visible)]="activeAccountUserDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Bạn có chắc chắn muốn kích hoạt lại tài khoản này?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" severity="danger" (click)="activeAccountUserDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmActiveAccount()"></button>
+            </ng-template>
+        </p-dialog>
+        
+       <!-- Hiện phần hỏi xác nhận delete "thật" -->
+       <p-dialog [(visible)]="deleteAccountUserDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            <span *ngIf="accountUser">Are you sure you want to delete
+                 <span [ngStyle]="{backgroundColor:'var(--red-500)', color: 'var(--surface-100)', borderRadius: 'var(--border-radius)', padding: '.5rem'}"><strong>For</strong><strong> Real ?</strong></span>
+            </span>
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" severity="danger" (click)="deleteAccountUserDialog = false"></button>
+            <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+        </ng-template>
+    </p-dialog>
+
+    
+    </div>
+</div>
+

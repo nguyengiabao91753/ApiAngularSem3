@@ -1,8 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../../service/applayout.service';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-topbar',
@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
     ],
     templateUrl: './topbar.component.html'
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit {
 
     items!: MenuItem[];
 
@@ -23,5 +23,24 @@ export class TopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(
+      public layoutService: LayoutService,
+      private router: Router
+      
+    ) { }
+  ngOnInit(): void {
+  }
+
+  
+    // Hàm đăng xuất
+    logout() {
+      localStorage.removeItem('jwtToken');      
+      localStorage.removeItem('userId');
+      localStorage.removeItem('email');
+      localStorage.removeItem('levelId');
+      localStorage.removeItem('status');
+  
+      // Điều hướng về trang đăng nhập
+      this.router.navigate(['/auth/loginAdmin']);
+    }
 }
