@@ -126,6 +126,18 @@ export class LocationComponent implements OnInit {
     this.deleteLocationDialog = true;
 
   }
+  reloadProduct(location: Location) {
+    //Gán dữ liệu được chọn vào form
+    this.formGroup.patchValue({
+      locationId: location.locationId,
+      name: location.name,
+      status: 1
+    });
+
+    //Mở hộp thoại thêm
+    this.locationDialog = true;
+  }
+  
 
   confirmDelete() {
     this.deleteLocationDialog = false; // Đóng hộp thoại xác nhận
@@ -164,7 +176,10 @@ export class LocationComponent implements OnInit {
   hideDialog() {
     this.locationDialog = false;
     this.submitted = false;
-    this.formGroup.reset()
+    this.formGroup.reset(
+      {
+        locationId: '0'
+      })
   }
 
   save() {

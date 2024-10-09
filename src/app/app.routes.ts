@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { AgegroupComponent } from './admin/component/agegroup/agegroup.component';
 import { ClientComponent } from './client/client.component';
@@ -10,8 +10,13 @@ import { AboutComponent } from './client/component/about/about.component';
 import { FaqsComponent } from './client/component/faqs/faqs.component';
 import { BlogComponent } from './client/component/blog/blog.component';
 import { ContactComponent } from './client/component/contact/contact.component';
-import { LoginAdminComponent } from './admin/auth/login/login.component';
+import { LoginAdminComponent } from './admin/auth/loginAdmin/loginAdmin.component';
 import { PolicyComponent } from './admin/component/policy/policy.component';
+import { UserComponent } from './admin/auth/user/user.component';
+import { AccountComponent } from './admin/auth/account/account.component';
+import { AuthGuard } from './entity/auth.services';
+import { InActiveComponent } from './admin/auth/in-active/in-active.component';
+import { NgModule } from '@angular/core';
 import { LocationComponent } from './admin/component/location/location.component';
 import { TripComponent } from './admin/component/trip/trip.component';
 import { BusTypeComponent } from './admin/component/bustype/bustype.component';
@@ -25,12 +30,15 @@ import { BusestripComponent } from './admin/component/busestrip/busestrip.compon
 import { DashboardComponent } from './admin/component/dashboard/dashboard.component';
 import { BookingComponent } from './admin/component/booking/booking.component';
 import { CheckticketComponent } from './admin/component/checkticket/checkticket.component';
+import { ThanksComponent } from './client/component/thanks/thanks.component';
 
 
 export const routes: Routes = [
     {
         path: 'admin',
         component: AdminComponent,
+        canActivate: [AuthGuard],
+        
         children:[
             {
                 path: '',
@@ -51,6 +59,19 @@ export const routes: Routes = [
             {
                 path:'policy',
                 component: PolicyComponent
+            },
+
+            {
+                path:'user',
+                component: UserComponent    
+            },
+            {
+                path:'account',
+                component: AccountComponent
+            },
+            {
+                path:'inActive',
+                component: InActiveComponent
             },
             {
                 path:'busestrip',
@@ -76,8 +97,9 @@ export const routes: Routes = [
             
         ]
     },
+    // login danh cho admin
     {
-        path:'auth/login',
+        path:'auth/loginAdmin',
         component: LoginAdminComponent
     },
     {
@@ -133,6 +155,10 @@ export const routes: Routes = [
                 path:'changepassword',
                 component: ChangepasswordComponent
             },
+            {
+                path:'thanks',
+                component: ThanksComponent
+            }
         ]
     },
     {
@@ -144,3 +170,8 @@ export const routes: Routes = [
         component: RegisterComponent
     }
 ];
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
+  })
+export class AppRoutingModule {}

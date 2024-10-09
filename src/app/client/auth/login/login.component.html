@@ -19,74 +19,91 @@
     </div>
 </div> -->
 <!-- Preloader -->
-<section class="account-section bg_img" style="background: url(client/assets/images/frontend/auth/66869002329471720094722.jpg) bottom left;">
+<section class="account-section bg_img"
+    style="background: url(client/assets/images/frontend/auth/66869002329471720094722.jpg) bottom left;">
     <span class="spark"></span>
     <span class="spark2"></span>
     <div class="account-wrapper sign-up">
         <div class="account-form-wrapper">
             <div class="account-header">
                 <div class="logo mb-4">
-                    <a href="https://script.viserlab.com/viserbus"><img src="client/assets/images/logo_icon/logo.png" alt="Logo"></a>
+                    <a [routerLink]="['/home']"><img src="client/assets/images/logo_icon/logo.png"
+                            alt="Logo"></a>
                 </div>
             </div>
-                <div class="continue-google mb-3">
-    <a class="btn w-100 social-login-btn" href="https://accounts.google.com/o/oauth2/auth?client_id=375851363090-59im488kciqvijtqv3ul9jq3hbaktea0.apps.googleusercontent.com&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Fgoogle&amp;scope=openid+profile+email&amp;response_type=code&amp;state=39QkYMEM7zzaen357ND7ed5C4VmR6VCQLGgbKfuX">
-        <span class="google-icon">
-            <img src="client/assets/templates/basic/images/google.svg" alt="Google">
-        </span> Login with Google        </a>
-</div>
-<div class="continue-facebook mb-3">
-    <a class="btn w-100 social-login-btn" href="https://www.facebook.com/v3.3/dialog/oauth?client_id=705296487382875&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Ffacebook&amp;scope=email&amp;response_type=code&amp;state=nCMHe5dsEF3gM7T0U1Zyk9kL08HpmgP3o6KRRt0R">
-        <span class="facebook-icon">
-            <img src="client/assets/templates/basic/images/facebook.svg" alt="Facebook">
-        </span> Login with Facebook        </a>
-</div>
-<div class="continue-facebook mb-3">
-    <a class="btn w-100 social-login-btn" href="https://www.linkedin.com/oauth/v2/authorization?client_id=772t1ej48e6ezg&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Flinkedin&amp;scope=r_liteprofile+r_emailaddress&amp;response_type=code&amp;state=nVi2mnTh5gBKENCtbdFVYn8Svu1wnOdTDSAx0BRM">
-        <span class="facebook-icon">
-            <img src="client/assets/templates/basic/images/linkdin.svg" alt="Linkedin">
-        </span> Login with Linkedin        </a>
-</div>
+            <div class="continue-google mb-3">
+                <a class="btn w-100 social-login-btn"
+                    href="https://accounts.google.com/o/oauth2/auth?client_id=375851363090-59im488kciqvijtqv3ul9jq3hbaktea0.apps.googleusercontent.com&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Fgoogle&amp;scope=openid+profile+email&amp;response_type=code&amp;state=39QkYMEM7zzaen357ND7ed5C4VmR6VCQLGgbKfuX">
+                    <span class="google-icon">
+                        <img src="client/assets/templates/basic/images/google.svg" alt="Google">
+                    </span> Login with Google </a>
+            </div>
+            <div class="continue-facebook mb-3">
+                <a class="btn w-100 social-login-btn"
+                    href="https://www.facebook.com/v3.3/dialog/oauth?client_id=705296487382875&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Ffacebook&amp;scope=email&amp;response_type=code&amp;state=nCMHe5dsEF3gM7T0U1Zyk9kL08HpmgP3o6KRRt0R">
+                    <span class="facebook-icon">
+                        <img src="client/assets/templates/basic/images/facebook.svg" alt="Facebook">
+                    </span> Login with Facebook </a>
+            </div>
+            <div class="continue-facebook mb-3">
+                <a class="btn w-100 social-login-btn"
+                    href="https://www.linkedin.com/oauth/v2/authorization?client_id=772t1ej48e6ezg&amp;redirect_uri=https%3A%2F%2Fscript.viserlab.com%2Fviserbus%2Fuser%2Fsocial-login%2Fcallback%2Flinkedin&amp;scope=r_liteprofile+r_emailaddress&amp;response_type=code&amp;state=nVi2mnTh5gBKENCtbdFVYn8Svu1wnOdTDSAx0BRM">
+                    <span class="facebook-icon">
+                        <img src="client/assets/templates/basic/images/linkdin.svg" alt="Linkedin">
+                    </span> Login with Linkedin </a>
+            </div>
 
-<div class="w-100 another-login mb-4 text-center">
-    <span class="another-login__or">OR</span>
-</div>
+            <div class="w-100 another-login mb-4 text-center">
+                <span class="another-login__or">OR</span>
+            </div>
 
-<form method="POST" class="account-form row" action="https://script.viserlab.com/viserbus/user/login" onsubmit="return submitUserForm();">
-    <input type="hidden" name="_token" value="RAwNpTkKcCcI11Tlqyfym5FrDl7GyCjp7TSIJuQe" autocomplete="off">        <div class="col-lg-12 form-group form--group">
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text" class="form--control" placeholder="Enter Your username" required>
-    </div>
-    <div class="col-lg-12 form-group form--group">
-        <label for="password">Password</label>
-        <input id="password" type="password" name="password" class="form--control" placeholder="Enter Your Password" required>
-    </div>
-    <div class="col-lg-12">
-        <div class="mb-3">
-    
-<script src="../../../www.google.com/recaptcha/api.js"></script>
-<div class="g-recaptcha" data-sitekey="6LdPC88fAAAAADQlUf_DV6Hrvgm-pZuLJFSLDOWV" data-callback="verifyCaptcha"></div>
-<div id="g-recaptcha-error"></div>    </div>
-    </div>
+            <form [formGroup]="loginFormGroup" class="account-form row"
+                onsubmit="submitUserForm();">
+                <!-- <input type="hidden" name="_token" value="RAwNpTkKcCcI11Tlqyfym5FrDl7GyCjp7TSIJuQe" autocomplete="off"> -->
+                <div class="col-lg-12 form-group form--group">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" class="form--control" placeholder="Enter Your Username" required formControlName="username">
+                    <small *ngIf="loginFormGroup.get('username').touched && loginFormGroup.get('username').invalid" class="p-error">
+                        Username is required
+                    </small>
+                </div>
+                
+                <div class="col-lg-12 form-group form--group">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" class="form--control" placeholder="Enter Your Password" required formControlName="password">
+                    <small *ngIf="loginFormGroup.get('password').touched && loginFormGroup.get('password').invalid" class="p-error">
+                        Password is required
+                    </small>
+                </div>
+                
+                <div class="col-lg-12">
+                    <div class="mb-3">
 
-    <div class="col-lg-12 d-flex justify-content-between">
-        <div class="form-group form--group custom--checkbox">
-            <input type="checkbox" name="remember" id="remember" >
-            <label for="remember">Remember Me</label>
-        </div>
-        <div class="">
-            <a href="password/reset.html">Forgot Password?</a>
-        </div>
-    </div>
-    <div class="col-md-12 form-group form--group">
-        <button class="account-button w-100" type="submit">Sign In</button>
-    </div>
-    <div class="col-md-12">
-        <div class="account-page-link">
-            <p>Don't have any Account? <a href="register.html">Sign Up</a></p>
-        </div>
-    </div>
-</form>
+                        <script src="../../../www.google.com/recaptcha/api.js"></script>
+                        <div class="g-recaptcha" data-sitekey="6LdPC88fAAAAADQlUf_DV6Hrvgm-pZuLJFSLDOWV"
+                            data-callback="verifyCaptcha"></div>
+                        <div id="g-recaptcha-error"></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 d-flex justify-content-between">
+                    <div class="form-group form--group custom--checkbox">
+                        <input type="checkbox" name="remember" id="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <div class="">
+                        <a href="password/reset.html">Forgot Password?</a>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group form--group">
+                    <button class="account-button w-100"  (click)="login()">Sign In</button>
+                </div>
+                <div class="col-md-12">
+                    <div class="account-page-link">
+                        <p>Don't have any Account? <a [routerLink]="['/register']">Sign Up</a></p>
+                    </div>
+                </div>
+            </form>
 
         </div>
     </div>

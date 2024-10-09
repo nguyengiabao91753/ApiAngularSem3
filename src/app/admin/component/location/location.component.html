@@ -47,7 +47,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-loc>
-                    <tr *ngIf="loc.status == 1">
+                    <tr *ngIf="loc.status !=0">
                         <!-- <td>
                             <p-tableCheckbox [value]="age"></p-tableCheckbox>
                         </td> -->
@@ -87,18 +87,21 @@
                             *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['required']">
                             Name is required.
                         </small>
-                        <!-- <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['minLength']">
-                            Name must be at least 5 characters.
-                        </small>
-                        <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['maxLength']">
-                            Name cannot exceed 20 characters.
-                        </small>
-                        <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['nameExistsValidator']">
-                            License Plate is already taken.
-                        </small> -->
+                        <!-- Hiển thị các lỗi khác nếu không có lỗi required -->
+                        <ng-container *ngIf="!(formGroup.get('name')?.errors?.['required'])">
+                            <small class="ng-dirty ng-invalid"
+                                *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['minlength']">
+                                Name must be at least 5 characters.
+                            </small>
+                            <small class="ng-dirty ng-invalid"
+                                *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['maxlength']">
+                                Name cannot exceed 20 characters.
+                            </small>
+                            <small class="ng-dirty ng-invalid"
+                                *ngIf="(submitted || formGroup.get('name')?.touched) && formGroup.get('name')?.errors?.['nameExists']">
+                                License Plate is already taken.
+                            </small>
+                        </ng-container>
                     </div>
                 </form>
             </ng-template>
