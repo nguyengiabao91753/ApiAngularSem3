@@ -28,6 +28,9 @@ export class BookingService {
   async getAll() {
     return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL + 'booking/getall'));
   }
+  async getAllByEmail(email: any){
+    return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL+'booking/getbookingbyemail/'+email))
+  }
   async getBookingRequestByTicketCode(ticketCode: any) {
     return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL + 'booking/getbookingrequestbyticketcode/'+ticketCode));
   }
@@ -50,4 +53,5 @@ export class BookingService {
   getBookingDetails(): BookingDetail[] {
     return this.bookingDetails;
   }
+
 }

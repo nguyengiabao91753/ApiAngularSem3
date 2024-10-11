@@ -46,15 +46,9 @@ export class RegisterComponent implements OnInit {
     this.assetService.addCss('client/assets/global/css/all.min.css');
     this.assetService.addCss('client/assets/global/css/line-awesome.min.css');
     this.assetService.addCss('client/assets/templates/basic/css/flaticon.css');
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/main43a0.css?v3'
-    );
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/custom43a0.css?v3'
-    );
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/colorf972.css?color=0E9E4D'
-    );
+    this.assetService.addCss('client/assets/templates/basic/css/main43a0.css?v3');
+    this.assetService.addCss('client/assets/templates/basic/css/custom43a0.css?v3');
+    this.assetService.addCss('client/assets/templates/basic/css/colorf972.css?color=0E9E4D');
     this.assetService.addCss('client/assets/global/css/select2.min.css');
     this.assetService.addCss('client/assets/global/css/daterangepicker.css');
     this.assetService.addCss('client/assets/templates/basic/css/slick.css');
@@ -73,7 +67,7 @@ export class RegisterComponent implements OnInit {
     this.assetService.addCss('client/assets/global/css/iziToast_custom.css');
     this.assetService.addJs('client/assets/global/js/iziToast.min.js');
 
-    this.assetService.setTitle('Bus Booking');
+    this.assetService.setTitle('Register');
 
     this.formGroup = this.formBuilder.group({
       username: ['', Validators.required],
@@ -83,6 +77,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       address: ['', Validators.required],
+      confirmPassword:['', Validators.required]
     });
   }
   register() {
