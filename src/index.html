@@ -6,10 +6,28 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Thêm dòng code này để đăng nhập gg -->
+  <script src="https://accounts.google.com/gsi/client" async defer onload="window.onGoogleLibraryLoad()"></script>
+  <!-- <script src="https://accounts.google.com/gsi/client" async defer ></script> -->
 
+  <script>
+    window.onGoogleLibraryLoad = function () {
+      google.accounts.id.initialize({
+        client_id: "124955703481-vkbv4f5lmbh45ng0l4192igj817o6ff4.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+      });
+      google.accounts.id.prompt();
+    };
+  
+    function handleCredentialResponse(response) {
+      console.log('Encoded JWT ID token: ' + response.credential);
+    }
+  </script>
 </head>
 <body>
   <app-root></app-root>
   <script src="client/assets/global/js/jquery-3.7.1.min.js"></script>
+  
 </body>
 </html>

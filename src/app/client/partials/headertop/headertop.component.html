@@ -8,13 +8,10 @@
                         +44 45678908
                     </a>
                 </li>
-                <li>
+                <li *ngIf="isLoggedIn">
                     <i class="las la-envelope-open"></i>
-                    <a>
-                        <span class="__cf_email__"
-                            data-cfemail="0c69746d617c60694c6b616d6560226f6361">[giabao&#160;protected]</span>
-                    </a>
-                </li>
+                    <span>{{ userEmail }}</span>
+                  </li>
             </ul>
 
             <div class="right-content d-flex flex-wrap" style="gap:10px">
@@ -25,6 +22,8 @@
                   <li *ngIf="!isLoggedIn"><a class="sign-up" [routerLink]="['/register']"><i class="fas fa-user-plus"></i>Sign Up</a></li>
         
                   <!-- Show Profile and Sign Out when logged in -->
+            
+                  
                   <li *ngIf="isLoggedIn">/</li>
                   <li *ngIf="isLoggedIn"><a class="sign-up" [routerLink]="['/profile']"><i class="pi pi-user-edit"></i>Your Profile</a></li>
                   <li *ngIf="isLoggedIn">/</li>

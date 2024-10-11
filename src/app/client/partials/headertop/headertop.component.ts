@@ -14,8 +14,8 @@ import { Router, RouterLink } from '@angular/router';
 export class HeadertopComponent implements OnInit{
   isLoggedIn = false; 
   userId: number| null = null;
-  levelId: number | null = null;
-  status: number | null = null;
+  userEmail: string | null = null;
+
   constructor(
     private router: Router
   
@@ -25,8 +25,7 @@ export class HeadertopComponent implements OnInit{
     if (token) {
       this.isLoggedIn = true;
       this.userId = Number(localStorage.getItem('userId'));
-      this.levelId = Number(localStorage.getItem('levelId'));
-      this.status = Number(localStorage.getItem('status'));
+    
     } else {
       this.isLoggedIn = false;
     }  }
@@ -35,8 +34,8 @@ export class HeadertopComponent implements OnInit{
     localStorage.removeItem('jwtToken');      
     localStorage.removeItem('userId');
     localStorage.removeItem('email');
-    localStorage.removeItem('levelId');
-    localStorage.removeItem('status');
+    this.isLoggedIn = false;
+    this.userEmail = null; // Xóa email khỏi trạng thái
     this.isLoggedIn = false;
     // Điều hướng về trang đăng nhập
     this.router.navigate(['/home']);
