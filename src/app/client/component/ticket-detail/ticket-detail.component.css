@@ -1,0 +1,4 @@
+.p-dropdown:focus {
+    border: 2px solid #0E9E4D !important; /* Thay đổi màu border theo mong muốn */
+    box-shadow: none; /* Nếu bạn muốn loại bỏ shadow mặc định */
+}

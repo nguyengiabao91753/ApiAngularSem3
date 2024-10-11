@@ -29,6 +29,8 @@ import { ChangepasswordComponent } from './client/component/changepassword/chang
 import { BusestripComponent } from './admin/component/busestrip/busestrip.component';
 import { DashboardComponent } from './admin/component/dashboard/dashboard.component';
 import { BookingComponent } from './admin/component/booking/booking.component';
+import { CheckticketComponent } from './admin/component/checkticket/checkticket.component';
+import { ThanksComponent } from './client/component/thanks/thanks.component';
 
 
 export const routes: Routes = [
@@ -88,6 +90,10 @@ export const routes: Routes = [
                 path:'booking',
                 component: BookingComponent
             },
+            {
+                path:'checkTicket',
+                component:CheckticketComponent
+            }
             
         ]
     },
@@ -149,6 +155,10 @@ export const routes: Routes = [
                 path:'changepassword',
                 component: ChangepasswordComponent
             },
+            {
+                path:'thanks',
+                component: ThanksComponent
+            }
         ]
     },
     {

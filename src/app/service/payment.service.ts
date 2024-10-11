@@ -39,8 +39,4 @@ export class PaymentService{
         };      
         return lastValueFrom(this.httpClient.post(this.baseUrl.BASE_URL + 'Payment/create-vnpay', payload));
     }
-
-    async handleVnPayCallback(queryParams: any) {
-        return lastValueFrom(this.httpClient.get(this.baseUrl.BASE_URL + 'Payment/payment-callback', { params: queryParams }));
-    }
 }

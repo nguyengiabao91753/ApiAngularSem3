@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Toast, ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
@@ -36,7 +37,8 @@ export class PaymentComponent implements OnInit {
   constructor(
     private bookingService: BookingService,
     private paymentService: PaymentService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   payment: Payment = {};
@@ -48,6 +50,11 @@ export class PaymentComponent implements OnInit {
     this.booking = this.bookingService.getBooking();
     this.bookingdetails = this.bookingService.getBookingDetails();
     console.log(this.booking);
+
+    if (!this.booking || Object.keys(this.booking).length === 0 || this.bookingdetails.length === 0) {
+      this.router.navigate(['/home']);
+    }
+
     this.initConfig();
   }
 
@@ -75,7 +82,7 @@ export class PaymentComponent implements OnInit {
 
   private initConfig(): void {
     this.payPalConfig = {
-      clientId: 'AVOsqNMtOigLB1xsNPRqTA1e3Xag7RLhmqO8SfZRI_klGhBJL9gGey6nFKv8ojnqaFetQamYcVNeIcNu',
+      clientId: 'AQRDUA1fxTa7VkVm5CHsblXlicZwksMnyoSrmCeY933p6Q2t4eO_znrwegGea27LKW4IIT1W-mIgDt33',
       // for creating orders (transactions) on server see
       // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
       createOrderOnServer: (data: any) => fetch('https://localhost:7273/api/Payment/create-paypal', {
@@ -93,8 +100,8 @@ export class PaymentComponent implements OnInit {
           console.log('Order created on server:', order);
           return order.token;  
         })
-        .catch(error => {
-          throw error;
+        .catch(err => {
+          alert(err.message);
         }),
       authorizeOnServer: (approveData: any) => {
         console.log('approveData:', approveData);
@@ -113,11 +120,17 @@ export class PaymentComponent implements OnInit {
             bookingDTO: this.booking,
             bookingDetailDTOs: this.bookingdetails
           })
-        }).then((response: any) => {
+        })
+        .then((response: any) => {
           return response.json();
-        }).then((details) => {
+        })
+        .then((details) => {
           console.log('Payment details:', details);
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Authorization created for ' + details.payer_given_name });
+          this.router.navigate(['thanks']);
+        })
+        .catch(err => {
+          alert(err.message);
         });
       },
       
