@@ -14,6 +14,10 @@
         background: #C8E6C9;
         color: #256029;
     }
+    &.status-expired {
+        background: yellow;  /* Màu nền vàng cho Expired */
+        color: #aca214;
+    }
 
     &.status-outofstock {
         background: #FFCDD2;

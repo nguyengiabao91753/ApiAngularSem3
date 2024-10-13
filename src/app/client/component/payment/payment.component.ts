@@ -29,6 +29,8 @@ import { Router } from '@angular/router';
 export class PaymentComponent implements OnInit {
 
   selectedPaymentMethod: string = '';
+  saleId: string;
+  totalAmount: number;
 
   booking: Booking = {};
   bookingdetails: BookingDetail[] = []
@@ -58,11 +60,29 @@ export class PaymentComponent implements OnInit {
 
   onPaymentMethodChange(method: string) {
     this.selectedPaymentMethod = method;
+
   }
+
+  createVnPayPayment() {
+    console.log(this.booking)
+    this.paymentService.createVnPay(this.booking, this.bookingdetails).then(
+      (response: any) => {
+        if(response.paymentUrl) {
+          window.location.href = response.paymentUrl;
+        }else{
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Unable to create VNPay payment' });
+        }
+      }
+    ).catch(err => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Transaction error with VNPay' });
+      console.log('VNPay Error:', err);
+    })
+  }
+
 
   private initConfig(): void {
     this.payPalConfig = {
-      clientId: 'sb',
+      clientId: 'AQRDUA1fxTa7VkVm5CHsblXlicZwksMnyoSrmCeY933p6Q2t4eO_znrwegGea27LKW4IIT1W-mIgDt33',
       // for creating orders (transactions) on server see
       // https://developer.paypal.com/docs/checkout/reference/server-integration/set-up-transaction/
       createOrderOnServer: (data: any) => fetch('https://localhost:7273/api/Payment/create-paypal', {
@@ -71,7 +91,7 @@ export class PaymentComponent implements OnInit {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          bookingDTO: this.booking,
+          bookingDTO: this.booking, 
           bookingDetailDTOs: this.bookingdetails
         })
       })
@@ -80,9 +100,8 @@ export class PaymentComponent implements OnInit {
           console.log('Order created on server:', order);
           return order.token;  
         })
-        .catch(error => {
-          console.error('Error creating PayPal transaction:', error);
-          throw error;
+        .catch(err => {
+          alert(err.message);
         }),
       authorizeOnServer: (approveData: any) => {
         console.log('approveData:', approveData);
@@ -101,17 +120,24 @@ export class PaymentComponent implements OnInit {
             bookingDTO: this.booking,
             bookingDetailDTOs: this.bookingdetails
           })
-        }).then((response: any) => {
+        })
+        .then((response: any) => {
           return response.json();
-        }).then((details) => {
+        })
+        .then((details) => {
           console.log('Payment details:', details);
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Authorization created for ' + details.payer_given_name });
+          this.router.navigate(['thanks']);
+        })
+        .catch(err => {
+          alert(err.message);
         });
       },
+      
       onCancel: (data, actions) => {
         console.log('OnCancel', data, actions);
         this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'Transaction cancelled' });
-      },
+      },   
       onError: err => {
         console.log('OnError', err);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Transaction error' });

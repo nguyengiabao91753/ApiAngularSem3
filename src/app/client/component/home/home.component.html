@@ -1,77 +1,65 @@
- <!-- Banner Section Starts Here -->
- <section class="banner-section"
- style="background: url(client/assets/images/frontend/banner/668688791bb031720092793.png) repeat-x bottom;">
- <div class="container">
-     <div class="banner-wrapper">
-         <div class="banner-content">
-             <h1 class="title">Get Your Ticket Online, Easy and Safely</h1>
-             <a href="tickets.html" class="cmn--btn">Get ticket now</a>
-         </div>
-         <div class="ticket-form-wrapper">
-             <div class="ticket-header nav-tabs nav border-0">
-                 <h4 class="title">Choose Your Ticket</h4>
-             </div>
-             <div class="tab-content">
-                 <div class="tab-pane fade show active" id="one-way">
-                     <form
-                         class="ticket-form row g-3 justify-content-center m-0">
-                         <div class="col-md-6">
-                             <div class="form--group">
-                                 <i class="las la-location-arrow"></i>
-                                 <select class="form--control select2" name="pickup">
-                                     <option value="">Pickup Point</option>
-                                     <option value="1">
-                                         Kansas</option>
-                                     <option value="2">
-                                         Dallas</option>
-                                     <option value="3">
-                                         Wichita</option>
-                                     <option value="4">
-                                         Emi Davenport</option>
-                                     <option value="5">
-                                         Echo Bass</option>
-                                 </select>
-                             </div>
-                         </div>
-                         <div class="col-md-6">
-                             <div class="form--group">
-                                 <i class="las la-map-marker"></i>
-                                 <select name="destination" class="form--control select2">
-                                     <option value="">Dropping Point</option>
-                                     <option value="1">
-                                         Kansas</option>
-                                     <option value="2">
-                                         Dallas</option>
-                                     <option value="3">
-                                         Wichita</option>
-                                     <option value="4">
-                                         Emi Davenport</option>
-                                     <option value="5">
-                                         Echo Bass</option>
-                                 </select>
-                             </div>
-                         </div>
-                         <div class="col-md-12">
-                             <div class="form--group">
-                                 <i class="las la-calendar-check"></i>
-                                 <input type="text" class="form--control date-range" name="date_of_journey"
+<!-- Banner Section Starts Here -->
+<section class="banner-section"
+    style="background: url(client/assets/images/frontend/banner/668688791bb031720092793.png) repeat-x bottom;">
+    <div class="container">
+        <div class="banner-wrapper">
+            <div class="banner-content">
+                <h1 class="title">Get Your Ticket Online, Easy and Safely</h1>
+                <a [routerLink]="['/ticket']"  class="cmn--btn">Get ticket now</a>
+            </div>
+            <!-- <div class="ticket-form-wrapper">
+                <div class="ticket-header nav-tabs nav border-0">
+                    <h4 class="title">Choose Your Ticket</h4>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="one-way">
+                        <form class="ticket-form row g-3 justify-content-center m-0">
+                            <div class="col-md-6">
+                                <div class="form--group">
+                                    <i class="las la-location-arrow"></i>
+                                    <select class="form--control select2" name="pickup">
+                                        <option value="">Pickup Point</option>
+                                        @for (lo of locations; track lo) {
+                                        <option value="{{ lo.locationId }}">{{ lo.name }}</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form--group">
+                                    <i class="las la-map-marker"></i>
+                                    <select name="destination" class="form--control select2">
+                                        <option value="">Dropping Point</option>
+                                        @for (lo of locations; track lo) {
+                                        <option value="{{ lo.locationId }}">{{ lo.name }}</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form--group">
+                                   
+                                    <i class="las la-calendar-check"></i>
+                                    <input type="date" class="form--control date-range" name="date_of_journey"
                                      placeholder="Departure Date" autocomplete="off">
-                             </div>
-                         </div>
-                         <div class="col-md-6">
-                             <div class="form--group">
-                                 <button class="w-100 btn btn--base">Find Tickets</button>
-                             </div>
-                         </div>
-                     </form>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
- <div class="shape">
-     <img src="/client/assets/images/frontend/banner/66868879268741720092793.png" alt="bg">
- </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form--group">
+                                    <button class="w-100 btn btn--base">Find Tickets</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="shape">
+        <img src="/client/assets/images/frontend/banner/66868879268741720092793.png" alt="bg">
+    </div>
 </section>
 
 
@@ -80,114 +68,114 @@
 
 <!-- Working Process Section Starts Here -->
 <section class="working-process padding-top padding-bottom">
- <div class="container">
-     <div class="row justify-content-center">
-         <div class="col-lg-6 col-md-10">
-             <div class="section-header text-center">
-                 <h2 class="title">Get Your Tickets With Just 3 Steps</h2>
-                 <p>Have a look at our popular reason. why you should choose you bus. Just a Bus and get a ticket
-                     for your great journey. !</p>
-             </div>
-         </div>
-     </div>
-     <div class="row g-4 gy-md-5 justify-content-center">
-         <div class="col-lg-4 col-md-6 col-sm-10">
-             <div class="working-process-item">
-                 <div class="thumb-wrapper">
-                     <span>01</span>
-                     <div class="thumb">
-                         <i class="las la-search"></i>
-                     </div>
-                 </div>
-                 <div class="content">
-                     <h4 class="title">Search Your Bus</h4>
-                     <p>Choose your origin, destination,Just choose a Bus journey dates and search for buses</p>
-                 </div>
-             </div>
-         </div>
-         <div class="col-lg-4 col-md-6 col-sm-10">
-             <div class="working-process-item">
-                 <div class="thumb-wrapper">
-                     <span>02</span>
-                     <div class="thumb">
-                         <i class="las la-ticket-alt"></i>
-                     </div>
-                 </div>
-                 <div class="content">
-                     <h4 class="title">Choose The Ticket</h4>
-                     <p>Choose your origin, destination,Just a Bus for your great journey dates and search for
-                         buses</p>
-                 </div>
-             </div>
-         </div>
-         <div class="col-lg-4 col-md-6 col-sm-10">
-             <div class="working-process-item">
-                 <div class="thumb-wrapper">
-                     <span>03</span>
-                     <div class="thumb">
-                         <i class="las la-money-bill-wave-alt"></i>
-                     </div>
-                 </div>
-                 <div class="content">
-                     <h4 class="title">Pay Bill</h4>
-                     <p>Choose your origin, destination,choose a Bus for your great journey dates and search for
-                         buses</p>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-10">
+                <div class="section-header text-center">
+                    <h2 class="title">Get Your Tickets With Just 3 Steps</h2>
+                    <p>Have a look at our popular reason. why you should choose you bus. Just a Bus and get a ticket
+                        for your great journey. !</p>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4 gy-md-5 justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-10">
+                <div class="working-process-item">
+                    <div class="thumb-wrapper">
+                        <span>01</span>
+                        <div class="thumb">
+                            <i class="las la-search"></i>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h4 class="title">Search Your Bus</h4>
+                        <p>Choose your origin, destination,Just choose a Bus journey dates and search for buses</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-10">
+                <div class="working-process-item">
+                    <div class="thumb-wrapper">
+                        <span>02</span>
+                        <div class="thumb">
+                            <i class="las la-ticket-alt"></i>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h4 class="title">Choose The Ticket</h4>
+                        <p>Choose your origin, destination,Just a Bus for your great journey dates and search for
+                            buses</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-10">
+                <div class="working-process-item">
+                    <div class="thumb-wrapper">
+                        <span>03</span>
+                        <div class="thumb">
+                            <i class="las la-money-bill-wave-alt"></i>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h4 class="title">Pay Bill</h4>
+                        <p>Choose your origin, destination,choose a Bus for your great journey dates and search for
+                            buses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- Working Process Section Ends Here -->
 <!-- Our Ameninies Section Starts Here -->
 <section class="amenities-section padding-bottom">
- <div class="container">
-     <div class="row justify-content-center">
-         <div class="col-lg-6 col-md-10">
-             <div class="section-header text-center">
-                 <h2 class="title">Our Amenities</h2>
-                 <p>Have a look at our popular reason. why you should choose you bus.Just choose a Bus and get a
-                     ticket for your great journey!</p>
-             </div>
-         </div>
-     </div>
-     <div class="amenities-wrapper">
-         <div class="amenities-slider">
-             <div class="single-slider">
-                 <div class="amenities-item">
-                     <div class="thumb">
-                         <i class="fas fa-wifi"></i>
-                     </div>
-                     <h6 class="title">Wifi</h6>
-                 </div>
-             </div>
-             <div class="single-slider">
-                 <div class="amenities-item">
-                     <div class="thumb">
-                         <i class="las la-bed"></i>
-                     </div>
-                     <h6 class="title">Pillow</h6>
-                 </div>
-             </div>
-             <div class="single-slider">
-                 <div class="amenities-item">
-                     <div class="thumb">
-                         <i class="las la-prescription-bottle"></i>
-                     </div>
-                     <h6 class="title">Water Bottle</h6>
-                 </div>
-             </div>
-             <div class="single-slider">
-                 <div class="amenities-item">
-                     <div class="thumb">
-                         <i class="fas fa-wine-glass-alt"></i>
-                     </div>
-                     <h6 class="title">Soft Drinks</h6>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-10">
+                <div class="section-header text-center">
+                    <h2 class="title">Our Amenities</h2>
+                    <p>Have a look at our popular reason. why you should choose you bus.Just choose a Bus and get a
+                        ticket for your great journey!</p>
+                </div>
+            </div>
+        </div>
+        <div class="amenities-wrapper">
+            <div class="amenities-slider">
+                <div class="single-slider">
+                    <div class="amenities-item">
+                        <div class="thumb">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h6 class="title">Wifi</h6>
+                    </div>
+                </div>
+                <div class="single-slider">
+                    <div class="amenities-item">
+                        <div class="thumb">
+                            <i class="las la-bed"></i>
+                        </div>
+                        <h6 class="title">Pillow</h6>
+                    </div>
+                </div>
+                <div class="single-slider">
+                    <div class="amenities-item">
+                        <div class="thumb">
+                            <i class="las la-prescription-bottle"></i>
+                        </div>
+                        <h6 class="title">Water Bottle</h6>
+                    </div>
+                </div>
+                <div class="single-slider">
+                    <div class="amenities-item">
+                        <div class="thumb">
+                            <i class="fas fa-wine-glass-alt"></i>
+                        </div>
+                        <h6 class="title">Soft Drinks</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- Our Ameninies Section Ends Here -->
 
@@ -195,59 +183,59 @@
 
 <!-- Section Starts Here -->
 <section class="padding-bottom padding-top testimonial-section">
- <div class="container">
-     <div class="row justify-content-center">
-         <div class="col-lg-6 col-md-8">
-             <div class="section-header text-center">
-                 <h2 class="title">Our Testimonials</h2>
-                 <p>Have a look at our popular reason. why you should choose you bus. Just choose a Bus and get a
-                     ticket for your great journey!</p>
-             </div>
-         </div>
-     </div>
-     <div class="row justify-content-center gy-5">
-         <div class="col-lg-8 col-md-10">
-             <div class="testimonial-wrapper">
-                 <div class="testimonial-slider">
-                     <div class="single-slider">
-                         <div class="testimonial-item">
-                             <div class="content">
-                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam iusto mollitia
-                                     facere accusantium deleniti odit eius, amet doloribus fugit delectus
-                                     doloremque! In, corrupti? Est, autem suscipit voluptatem rerum deserunt
-                                     laudantium.</p>
-                             </div>
-                             <div class="thumb-wrapper">
-                                 <div class="thumb">
-                                     <img src="client/assets/images/frontend/testimonials/66869267d57711720095335.jpg"
-                                         alt="testimonials">
-                                 </div>
-                                 <h5 class="name">Parvin Akter</h5>
-                             </div>
-                         </div>
-                     </div>
-                     <div class="single-slider">
-                         <div class="testimonial-item">
-                             <div class="content">
-                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam iusto mollitia
-                                     facere accusantium deleniti odit eius, amet doloribus fugit delectus
-                                     doloremque! In, corrupti? Est, autem suscipit voluptatem rerum deserunt
-                                     laudantium.</p>
-                             </div>
-                             <div class="thumb-wrapper">
-                                 <div class="thumb">
-                                     <img src="client/assets/images/frontend/testimonials/6686923c85ee71720095292.jpg"
-                                         alt="testimonials">
-                                 </div>
-                                 <h5 class="name">Sarmin Sultana</h5>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="section-header text-center">
+                    <h2 class="title">Our Testimonials</h2>
+                    <p>Have a look at our popular reason. why you should choose you bus. Just choose a Bus and get a
+                        ticket for your great journey!</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center gy-5">
+            <div class="col-lg-8 col-md-10">
+                <div class="testimonial-wrapper">
+                    <div class="testimonial-slider">
+                        <div class="single-slider">
+                            <div class="testimonial-item">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam iusto mollitia
+                                        facere accusantium deleniti odit eius, amet doloribus fugit delectus
+                                        doloremque! In, corrupti? Est, autem suscipit voluptatem rerum deserunt
+                                        laudantium.</p>
+                                </div>
+                                <div class="thumb-wrapper">
+                                    <div class="thumb">
+                                        <img src="client/assets/images/frontend/testimonials/66869267d57711720095335.jpg"
+                                            alt="testimonials">
+                                    </div>
+                                    <h5 class="name">Parvin Akter</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-slider">
+                            <div class="testimonial-item">
+                                <div class="content">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam iusto mollitia
+                                        facere accusantium deleniti odit eius, amet doloribus fugit delectus
+                                        doloremque! In, corrupti? Est, autem suscipit voluptatem rerum deserunt
+                                        laudantium.</p>
+                                </div>
+                                <div class="thumb-wrapper">
+                                    <div class="thumb">
+                                        <img src="client/assets/images/frontend/testimonials/6686923c85ee71720095292.jpg"
+                                            alt="testimonials">
+                                    </div>
+                                    <h5 class="name">Sarmin Sultana</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 
@@ -256,68 +244,68 @@
 
 <!-- Blog Section Starts Here -->
 <section class="blog-section padding-top padding-bottom">
- <div class="container">
-     <div class="row justify-content-center">
-         <div class="col-lg-6 col-md-10">
-             <div class="section-header text-center">
-                 <h2 class="title">Recent Blog Post</h2>
-                 <p></p>
-             </div>
-         </div>
-     </div>
-     <div class="row justify-content-center g-4">
-         <div class="col-lg-4 col-md-6 col-sm-10">
-             <div class="post-item">
-                 <div class="post-thumb">
-                     <img src="client/assets/images/frontend/blog/thumb_66a339934b50c1721973139.png" alt="blog">
-                 </div>
-                 <div class="post-content">
-                     <ul class="post-meta">
-                         <li>
-                             <span class="date"><i class="las la-calendar-check"></i>26 Jul 2024</span>
-                         </li>
-                     </ul>
-                     <h4 class="title"><a href="blog/lorem-ipsum-is-simply-dummy.html">Lorem Ipsum is simply
-                             dummy</a></h4>
-                     <p>Lorem Ipsum is simply dummy text of the printing a...</p>
-                 </div>
-             </div>
-         </div>
-         <div class="col-lg-4 col-md-6 col-sm-10">
-             <div class="post-item">
-                 <div class="post-thumb">
-                     <img src="client/assets/images/frontend/blog/thumb_66a3399ae9b3b1721973146.png" alt="blog">
-                 </div>
-                 <div class="post-content">
-                     <ul class="post-meta">
-                         <li>
-                             <span class="date"><i class="las la-calendar-check"></i>26 Jul 2024</span>
-                         </li>
-                     </ul>
-                     <h4 class="title"><a
-                             href="blog/the-standard-lorem-ipsum-passage-used-since-the-1500s.html">The standard
-                             Lorem Ipsum passage, used since the 1500s</a></h4>
-                     <p>&quot;Lorem ipsum dolor sit amet, consectetur adipiscin...</p>
-                 </div>
-             </div>
-         </div>
-         <div class="col-lg-4 col-md-6 col-sm-10">
-             <div class="post-item">
-                 <div class="post-thumb">
-                     <img src="client/assets/images/frontend/blog/thumb_66a339b749cad1721973175.png" alt="blog">
-                 </div>
-                 <div class="post-content">
-                     <ul class="post-meta">
-                         <li>
-                             <span class="date"><i class="las la-calendar-check"></i>26 Jul 2024</span>
-                         </li>
-                     </ul>
-                     <h4 class="title"><a href="blog/why-do-we-use-it.html">Why do we use it?</a></h4>
-                     <p>Contrary to popular belief, Lorem Ipsum is not sim...</p>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-10">
+                <div class="section-header text-center">
+                    <h2 class="title">Recent Blog Post</h2>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-4 col-md-6 col-sm-10">
+                <div class="post-item">
+                    <div class="post-thumb">
+                        <img src="client/assets/images/frontend/blog/thumb_66a339934b50c1721973139.png" alt="blog">
+                    </div>
+                    <div class="post-content">
+                        <ul class="post-meta">
+                            <li>
+                                <span class="date"><i class="las la-calendar-check"></i>26 Jul 2024</span>
+                            </li>
+                        </ul>
+                        <h4 class="title"><a href="blog/lorem-ipsum-is-simply-dummy.html">Lorem Ipsum is simply
+                                dummy</a></h4>
+                        <p>Lorem Ipsum is simply dummy text of the printing a...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-10">
+                <div class="post-item">
+                    <div class="post-thumb">
+                        <img src="client/assets/images/frontend/blog/thumb_66a3399ae9b3b1721973146.png" alt="blog">
+                    </div>
+                    <div class="post-content">
+                        <ul class="post-meta">
+                            <li>
+                                <span class="date"><i class="las la-calendar-check"></i>26 Jul 2024</span>
+                            </li>
+                        </ul>
+                        <h4 class="title"><a href="blog/the-standard-lorem-ipsum-passage-used-since-the-1500s.html">The
+                                standard
+                                Lorem Ipsum passage, used since the 1500s</a></h4>
+                        <p>&quot;Lorem ipsum dolor sit amet, consectetur adipiscin...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-10">
+                <div class="post-item">
+                    <div class="post-thumb">
+                        <img src="client/assets/images/frontend/blog/thumb_66a339b749cad1721973175.png" alt="blog">
+                    </div>
+                    <div class="post-content">
+                        <ul class="post-meta">
+                            <li>
+                                <span class="date"><i class="las la-calendar-check"></i>26 Jul 2024</span>
+                            </li>
+                        </ul>
+                        <h4 class="title"><a href="blog/why-do-we-use-it.html">Why do we use it?</a></h4>
+                        <p>Contrary to popular belief, Lorem Ipsum is not sim...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- Blog Section Ends Here -->

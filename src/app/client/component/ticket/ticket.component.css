@@ -1,0 +1,23 @@
+/* Ẩn biểu tượng mặc định của input date */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+  
+  /* Tùy chỉnh style của input để trông đẹp hơn */
+  .custom-date-input {
+    padding-left: 35px; /* Để chừa chỗ cho icon */
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+  }
+  
+  /* Style cho icon */
+  
+  .date-wrapper {
+    position: relative;
+  }
+  
+  /* Đổi con trỏ thành pointer khi hover vào input */
+  .custom-date-input:hover {
+    cursor: pointer;
+  }
+  

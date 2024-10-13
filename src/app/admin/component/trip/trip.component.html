@@ -56,10 +56,12 @@
                         <td><span class="p-column-title">DateEnd</span>{{tri.dateEnd}}</td>
                         <td>
                             <span class="p-column-title">Status</span>
-                            <span [class]="'product-badge status-' + (tri.status == 1 ? 'instock' : 'outofstock')">
-                                {{tri.status == 1 ? 'Active' : 'Deleted'}}
+                            <span [class]="'product-badge status-' + (tri.status == 1 ? 'instock' : tri.status == 2 ? 'outofstock' : 'outofstock')">
+                                {{tri.status == 1 ? 'Active' : tri.status == 2 ? 'Expired' : 'Deleted'}}
                             </span>
                         </td>
+                        
+                        
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
@@ -105,9 +107,9 @@
 
                     <div class="field">
                         <label for="dateStart">Date Start</label>
-                        <p-calendar type="datetime-local" inputId="dateStart" formControlName="dateStart"
+                        <p-calendar type="datetime-local" id="dateStart" formControlName="dateStart"
                             [showTime]="true" timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'"
-                            appendTo="body" [ngClass]="{
+                            appendTo="body" [showIcon]="true" [ngClass] ="{
                                 'ng-invalid ng-dirty': submitted && (formGroup.get('dateStart')?.invalid || formGroup.get('dateStart')?.touched)
                             }">
                         </p-calendar>
@@ -128,7 +130,7 @@
                     <div class="field">
                         <label for="dateEnd">Date End</label>
                         <p-calendar type="datetime-local" inputId="dateEnd" formControlName="dateEnd" [showTime]="true"
-                            timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'" appendTo="body" [ngClass]="{
+                            timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'" appendTo="body" [showIcon]="true" [ngClass]="{
                                 'ng-invalid ng-dirty': submitted && (formGroup.get('dateEnd')?.invalid || formGroup.get('dateEnd')?.touched)
                             }">
                         </p-calendar>
