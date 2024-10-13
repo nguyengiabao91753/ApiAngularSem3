@@ -13,6 +13,10 @@
   background: #C8E6C9;
   color: #256029;
 }
+.product-badge.status-expired {
+  background: yellow;  /* Màu nền vàng cho Expired */
+  color: #aca214;      /* Màu chữ vàng đậm cho Expired */
+}
 .product-badge.status-outofstock {
   background: #FFCDD2;
   color: #C63737;
