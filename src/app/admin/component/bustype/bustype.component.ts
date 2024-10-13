@@ -81,7 +81,7 @@ export class BusTypeComponent implements OnInit {
       }
     )
     this.formGroup = this.formBuilder.group({
-      busTypeId: 0,
+      busTypeId: '0',
       name: ['', [Validators.required]]
     });
 
@@ -138,7 +138,10 @@ export class BusTypeComponent implements OnInit {
   hideDialog() {
     this.busTypeDialog = false;
     this.submitted = false;
-    this.formGroup.reset()
+    this.formGroup.reset();
+    this.formGroup.reset({
+      busTypeId: '0'
+    });
   }
 
   save(){
@@ -152,7 +155,8 @@ export class BusTypeComponent implements OnInit {
           if(res['status']){
             this.busTypeDialog = false;
             this.formGroup.reset();
-            this.bustypes.push(this.bustype);
+            this.ngOnInit();
+            // this.bustypes.push(this.bustype);
           }
         },
         error => {

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -51,10 +51,14 @@ export class BusestripComponent implements OnInit {
 
   busestrip: BusesTrip = {}
   busestrips: BusesTrip[] = []
+
+  busestripsofBus: BusesTrip[] = []
+
   originBusTripList: BusesTrip[] = []
 
   buses: Bus[] = []
   trips: Trip[] = []
+  origintrips: Trip[] = []
 
   formGroup!: FormGroup
 
@@ -87,7 +91,8 @@ export class BusestripComponent implements OnInit {
     this.buses = await this.busService.getAll() as Bus[]
     console.log(this.buses);
 
-    this.trips = await this.tripService.getAll() as Trip[]
+    this.origintrips = await this.tripService.getAll() as Trip[]
+
 
     this.formGroup = await this.formBuilder.group({
       busTripId: '0',
@@ -99,7 +104,7 @@ export class BusestripComponent implements OnInit {
 
     this.cols = [
       { field: 'busTripId', header: 'Id' },
-      { field: 'busTypeName', header: 'Bus Type' },
+      { field: 'busTypeName', header: 'Bus' },
       { field: 'departureLocationName', header: 'Departure' },
       { field: 'arrivalLocationName', header: 'Arrival' },
       { field: 'dateStart', header: 'Start' },
@@ -140,32 +145,6 @@ export class BusestripComponent implements OnInit {
     this.busestrip = { ...bustrip };
 
   }
-
-  // confirmDeleteSelected() {
-  //   this.deleteAgeGroupDialog = false;
-
-  //   this.selectedAgeGroups.forEach(agegroup => {
-  //     agegroup.status = 0;
-  //     //Xóa ở đây chỉ là set cái status về lại = 0 =>Update
-  //     this.ageGroupService.update(agegroup).then(
-  //       res => {
-  //         if (res['status']) {
-  //           this.agegroups = this.agegroups.filter(val => val.ageGroupId !== agegroup.ageGroupId);
-  //           this.agegroups = this.agegroups.map(a =>
-  //             a.ageGroupId === this.agegroup.ageGroupId ? { ...agegroup } : a
-  //           );
-  //           this.selectedAgeGroups = this.selectedAgeGroups.filter(val => val.ageGroupId !== agegroup.ageGroupId)
-  //         }
-  //       }
-  //     )
-  //   });
-
-  //   this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'AgeGroup Deleted', life: 3000 });
-  //   this.deleteAgeGroupDialog = false;
-  //   //this.selectedAgeGroups = [];
-
-
-  // }
 
   confirmDelete() {
     this.deleteBusTripDialog = false;
@@ -235,7 +214,7 @@ export class BusestripComponent implements OnInit {
             console.log(this.busestrip);
 
             this.busestrips = this.busestrips.map(a =>
-              a.busTripId === this.busestrip.busTripId ? { ...a, ...this.busestrip } : a 
+              a.busTripId === this.busestrip.busTripId ? { ...a, ...this.busestrip } : a
             );
             //kết hợp cả hai đối tượng. Nếu có trường nào trùng lặp giữa a và this.busestrip, 
             //giá trị từ this.busestrip sẽ ghi đè giá trị trong a, trong khi các trường khác không có trong this.busestrip 
@@ -252,6 +231,45 @@ export class BusestripComponent implements OnInit {
     }
 
 
+  }
+
+
+  selectBus(busId) {
+    console.log(busId.value);
+
+    this.busestripsofBus = this.busestrips.filter(b => b.busId == busId.value)
+    if (this.busestripsofBus.length > 0) {
+      const dateEndOfBusTrip = this.convertToDate(this.busestripsofBus[0].dateEnd);
+      // console.log('Ngày kết thúc chuyến xe:', dateEndOfBusTrip);
+
+      this.trips = this.origintrips.filter(t => {
+        const dateStartOfTrip = this.convertToDate(t.dateStart);
+        // console.log('Ngày bắt đầu của trip:', dateStartOfTrip);
+
+        // So sánh trực tiếp giữa các đối tượng Date
+        return (dateStartOfTrip > dateEndOfBusTrip && t.arrivalLocationName == this.busestripsofBus[0].departureLocationName);
+      });
+      // console.log(this.busestripsofBus[0].dateStart);
+
+    } else {
+      this.trips = [...this.origintrips]
+
+    }
+
+  }
+
+  convertToDate(dateString: string): Date {
+    const date = dateString.split(' ')[1];
+    // console.log(date);
+    
+    const parts = date.split('/');
+    if (parts.length === 3) {
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1; // Tháng trong Date là từ 0-11
+      const year = parseInt(parts[2], 10);
+      return new Date(year, month, day);
+    }
+    return null;
   }
 
   onGlobalFilter(table: Table, event: Event) {

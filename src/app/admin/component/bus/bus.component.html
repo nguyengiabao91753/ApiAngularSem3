@@ -110,8 +110,15 @@
                 <form [formGroup]="formGroup">
                     <div class="field">
                         <label for="name">Bus Name</label>
-                        <p-dropdown id="name" formControlName="busTypeId" [options]="busTypes" optionLabel="name"
-                            placeholder="Select Bus" optionValue="busTypeId" autofocus [ngClass]="{
+                        <p-dropdown 
+                                    id="name" 
+                                    formControlName="busTypeId" 
+                                    [options]="busTypes" 
+                                    optionLabel="name"
+                                    placeholder="Select Bus" 
+                                    optionValue="busTypeId"
+                                    autofocus=""
+                                    [ngClass]="{
                 'ng-invalid ng-dirty':
                   submitted && formGroup.get('busTypeId')?.invalid
               }">

@@ -59,6 +59,7 @@ export class MenuComponent implements OnInit {
                 items: [
                     { label: 'BusTrip', icon: 'pi pi-fw pi-arrow-up-right', routerLink: ['/admin/busestrip'] },
                     { label: 'Booking', icon: 'pi pi-fw pi-bookmark', routerLink: ['/admin/booking'] },
+                    { label: 'Check Ticket', icon: 'pi pi-fw pi-search', routerLink: ['/admin/checkTicket'] },
                 ]
             },
             {

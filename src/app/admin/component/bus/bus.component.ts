@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, forwardRef, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -27,7 +27,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ActivatedRoute } from '@angular/router';
 import { BusSeat } from '../../../entity/busseat.entity';
 import { BusSeatService } from '../../../service/busseat.service';
-import { map, Observable } from 'rxjs';
+import { catchError, from, map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-bustype',
@@ -54,9 +54,10 @@ import { map, Observable } from 'rxjs';
     CheckboxModule,
   ],
   templateUrl: './bus.component.html',
-  styleUrl: './bus.component.css'
 })
 export class BusComponent implements OnInit {
+
+  originalLicensePlate: string = '';
 
   visible: boolean = false;
 
@@ -99,9 +100,7 @@ export class BusComponent implements OnInit {
     private busService: BusService,
     private messageService: MessageService,
     private formBuilder: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef,
     private busTypeService: BusTypeService,
-    private activatedRoute: ActivatedRoute,
     private busSeatService: BusSeatService
   ) {
 
@@ -116,7 +115,7 @@ export class BusComponent implements OnInit {
 
     this.busTypeService.getAll().then(
       res => {
-        this.busTypes = res as BusType[];
+        this.busTypes = (res as BusType[]).filter(bt => bt.status === 1);
         console.log(this.busTypes);
       }
     )
@@ -139,9 +138,9 @@ export class BusComponent implements OnInit {
       busTypeId: ['', [Validators.required]], // bắt buộc chọn loại xe
       airConditioned: [{ value: '', disabled: true }],
       licensePlate: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)],
-      [this.licensePlateExistsValidator.bind(this)]
+        [control => this.licensePlateExistsValidator(control, this.formGroup.get('busId')?.value)]
       ],
-      seatCount: ['', [Validators.required, Validators.min(10), Validators.max(60)]], 
+      seatCount: ['', [Validators.required, Validators.min(10), Validators.max(60)]],
       basePrice: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
     });
 
@@ -175,15 +174,24 @@ export class BusComponent implements OnInit {
     ]
   }
 
-  licensePlateExistsValidator(control: AbstractControl): Observable<{[key: string]: any} | null> {
+  licensePlateExistsValidator(control: AbstractControl, busId: number): Observable<any> {
+    // Nếu busId không phải là null hoặc rỗng và giá trị biển số hiện tại không thay đổi,
+    // không cần kiểm tra sự tồn tại
+    if (this.bus && control.value === this.bus.licensePlate && this.bus.busId == busId) {
+      return of(null); // Trả về null nếu không cần kiểm tra
+    }
+  
     return this.busService.checkLicensePlateExist(control.value).pipe(
-      map(
-        res => {
-          return res.exists ? {licensePlateExists: true} : null;
+      map(res => {
+        console.log('License Plate Check Response:', res);
+        if (res.status && res.busId !== busId) {
+          return { licensePlateExists: true };
         }
-      ) 
-    )
+        return null;
+      })
+    );
   }
+
 
   showDialog(busId: string) {
     if (!busId) {
@@ -211,7 +219,10 @@ export class BusComponent implements OnInit {
   hideDialog() {
     this.busDialog = false;
     this.submitted = false;
-    this.formGroup.reset()
+    this.formGroup.reset();
+    this.formGroup.reset({
+      busId: '0'
+    });
   }
 
   editBusType(bus: Bus) {
@@ -223,7 +234,7 @@ export class BusComponent implements OnInit {
       seatCount: bus.seatCount,
       basePrice: bus.basePrice
     }),
-
+      // this.formGroup.get('seatCount')?.disable();
       this.busDialog = true;
   }
 
@@ -235,8 +246,9 @@ export class BusComponent implements OnInit {
   save() {
     this.submitted = true;
     if (this.formGroup.invalid) {
-      return; 
+      return;
     }
+
     if (this.formGroup.get('busId').value == 0) {
       this.bus = this.formGroup.value as Bus
       const selectedBusTypeId = this.formGroup.get('busTypeId')?.value;
@@ -258,7 +270,8 @@ export class BusComponent implements OnInit {
           if (res['status']) {
             this.busDialog = false;
             this.formGroup.reset();
-            this.buses.push(this.bus);
+            this.ngOnInit();
+            // this.buses.push(this.bus);
           }
         },
         error => {
@@ -280,15 +293,18 @@ export class BusComponent implements OnInit {
       this.bus.seatCount = this.formGroup.get('seatCount')?.value.toString();
       this.bus.basePrice = this.formGroup.get('basePrice')?.value.toString();
       this.bus.status = 1;
+
       console.log('Bus Object:', this.bus);
       this.busService.update(this.bus).then(
         res => {
-          this.busDialog = false;
-          this.formGroup.reset();
+          if (res['status']) {
+            this.busDialog = false;
+            this.formGroup.reset();
 
-          this.buses = this.buses.map(b =>
-            b.busId === this.bus.busId ? { ...this.bus } : b
-          )
+            this.buses = this.buses.map(b =>
+              b.busId === this.bus.busId ? { ...this.bus } : b
+            )
+          }
         },
         error => {
           alert('Error');
