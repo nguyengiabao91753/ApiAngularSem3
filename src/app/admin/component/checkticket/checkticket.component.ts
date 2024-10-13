@@ -55,6 +55,7 @@ export class CheckticketComponent implements AfterViewInit {
   currentDevice: MediaDeviceInfo | null = null;
 
   cameraActive: boolean = false;
+  inputActive: boolean = false;
 
   hasTicket: boolean = false
   hasCheck: boolean = false;
@@ -190,7 +191,13 @@ export class CheckticketComponent implements AfterViewInit {
       return currentDate <= endDate;
     }
     return false;
-}
+  }
+  checkwithInput(){
+    this.inputActive = true
+  }
+  closeCheckwithInput(){
+    this.inputActive = false
+  }
 
 
 }

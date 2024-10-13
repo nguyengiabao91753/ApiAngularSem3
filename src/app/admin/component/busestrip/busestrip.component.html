@@ -47,7 +47,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-bt>
-                    <tr *ngIf="bt.status == 1">
+                    <tr>
                         <!-- <td>
                             <p-tableCheckbox [value]="bus"></p-tableCheckbox>
                         </td> -->
@@ -56,7 +56,7 @@
                         </td>
                         <td>
                             <span class="p-column-title">Bus Type</span>
-                            {{bt.busTypeName}}
+                            {{bt.busTypeName}} - {{bt.licensePlate}}
                         </td>
                         <td>
                             <span class="p-column-title">Departure Location</span>
@@ -81,13 +81,13 @@
                         <td>
                             <span class="p-column-title">Status</span>
                             <span
-                                [class]="'product-badge status-' + (bt.status==1?'instock':'outofstock')">{{bt.status==1?'Active':'Deleted'}}</span>
+                                [class]="'product-badge status-' + (bt.status==1?'instock':'outofstock')">{{bt.status==1?'Active':'Expired'}}</span>
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil"
+                                <button pButton pRipple icon="pi pi-pencil" *ngIf="bt.status ==1"
                                     class="p-button-rounded p-button-success mr-2" (click)="editBusTrip(bt)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                <button pButton pRipple icon="pi pi-trash" *ngIf="bt.status ==1" class="p-button-rounded p-button-warning"
                                     (click)="deleteBusTrip(bt)"></button>
                             </div>
                         </td>
@@ -96,13 +96,13 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="bustripDialog" [style]="{width: '450px'}" header="busGroup Details" [modal]="true"
+        <p-dialog [(visible)]="bustripDialog" [style]="{width: '650px',height:'550px'}" header="busGroup Details" [modal]="true"
             class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                     <div class="field">
                         <label for="bus">Bus</label>
-                        <p-dropdown [options]="buses" name="bus" formControlName="busId" optionValue="busId"
+                        <p-dropdown [options]="buses" (onChange)="selectBus(busId)" #busId name="bus" formControlName="busId" optionValue="busId"
                             placeholder="Select Bus" >
                             <ng-template let-bus pTemplate="item">
                                 {{bus.busName }} - {{ bus.licensePlate }}
@@ -120,7 +120,7 @@
                             placeholder="Select a Trip">
                             
                             <ng-template let-trip pTemplate="item">
-                                {{trip.departureLocationName }} - {{ trip.arrivalLocationName }}
+                                {{trip.departureLocationName }} - {{ trip.arrivalLocationName }}({{ trip.dateStart }}->{{ trip.dateEnd }})
                             </ng-template>
                             <ng-template let-trip pTemplate="selectedItem">
                                 {{ trip.departureLocationName }} - {{ trip.arrivalLocationName }}

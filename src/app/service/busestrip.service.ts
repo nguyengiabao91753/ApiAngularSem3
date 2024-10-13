@@ -27,4 +27,8 @@ export class BusesTripService{
     async getAll(){
         return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL+'busestrip/getall'));
     }
+
+    async getAllActive(){
+        return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL+'busestrip/getallactive'));
+    }
 }
