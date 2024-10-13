@@ -56,7 +56,7 @@
                     <div class="col-sm-6">
                         <div class="form-group form--group">
                             <label class="content">Date Of Birth</label>
-                            <input class="form--control" formControlName="birthDate" type="text"
+                            <input class="form--control" formControlName="birthDate" type="date"
                                 placeholder="dd/mm/yyyy" required>
                             <div *ngIf="formGroup.get('birthDate')?.invalid && formGroup.get('birthDate')?.touched">
                                 <small class="p-error">Date of Birth is required.</small>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
 
-                    <div class="form--group custom--checkbox">
+                    <!-- <div class="form--group custom--checkbox">
                         <input id="agree" name="agree" type="checkbox" required>
                         <label for="agree">
                             I agree with <span>
@@ -137,7 +137,7 @@
                                     Policy</a>
                             </span>
                         </label>
-                    </div>
+                    </div> -->
 
                     <div class="form--group">
                         <button class="btn btn--base w-100" type="submit"
@@ -152,7 +152,7 @@
     </div>
 </section>
 
-<div class="modal fade" id="existModalCenter" role="dialog" aria-labelledby="existModalCenterTitle" aria-hidden="true"
+<!-- <div class="modal fade" id="existModalCenter" role="dialog" aria-labelledby="existModalCenterTitle" aria-hidden="true"
     tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -170,4 +170,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

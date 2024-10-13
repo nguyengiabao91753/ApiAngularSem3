@@ -19,11 +19,14 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { BookingDetail } from '../../../entity/bookingdetail.entity';
 import { MessageService } from 'primeng/api';
 import { BookingService } from '../../../service/booking.service';
+import { AccountUserService } from '../../../service/accountUser.service';
+import { jwtDecode } from 'jwt-decode';
+import { AccountUser } from '../../../entity/accountUser.entity';
 
 @Component({
   selector: 'app-ticket-detail',
   standalone: true,
-  providers:[MessageService],
+  providers: [MessageService],
   imports: [
     CommonModule,
     FormsModule,
@@ -48,6 +51,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   subtotal: number = 0;
   currency: string = 'USD';
 
+  accountUser: AccountUser = null;
+
   // = [
   //   { Id: 1, name: 'A1', status: '1' },
   //   { Id: 2, name: 'A2', status: '0' },
@@ -60,6 +65,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   seatRows: any[] = [];
   constructor(
+    private accountUserService: AccountUserService,
     private seatService: SeatService,
     private bookingService: BookingService,
     private bustripService: BusesTripService,
@@ -75,13 +81,39 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // sessionStorage.removeItem('ticket-detail-reloaded');
   }
   async ngOnInit() {
-   
+
     // Kết nối đến SignalR Hub
     this.seatService.startConnection();
     this.seatService.listenForSeatSelection();
     console.log(this.seatService.seats);
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
 
 
+      const decodedToken: any = jwtDecode(token);
+      const userId = decodedToken?.nameid; // Assuming ClaimTypes.NameIdentifier is decoded as `nameid`
+      console.log('Extracted userId:', userId);
+
+      if (userId) {
+        // Fetch user data from backend using userId
+        this.accountUserService.GetUserProfile().subscribe(
+          (accountUser: any) => {
+            if (accountUser) {
+              this.accountUser = accountUser;
+              this.booking.fullName = accountUser.fullName
+              this.booking.email = accountUser.email
+              this.booking.phoneNumber = accountUser.phoneNumber
+              this.booking.userId = accountUser.userId
+              console.log(accountUser);
+              console.log(this.booking);
+
+
+            }
+          },
+
+        );
+      }
+    }
     await this.loadBusTrip();
 
 
@@ -101,7 +133,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.agegroups = await this.agegroupService.getAll() as AgeGroup[];
     this.seats = await this.busSeatService.getSeatsByBusId(this.bustrip.busId) as BusSeat[];
     this.price = parseInt(this.bustrip.price);
-    this.booking=this.bookingService.getBooking();
+    // this.booking = this.bookingService.getBooking();
     this.selectedSeats = this.bookingService.getBookingDetails() as [];
 
   }
@@ -179,13 +211,13 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       // this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete AgeGroup', life: 3000 });
       alert("Please fill in all the required information.")
       return;
-  }
+    }
     this.booking.busTripId = this.bustripId
     this.booking.userId = 0;
     this.booking.bookingDate = "14:30:15 29/09/2024";
     this.booking.paymentStatus = 0;
     this.booking.total = this.subtotal;
-    var bookingdetails: BookingDetail[]=[];
+    var bookingdetails: BookingDetail[] = [];
     this.selectedSeats.forEach(s => {
       const detail: BookingDetail = {
         bookingDetailId: 0,
@@ -193,7 +225,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         seatId: s.Id,
         seatName: s.name,
         ageGroupId: s.ageGroupId,
-        ageGroupName:"",
+        ageGroupName: "",
         priceAfterDiscount: s.price,
         ticketCode: "",
         ticketStatus: 1
@@ -203,12 +235,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // console.log(this.booking);
     // console.log(this.selectedSeats);
     // console.log(bookingdetails);
-    
+
     // Demo Add
+
+
     // this.bookingService.create(this.booking, bookingdetails).then(
     //   res=>{
     //     if(res['status']){
-    //       this.booking={};
+    //       // this.booking={};
     //       this.router.navigate(['/payment']);
     //     }
     //   }
@@ -219,7 +253,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     // this.booking={};
     // this.selectedSeats=[]
     this.router.navigate(['/payment']);
-    
+
 
 
 

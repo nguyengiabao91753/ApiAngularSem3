@@ -23,12 +23,12 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AccountUser } from '../../../entity/accountUser.entity';
 import { AccountUserService } from '../../../service/accountUser.service';
-
+import { CalendarModule } from 'primeng/calendar';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-user',
   standalone: true,
-  providers: [MessageService],
-
+  providers: [MessageService,DatePipe],
   imports: [
     CommonModule,
     TableModule,
@@ -46,9 +46,9 @@ import { AccountUserService } from '../../../service/accountUser.service';
     InputNumberModule,
     DialogModule,
     RatingModule,
+    CalendarModule
   ],
   templateUrl: './user.component.html',
-  // styleUrl: './user.component.css',
 })
 export class UserComponent implements OnInit {
   accountUser: AccountUser = {};
@@ -61,9 +61,9 @@ export class UserComponent implements OnInit {
   statusOptions = [
     { label: 'InActive', value: 0 },
     { label: 'Active', value: 1 },
-    { label: 'OnDuty', value: 2 },
   ];
   formGroup!: FormGroup;
+  date: Date | undefined;
 
   //For notications
   accountUserDialog: boolean = false;
@@ -80,13 +80,31 @@ export class UserComponent implements OnInit {
   constructor(
     private accountUserService: AccountUserService,
     private messageService: MessageService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe
+
   ) {}
 
   ngOnInit(): void {
-    this.accountUserService.GetAllAccountUserInfo().then((res) => {
-      this.accountUsers = res as AccountUser[];
-    });
+    // Lấy thông tin người dùng hiện tại từ localStorage
+    const currentUserId = localStorage.getItem('userId');
+    const currentLevelId = localStorage.getItem('levelId');
+// Nếu không phải admin (levelId != 1), không cho phép truy cập các chức năng thêm, sửa, xóa
+    // Nếu là admin, lấy tất cả dữ liệu
+    if (currentLevelId === '1') {
+      this.accountUserService.GetAllAccountUserInfo().then((res) => {
+        this.accountUsers = res as AccountUser[];
+      });
+    } else if (currentLevelId === '2') {
+      // Nếu là nhân viên, chỉ lấy thông tin của chính họ
+      this.accountUserService.GetInfoAccountById(Number(currentUserId)).subscribe((res) => {
+        if (res) {
+          this.accountUsers = [res as AccountUser];
+        }
+      });
+    }
+
+
     this.formGroup = this.formBuilder.group({
       userId: '0',
       username: ['', [Validators.required]],
@@ -111,8 +129,20 @@ export class UserComponent implements OnInit {
     ];
   }
 
+
+
   //Này là mở hộp thoại thêm mới
   openNew() {
+    const currentLevelId = localStorage.getItem('levelId');
+    if (currentLevelId !== '1') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Only Admins are allowed to create new accounts.',
+        life: 3000,
+      });
+      return;
+    }
     this.accountUser = {};
     this.formGroup.reset(); // Reset form
     this.formGroup.patchValue({ userId: 0 }); // Đặt userId về 0 để đánh dấu là tạo mới
@@ -121,44 +151,58 @@ export class UserComponent implements OnInit {
   }
 
   editAccountUser(accountUser: AccountUser) {
-    //Gán dữ liệu được chọn vào form
-    this.formGroup.patchValue({
-      userId: accountUser.userId,
-      username: accountUser.username,
-      password: '',
+    const currentUserId = localStorage.getItem('userId');
+    const birthDate = accountUser.birthDate ? new Date(accountUser.birthDate) : null;
 
-      status: accountUser.status,
-      levelId: accountUser.levelId,
-
-      fullName: accountUser.fullName,
-      birthDate: accountUser.birthDate,
-      email: accountUser.email,
-      phoneNumber: accountUser.phoneNumber,
-      address: accountUser.address,
-    });
-    //Mở hộp thoại thêm
-    this.accountUserDialog = true;
+    if (accountUser.userId.toString() === currentUserId || localStorage.getItem('levelId') === '1') {
+      this.formGroup.patchValue({
+        userId: accountUser.userId,
+        username: accountUser.username,
+        password: '',
+        status: accountUser.status,
+        levelId: accountUser.levelId,
+        fullName: accountUser.fullName,
+        birthDate: birthDate,
+        email: accountUser.email,
+        phoneNumber: accountUser.phoneNumber,
+        address: accountUser.address,
+      });
+      this.accountUserDialog = true;
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'You can only edit your own information.',
+        life: 3000,
+      });
+    }
   }
 
   deleteAccountUser(accountUser: AccountUser) {
+    const currentUserId = localStorage.getItem('userId');
+    // Không cho phép xóa tài khoản của chính mình
+    if (accountUser.userId.toString() === currentUserId) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'You cannot delete your own account.',
+        life: 3000,
+      });
+      return;
+    }
     this.deleteAccountUserDialog = true;
     this.accountUser = { ...accountUser };
   }
-
   confirmDelete() {
     this.deleteAccountUserDialog = false;
-    this.accountUser.status = 0;
     var id = this.accountUser.userId;
-    //Xóa ở đây chỉ là set cái status về lại = 0 =>Update
-    console.log(this.accountUser);
+    // Xóa ở đây chỉ là gọi hàm xóa với id
     this.accountUserService.DeleteAccountUser(id).then(
       (res) => {
         if (res['status']) {
           this.accountUsers = this.accountUsers.filter(
             (a) => a.userId !== this.accountUser.userId
           );
-          console.log(this.accountUser);
-
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
@@ -187,6 +231,22 @@ export class UserComponent implements OnInit {
 
   save() {
     this.submitted = true;
+
+    if (this.formGroup.invalid) {
+      return;
+    }
+  
+    const currentLevelId = localStorage.getItem('levelId');
+    if (currentLevelId !== '1' && this.formGroup.get('levelId')?.value === 1) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Employees are not allowed to promote themselves to Admin.',
+        life: 3000,
+      });
+      return;
+    }
+
     if (this.formGroup.get('userId').value == 0) {
       // Nếu ID == 0, nghĩa là dữ liệu mới
       this.accountUser = this.formGroup.value as AccountUser;
@@ -201,9 +261,9 @@ export class UserComponent implements OnInit {
       this.accountUser.fullName = this.formGroup
         .get('fullName')
         ?.value?.toString();
-      this.accountUser.birthDate = this.formGroup
-        .get('birthDate')
-        ?.value?.toString();
+        this.accountUser.birthDate = this.datePipe.transform(
+          this.formGroup.get('birthDate')?.value,
+          'dd/MM/yyyy');      
       this.accountUser.phoneNumber = this.formGroup
         .get('phoneNumber')
         ?.value?.toString();
@@ -281,9 +341,9 @@ export class UserComponent implements OnInit {
       this.accountUser.fullName = this.formGroup
         .get('fullName')
         ?.value?.toString();
-      this.accountUser.birthDate = this.formGroup
-        .get('birthDate')
-        ?.value?.toString();
+        this.accountUser.birthDate = this.datePipe.transform(
+          this.formGroup.get('birthDate')?.value,
+          'dd/MM/yyyy');      
       this.accountUser.phoneNumber = this.formGroup
         .get('phoneNumber')
         ?.value?.toString();

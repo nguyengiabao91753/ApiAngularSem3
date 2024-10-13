@@ -1,0 +1,38 @@
+Định dạng cho dropdown toggle
+.nav-link.dropdown-toggle {
+    color: #fff; /* Màu chữ */
+    background-color: #28a745; /* Màu nền */
+    border-radius: 5px; /* Bo tròn góc */
+    padding: 8px 16px; /* Padding */
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-link.dropdown-toggle:hover {
+    background-color: #218838; /* Đổi màu nền khi hover */
+  }
+  
+  /* Định dạng cho các mục trong dropdown */
+  .dropdown-menu {
+    background-color: #f8f9fa; /* Màu nền */
+    border-radius: 5px; /* Bo tròn góc */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng để tạo độ nổi */
+  }
+  
+  .dropdown-item {
+    color: #343a40; /* Màu chữ ban đầu */
+    padding: 10px 20px; /* Padding */
+    transition: all 0.3s ease; /* Hiệu ứng chuyển đổi nhẹ nhàng */
+  }
+  
+  .dropdown-item:hover {
+    color: #28a745; /* Màu xanh lá khi hover */
+    font-weight: bold; /* In đậm */
+    font-size: 1.1rem; /* Tăng kích thước chữ khi hover */
+    background-color: #e9ecef; /* Đổi màu nền khi hover (tùy chọn) */
+  }
+  
+  /* Định dạng cho divider trong dropdown */
+  .dropdown-divider {
+    margin: 10px 0;
+  }
+  

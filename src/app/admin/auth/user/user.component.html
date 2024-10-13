@@ -133,10 +133,11 @@
                     </div>
                     <div class="field">
                         <label for="birthDate">Birth Date</label>
-                        <input type="text" pInputText id="birthDate" formControlName="birthDate" autofocus
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('birthDate')?.invalid}" />
-                        <small class="ng-dirty ng-invalid"
-                            *ngIf="submitted && formGroup.get('birthDate')?.invalid">Birth Date is required.</small>
+                        <p-calendar dateFormat="dd/mm/yy" id="birthDate" formControlName="birthDate"
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('birthDate')?.invalid}"></p-calendar>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('birthDate')?.invalid">
+                            Birth Date is required.
+                        </small>
                     </div>
                     <div class="field">
                         <label for="email">Email</label>

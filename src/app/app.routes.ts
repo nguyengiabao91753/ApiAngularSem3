@@ -14,7 +14,7 @@ import { LoginAdminComponent } from './admin/auth/loginAdmin/loginAdmin.componen
 import { PolicyComponent } from './admin/component/policy/policy.component';
 import { UserComponent } from './admin/auth/user/user.component';
 import { AccountComponent } from './admin/auth/account/account.component';
-import { AuthGuard } from './entity/auth.services';
+import { AuthGuard } from './entity/auth.guard';
 import { InActiveComponent } from './admin/auth/in-active/in-active.component';
 import { NgModule } from '@angular/core';
 import { LocationComponent } from './admin/component/location/location.component';
@@ -29,6 +29,8 @@ import { ChangepasswordComponent } from './client/component/changepassword/chang
 import { BusestripComponent } from './admin/component/busestrip/busestrip.component';
 import { DashboardComponent } from './admin/component/dashboard/dashboard.component';
 import { BookingComponent } from './admin/component/booking/booking.component';
+import { CheckticketComponent } from './admin/component/checkticket/checkticket.component';
+import { ThanksComponent } from './client/component/thanks/thanks.component';
 
 
 export const routes: Routes = [
@@ -40,54 +42,82 @@ export const routes: Routes = [
         children:[
             {
                 path: '',
-                component: DashboardComponent
+                component: DashboardComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path: 'bus-type',
-                component: BusTypeComponent
+                component: BusTypeComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path: 'bus',
-                component: BusComponent
+                component: BusComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path:'agegroup',
-                component: AgegroupComponent
+                component: AgegroupComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path:'policy',
-                component: PolicyComponent
+                component: PolicyComponent,
+                canActivate: [AuthGuard],
+
             },
 
             {
                 path:'user',
-                component: UserComponent    
+                component: UserComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path:'account',
-                component: AccountComponent
+                component: AccountComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path:'inActive',
-                component: InActiveComponent
+                component: InActiveComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path:'busestrip',
-             
-               component: BusestripComponent
+               component: BusestripComponent,
+               canActivate: [AuthGuard],
             },
             {
                 path:'location',
-                component: LocationComponent
+                component: LocationComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path:'trip',
-                component: TripComponent
+                component: TripComponent,
+                canActivate: [AuthGuard],
+
             },
             {
                 path:'booking',
-                component: BookingComponent
+                component: BookingComponent,
+                canActivate: [AuthGuard],
+
             },
+            {
+                path:'checkTicket',
+                component:CheckticketComponent,
+                canActivate: [AuthGuard],
+
+            }
             
         ]
     },
@@ -149,6 +179,10 @@ export const routes: Routes = [
                 path:'changepassword',
                 component: ChangepasswordComponent
             },
+            {
+                path:'thanks',
+                component: ThanksComponent
+            }
         ]
     },
     {

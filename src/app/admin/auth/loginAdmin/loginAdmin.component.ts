@@ -31,7 +31,7 @@ import { MessageService } from 'primeng/api';
     PasswordModule,
     ReactiveFormsModule,
     ToastModule,
-    RippleModule
+    RippleModule,
   ],
   providers: [MessageService],
   templateUrl: './loginAdmin.component.html',
@@ -73,27 +73,26 @@ export class LoginAdminComponent implements OnInit {
         .subscribe(
           (response) => {
             if (response.token) {
-              localStorage.setItem('jwtToken', response.token);
               localStorage.setItem('userId', response.userId);
               localStorage.setItem('email', response.email);
               localStorage.setItem('levelId', response.levelId);
               localStorage.setItem('status', response.status);
 
-              console.log('Token saved:', localStorage.getItem('jwtToken')); // Kiểm tra token có được lưu không
+              console.log('User ID saved:', localStorage.getItem('userId')); // Kiểm tra userId có được lưu không
+
               this.router.navigate(['/admin']);
 
-              // // Redirect based on status
-              // if (response.levelId == 1) {
-              //   this.router.navigate(['/admin/']);
-              // } else if (response.levelId == 2) {
-              //   this.router.navigate(['/admin/ambulance']);
-              // } else if (response.levelId == 3) {
-              //   this.router.navigate(['/admin/assign-driver']); // Redirect drivers to request page
-              // }
+              // Kiểm tra quyền truy cập
+              if (response.levelId === 1 || response.levelId === 2) {
+                this.router.navigate(['/admin']);
+                alert('Login success');
+              } else {
+           
+                alert('Access Denied. You do not have sufficient privileges to access the admin page.');
 
-              alert('Login success');
+              }
             } else {
-              alert('Login failed: No token received');
+              alert('Login failed: User ID not received');
             }
           },
           (error) => {
@@ -104,5 +103,4 @@ export class LoginAdminComponent implements OnInit {
       alert('Please enter valid username and password');
     }
   }
-  
 }

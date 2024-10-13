@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssetService } from '../../../service/AssetService.service';
 import { Router, RouterLink } from '@angular/router';
 import { PasswordModule } from 'primeng/password';
-import { CommonModule, NgStyle } from '@angular/common';
+import { CommonModule, DatePipe, NgStyle } from '@angular/common';
 import { AccountUserService } from '../../../service/accountUser.service';
 import { AccountUser } from '../../../entity/accountUser.entity';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -19,7 +19,9 @@ import { MessageService } from 'primeng/api';
     FormsModule, // Add this
     ReactiveFormsModule, // And this for reactive forms
     CommonModule
-  ]  
+  ],
+    providers: [DatePipe]
+  
 })
 export class RegisterComponent implements OnInit {
   accountUser: AccountUser = {};
@@ -36,8 +38,10 @@ export class RegisterComponent implements OnInit {
     private assetService: AssetService,
     private accountUserService: AccountUserService,
     private router: Router,
-    private formBuilder: FormBuilder // Inject FormBuilder to build form
-  ) // private messageService: MessageService,
+    private formBuilder: FormBuilder, // Inject FormBuilder to build form
+    private datePipe: DatePipe
+
+  ) 
 
   {}
   ngOnInit(): void {
@@ -46,15 +50,9 @@ export class RegisterComponent implements OnInit {
     this.assetService.addCss('client/assets/global/css/all.min.css');
     this.assetService.addCss('client/assets/global/css/line-awesome.min.css');
     this.assetService.addCss('client/assets/templates/basic/css/flaticon.css');
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/main43a0.css?v3'
-    );
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/custom43a0.css?v3'
-    );
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/colorf972.css?color=0E9E4D'
-    );
+    this.assetService.addCss('client/assets/templates/basic/css/main43a0.css?v3');
+    this.assetService.addCss('client/assets/templates/basic/css/custom43a0.css?v3');
+    this.assetService.addCss('client/assets/templates/basic/css/colorf972.css?color=0E9E4D');
     this.assetService.addCss('client/assets/global/css/select2.min.css');
     this.assetService.addCss('client/assets/global/css/daterangepicker.css');
     this.assetService.addCss('client/assets/templates/basic/css/slick.css');
@@ -73,7 +71,7 @@ export class RegisterComponent implements OnInit {
     this.assetService.addCss('client/assets/global/css/iziToast_custom.css');
     this.assetService.addJs('client/assets/global/js/iziToast.min.js');
 
-    this.assetService.setTitle('Bus Booking');
+    this.assetService.setTitle('Register');
 
     this.formGroup = this.formBuilder.group({
       username: ['', Validators.required],
@@ -83,11 +81,15 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       address: ['', Validators.required],
+      confirmPassword:['', Validators.required]
     });
+
   }
   register() {
     if (this.formGroup.valid) {
-      
+      const rawBirthDate = this.formGroup.get('birthDate')?.value;
+      const formattedBirthDate = this.datePipe.transform(rawBirthDate, 'dd/MM/yyyy'); // Hoặc định dạng mà server yêu cầu
+  
       const accountUser = {
         
         username: this.formGroup.get('username')?.value?.toString(),
@@ -95,12 +97,15 @@ export class RegisterComponent implements OnInit {
         status: 1, // Set status to 1 for a new customer
         levelId: 3, // Set levelId to 3 (assuming 3 is the level for a customer)
         fullName: this.formGroup.get('fullName')?.value?.toString(),
-        birthDate: this.formGroup.get('birthDate')?.value?.toString(),
+        // birthDate: this.formGroup.get('birthDate')?.value?.toString(),
+        birthDate: formattedBirthDate,
+
+        
         email: this.formGroup.get('email')?.value?.toString(),
         phoneNumber: this.formGroup.get('phoneNumber')?.value?.toString(),
         address: this.formGroup.get('address')?.value?.toString(),
       };
-  
+      
       this.accountUserService
         .checkUsername(accountUser.username)
         .subscribe((res) => {

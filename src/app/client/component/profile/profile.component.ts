@@ -27,32 +27,37 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private formBuilder: FormBuilder,
     private accountUserService: AccountUserService,
     private datePipe: DatePipe
   ) {}
   ngOnInit(): void {
     const token = localStorage.getItem('jwtToken');
     console.log('Check token: ' + token);
-
     if (!token) {
       console.error('Token not found in localStorage.');
       return; // Handle missing token
     }
+    // const email = localStorage.getItem('email');
+    // if (!email) {
+    //   console.error('Email not found in localStorage.');
+    //   return; // Handle missing email
+    // }
 
     // Initializing form group with validators
-    // this.formGroup = this.fb.group({
-    //   username: [{ value: '', disabled: true }], // Username is disabled as it can't be changed
-    //   fullName: ['', Validators.required],
-    //   email: ['', [Validators.required, Validators.email]],
-    //   phoneNumber: ['', Validators.required],
-    //   birthDate: ['', Validators.required],
-    //   address: ['', Validators.required],
-    // });
+    this.formGroup = this.fb.group({
+      username: [{ value: '', disabled: true }],
+      fullName: ['', Validators.required],
+      email: [
+        { value: '', disabled: true },
+        [Validators.required, Validators.email],
+      ],
+      phoneNumber: ['', Validators.required],
+      birthDate: ['', Validators.required],
+      address: ['', Validators.required],
+    });
     // try {
     //   const decodedToken: any = jwtDecode(token);
     //   console.log('Decoded token:', decodedToken);
-
     //   const userId = decodedToken['nameid']; // Lấy userId từ 'nameid' claim
 
     //   console.log('Extracted userId:', userId);
@@ -85,24 +90,40 @@ export class ProfileComponent implements OnInit {
     // } catch (error) {
     //   console.error('Error decoding token:', error);
     // }
-// -----------------------------------------
-// Lấy dữ liệu từ localStorage
-const email = localStorage.getItem('email') || '';
-const username = localStorage.getItem('username') || '';
-const fullName = localStorage.getItem('fullName') || '';
-const phoneNumber = localStorage.getItem('phoneNumber') || '';
-const birthDate = localStorage.getItem('birthDate') || '';
-const address = localStorage.getItem('address') || '';
 
-// Khởi tạo form và gán giá trị
-this.formGroup = this.formBuilder.group({
-  username: [username,{disabled: true}  ],
-  email: [email],
-  fullName: [fullName],
-  phoneNumber: [phoneNumber],
-  birthDate: [birthDate],
-  address: [address]
-});
+    this.accountUserService.GetUserProfile().subscribe(
+      (accountUser: any) => {
+        if (accountUser) {
+          this.accountUser = accountUser;
+
+          // Convert the birthDate from 'dd-MM-yyyy' to Date
+          let birthDateString = accountUser.birthDate;
+          let birthDateParts = birthDateString.split('-');
+          let birthDate = new Date(
+            parseInt(birthDateParts[2], 10), // Year
+            parseInt(birthDateParts[1], 10) - 1, // Month (0-based)
+            parseInt(birthDateParts[0], 10) // Day
+          );
+
+          // Format the birthDate to 'yyyy-MM-dd' format for the date input
+          const formattedBirthDate = this.datePipe.transform(birthDate, 'yyyy-MM-dd');
+
+          // Set form values from API response
+          this.formGroup.patchValue({
+            username: accountUser.username,
+            fullName: accountUser.fullName,
+            email: accountUser.email,
+            phoneNumber: accountUser.phoneNumber,
+            birthDate: formattedBirthDate,
+            address: accountUser.address,
+          });
+        }
+      },
+      (error) => {
+        console.error('Error fetching user data by email', error);
+      }
+    );
+  
   }
 
   // ---------------------------------------------

@@ -62,7 +62,6 @@ export class AccountComponent implements OnInit {
   statusOptions = [
     { label: 'InActive', value: 0 },
     { label: 'Active', value: 1 },
-    { label: 'OnDuty', value: 2 },
   ];
   formGroup!: FormGroup;
   passwordFormGroup!: FormGroup;
@@ -90,6 +89,23 @@ export class AccountComponent implements OnInit {
     this.accountUserService.GetAllAccountUserInfo().then((res) => {
       this.accountUsers = res as AccountUser[];
     });
+  // Lấy thông tin userId và levelId của người dùng hiện tại từ localStorage
+  const currentUserId = localStorage.getItem('userId');
+  const currentLevelId = localStorage.getItem('levelId');
+
+    // Nếu là admin, lấy tất cả dữ liệu
+    if (currentLevelId === '1') {
+      this.accountUserService.GetAllAccountUserInfo().then((res) => {
+        this.accountUsers = res as AccountUser[];
+      });
+    } else if (currentLevelId === '2') {
+      // Nếu là nhân viên, chỉ lấy thông tin của chính họ
+      this.accountUserService.GetInfoAccountById(Number(currentUserId)).subscribe((res) => {
+        if (res) {
+          this.accountUsers = [res as AccountUser];
+        }
+      });
+    }
     this.formGroup = this.formBuilder.group({
       userId: '0',
       username: ['', [Validators.required]],
@@ -118,8 +134,20 @@ export class AccountComponent implements OnInit {
       { field: 'levelId', header: 'Level' },
     ];
   }
+
+
   //Này là mở hộp thoại thêm mới
   openNew() {
+    const currentLevelId = localStorage.getItem('levelId');
+    if (currentLevelId !== '1') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Only Admins are allowed to create new accounts.',
+        life: 3000,
+      });
+      return;
+    }
     this.accountUser = {};
     this.formGroup.reset(); // Reset form
     this.formGroup.patchValue({ userId: 0 }); // Đặt userId về 0 để đánh dấu là tạo mới
@@ -127,8 +155,9 @@ export class AccountComponent implements OnInit {
     this.accountUserDialog = true;
   }
   editAccountUser(accountUser: AccountUser) {
+    const currentUserId = localStorage.getItem('userId');
     const birthDate = accountUser.birthDate ? new Date(accountUser.birthDate) : null;
-    //Gán dữ liệu được chọn vào form
+    if (accountUser.userId.toString() === currentUserId || localStorage.getItem('levelId') === '1') {
     this.formGroup.patchValue({
       userId: accountUser.userId,
       username: accountUser.username,
@@ -143,9 +172,16 @@ export class AccountComponent implements OnInit {
       phoneNumber: accountUser.phoneNumber,
       address: accountUser.address,
     });
-    //Mở hộp thoại thêm
     this.accountUserDialog = true;
+  } else {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Warning',
+      detail: 'You can only edit your own information.',
+      life: 3000,
+    });
   }
+}
   visible: boolean = false;
   //Mở hộp thoại đổi password
   showDialogPassword() {
@@ -206,6 +242,16 @@ export class AccountComponent implements OnInit {
 
 
   deleteAccountUser(accountUser: AccountUser) {
+    const currentUserId = localStorage.getItem('userId'); // Lấy userId từ localStorage
+    if (accountUser.userId.toString() === currentUserId) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'You cannot delete your own account, cause you are admin.',
+        life: 3000,
+      });
+      return; // Không cho phép xóa chính mình
+    }
     this.deleteAccountUserDialog = true;
     this.accountUser = { ...accountUser };
   }
@@ -251,6 +297,22 @@ export class AccountComponent implements OnInit {
 
   save() {
     this.submitted = true;
+
+    if (this.formGroup.invalid) {
+      return;
+    }
+  
+    const currentLevelId = localStorage.getItem('levelId');
+    if (currentLevelId !== '1' && this.formGroup.get('levelId')?.value === 1) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Warning',
+        detail: 'Employees are not allowed to promote themselves to Admin.',
+        life: 3000,
+      });
+      return;
+    }
+
     if (this.formGroup.get('userId').value == 0) {
       // Nếu ID == 0, nghĩa là dữ liệu mới
       this.accountUser = this.formGroup.value as AccountUser;
@@ -265,10 +327,9 @@ export class AccountComponent implements OnInit {
       this.accountUser.fullName = this.formGroup
         .get('fullName')
         ?.value?.toString();
-      // this.accountUser.birthDate = this.formGroup.get('birthDate')?.value?.toString();
       this.accountUser.birthDate = this.datePipe.transform(
         this.formGroup.get('birthDate')?.value,
-        'dd-MM-yyyy');      
+        'dd/MM/yyyy');      
       this.accountUser.phoneNumber = this.formGroup
         .get('phoneNumber')
         ?.value?.toString();
@@ -346,10 +407,9 @@ export class AccountComponent implements OnInit {
       this.accountUser.fullName = this.formGroup
         .get('fullName')
         ?.value?.toString();
-      // this.accountUser.birthDate = this.formGroup.get('birthDate')?.value?.toString();
       this.accountUser.birthDate = this.datePipe.transform(
         this.formGroup.get('birthDate')?.value,
-        'dd-MM-yyyy'
+        'dd/MM/yyyy'
       );
       this.accountUser.phoneNumber = this.formGroup
         .get('phoneNumber')

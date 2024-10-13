@@ -17,7 +17,11 @@ export class AccountUserService{
 
     async CreateAccountUser(accountUser: any){
         console.log('test service create '+ accountUser);
-        return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'accountUser/createAccountUser', accountUser));
+        return lastValueFrom(this.httpClient.post(`${this.baseurl.BASE_URL}accountUser/createAccountUser`, accountUser));
+    }
+    async CreateAccountUserGg(accountUser: any){
+        console.log('test service create '+ accountUser);
+        return lastValueFrom(this.httpClient.post(`${this.baseurl.BASE_URL}accountUser/createAccountUserGg`, accountUser));
     }
     async GetAllAccountUserInfo(){
         return lastValueFrom(this.httpClient.get(this.baseurl.BASE_URL+'accountUser/getAllAccountUserInfo'));
@@ -25,10 +29,7 @@ export class AccountUserService{
     GetInfoAccountById(userId: number): Observable<AccountUser> {
         return this.httpClient.get<AccountUser>(`${this.baseurl.BASE_URL}accountUser/getInfoAccountById/${userId}`);
     }
-    // async UpdateAccountUser(accountUser: any){
-    //     console.log('test service update'+ accountUser);
-    //     return lastValueFrom(this.httpClient.put(`${this.baseurl.BASE_URL}accountUser/updateAccountUser`, accountUser));
-    // }
+
     UpdateAccountUser(accountUser: any): Promise<any> {
         console.log('test service update', accountUser);
         return lastValueFrom(this.httpClient.put(`${this.baseurl.BASE_URL}accountUser/updateAccountUser`, accountUser));
@@ -42,6 +43,9 @@ export class AccountUserService{
         console.log("Sending login data:", { username, password }); // Log dữ liệu để kiểm tra
         return this.httpClient.post<any>(`${this.baseurl.BASE_URL}accountUser/login`, { username, password });
     }
+    loginWithGoogle(idToken: string): Observable<any> {
+        return this.httpClient.post<any>(`${this.baseurl.BASE_URL}accountUser/loginWithGoogle`, { idToken });
+    }
     checkUsername(username: string): Observable<any> {
         return this.httpClient.get<any>(`${this.baseurl.BASE_URL}accountUser/checkUsername/${username}`);
       }
@@ -51,10 +55,10 @@ export class AccountUserService{
     async Active(accountUser:any){
         return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'accountUser/active', accountUser));
     }
-    loginWithGoogle(idToken: string): Observable<any> {
-        return this.httpClient.post<any>(`${this.baseurl.BASE_URL}accountUser/loginWithGoogle`, { idToken });
-    }
-
+    GetUserInfoByEmail(email: string): Observable<AccountUser> {
+        return this.httpClient.get<AccountUser>(`${this.baseurl.BASE_URL}accountUser/getInfoByEmail/${email}`);
+      }
+      
     GetUserProfile(): Observable<any> {
         const token = localStorage.getItem('jwtToken');
         if (token) {

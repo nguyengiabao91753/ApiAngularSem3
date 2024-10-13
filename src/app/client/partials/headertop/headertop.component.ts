@@ -10,6 +10,8 @@ import { Router, RouterLink } from '@angular/router';
     CommonModule,
   ],
   templateUrl: './headertop.component.html',
+  styleUrl: './headertop.component.css'
+
 })
 export class HeadertopComponent implements OnInit{
   isLoggedIn = false; 

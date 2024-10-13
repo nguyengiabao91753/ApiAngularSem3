@@ -2,7 +2,7 @@
     style="background: url(https://script.viserlab.com/viserbus/assets/images/frontend/breadcrumb/66868cfc051ae1720093948.jpg) center">
     <div class="container">
         <div class="inner-banner-content">
-            <h2 class="title">Dashboard</h2>
+            <h2 class="title">History Booked</h2>
         </div>
     </div>
 </section>
@@ -16,7 +16,7 @@
                     <div class="dashboard-widget">
                         <div class="dashboard-widget__content">
                             <p>Total Booked Ticket</p>
-                            <h3 class="title">0</h3>
+                            <h3 class="title">{{ countBookedTicket() }}</h3>
                         </div>
                         <div class="dashboard-widget__icon">
                             <i class="las la-ticket-alt"></i>
@@ -27,7 +27,7 @@
                     <div class="dashboard-widget">
                         <div class="dashboard-widget__content">
                             <p>Total Rejected Ticket</p>
-                            <h3 class="title">1</h3>
+                            <h3 class="title">{{ countCancelTicket() }}</h3>
                         </div>
                         <div class="dashboard-widget__icon">
                             <i class="las la-ticket-alt"></i>
@@ -37,8 +37,8 @@
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="dashboard-widget">
                         <div class="dashboard-widget__content">
-                            <p>Total Pending Ticket</p>
-                            <h3 class="title">0</h3>
+                            <p>Total Used Ticket</p>
+                            <h3 class="title">{{ countUsedTicket() }}</h3>
                         </div>
                         <div class="dashboard-widget__icon">
                             <i class="las la-ticket-alt"></i>
@@ -51,40 +51,46 @@
                 <table class="booking-table">
                     <thead>
                         <tr>
-                            <th>PNR Number</th>
+                            <th>Ticket Code</th>
                             <th>AC / Non-Ac</th>
                             <th>Starting Point</th>
                             <th>Dropping Point</th>
-                            <th>Journey Date</th>
+                            <th>Start Date</th>
                             <th>Pickup Time</th>
                             <th>Booked Seats</th>
                             <th>Status</th>
                             <th>Fare</th>
-                            <th>Action</th>
+                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
+                        @for (book of booking; track book) {
+                        @for (detail of getUserListDetailBooking(book.bookingId); track detail) {
                         <tr>
-                            <td class="ticket-no" data-label="PNR Number">Z78V8D685Q</td>
-                            <td class="" data-label="AC / Non-Ac">Non-Ac</td>
-                            <td class="pickup" data-label="Starting Point">Kansas</td>
-                            <td class="drop" data-label="Dropping Point">Wichita</td>
-                            <td class="date" data-label="Journey Date">24 Sep, 2024</td>
-                            <td class="time" data-label="Pickup Time">08:00 am</td>
-                            <td class="seats" data-label="Booked Seats">1-A4</td>
+                            <td class="ticket-no" data-label="PNR Number">{{ detail.ticketCode }}</td>
+                            <td class="" data-label="AC / Non-Ac">{{ getAc(book.busTripId) }}</td>
+                            <td class="pickup" data-label="Starting Point">{{ getDeparture(book.busTripId) }}</td>
+                            <td class="drop" data-label="Dropping Point">{{ getArrival(book.busTripId) }}</td>
+                            <td class="date" data-label="Journey Date">{{ getDateStart(book.busTripId) }}</td>
+                            <td class="time" data-label="Pickup Time">{{ getTimeStart(book.busTripId) }}</td>
+                            <td class="seats" data-label="Booked Seats">{{ detail.seatName }}</td>
                             <td data-label="Status">
-                                <span class="badge badge--danger"> Rejected</span>
+                                <span *ngIf="detail.ticketStatus ==0" class="badge badge--secondary">Used</span>
+                                <span *ngIf="detail.ticketStatus ==1" class="badge badge--success">Active</span>
+                                <span *ngIf="detail.ticketStatus ==2" class="badge badge--danger">Rejected</span>
                             </td>
-                            <td class="fare" data-label="Fare">$20.00 USD</td>
-                            <td class="action" data-label="Action">
+                            <td class="fare" data-label="Fare">${{ detail.priceAfterDiscount }}</td>
+                            <!-- <td class="action" data-label="Action">
                                 <div class="action-button-wrapper">
-                                    <a href="javascript::void(0)" class="checkinfo"
-                                        data-info="{&quot;id&quot;:1547,&quot;user_id&quot;:1190,&quot;gender&quot;:1,&quot;trip_id&quot;:1,&quot;source_destination&quot;:[&quot;1&quot;,&quot;3&quot;],&quot;pickup_point&quot;:1,&quot;dropping_point&quot;:3,&quot;seats&quot;:[&quot;1-A4&quot;],&quot;ticket_count&quot;:1,&quot;unit_price&quot;:&quot;20.00000000&quot;,&quot;sub_total&quot;:&quot;20.00000000&quot;,&quot;date_of_journey&quot;:&quot;2024-09-24&quot;,&quot;pnr_number&quot;:&quot;Z78V8D685Q&quot;,&quot;status&quot;:0,&quot;created_at&quot;:&quot;2024-09-24T13:32:13.000000Z&quot;,&quot;updated_at&quot;:&quot;2024-09-24T13:32:13.000000Z&quot;,&quot;photo&quot;:{},&quot;trip&quot;:{&quot;id&quot;:1,&quot;title&quot;:&quot;AC - Kansas - Echo Bass&quot;,&quot;fleet_type_id&quot;:3,&quot;vehicle_route_id&quot;:1,&quot;schedule_id&quot;:3,&quot;start_from&quot;:{&quot;id&quot;:1,&quot;name&quot;:&quot;Kansas&quot;,&quot;city&quot;:&quot;Kansas&quot;,&quot;location&quot;:&quot;Kansass&quot;,&quot;mobile&quot;:&quot;011111111111&quot;,&quot;status&quot;:1,&quot;created_at&quot;:&quot;2022-02-16T16:49:15.000000Z&quot;,&quot;updated_at&quot;:&quot;2022-02-24T12:34:48.000000Z&quot;},&quot;end_to&quot;:{&quot;id&quot;:5,&quot;name&quot;:&quot;Echo Bass&quot;,&quot;city&quot;:&quot;Echo Bass&quot;,&quot;location&quot;:&quot;Echo Bass&quot;,&quot;mobile&quot;:&quot;124512&quot;,&quot;status&quot;:1,&quot;created_at&quot;:&quot;2022-02-16T16:50:19.000000Z&quot;,&quot;updated_at&quot;:&quot;2022-02-16T16:50:19.000000Z&quot;},&quot;day_off&quot;:[&quot;5&quot;],&quot;status&quot;:1,&quot;created_at&quot;:&quot;2022-02-16T18:30:28.000000Z&quot;,&quot;updated_at&quot;:&quot;2022-02-16T18:30:28.000000Z&quot;,&quot;fleet_type&quot;:{&quot;id&quot;:3,&quot;name&quot;:&quot;AC&quot;,&quot;seat_layout&quot;:&quot;2 x 2&quot;,&quot;deck&quot;:1,&quot;deck_seats&quot;:[&quot;40&quot;],&quot;facilities&quot;:[&quot;Water Bottle&quot;,&quot;Pillow&quot;,&quot;Wifi&quot;],&quot;has_ac&quot;:0,&quot;status&quot;:1,&quot;created_at&quot;:&quot;2022-02-13T16:59:38.000000Z&quot;,&quot;updated_at&quot;:&quot;2022-02-16T18:40:22.000000Z&quot;},&quot;schedule&quot;:{&quot;id&quot;:3,&quot;start_from&quot;:&quot;08:00:00&quot;,&quot;end_at&quot;:&quot;16:30:00&quot;,&quot;status&quot;:1,&quot;created_at&quot;:&quot;2022-02-13T17:42:21.000000Z&quot;,&quot;updated_at&quot;:&quot;2022-02-13T17:42:29.000000Z&quot;}},&quot;pickup&quot;:{&quot;id&quot;:1,&quot;name&quot;:&quot;Kansas&quot;,&quot;city&quot;:&quot;Kansas&quot;,&quot;location&quot;:&quot;Kansass&quot;,&quot;mobile&quot;:&quot;011111111111&quot;,&quot;status&quot;:1,&quot;created_at&quot;:&quot;2022-02-16T16:49:15.000000Z&quot;,&quot;updated_at&quot;:&quot;2022-02-24T12:34:48.000000Z&quot;},&quot;drop&quot;:{&quot;id&quot;:3,&quot;name&quot;:&quot;Wichita&quot;,&quot;city&quot;:&quot;Wichita&quot;,&quot;location&quot;:&quot;Wichita&quot;,&quot;mobile&quot;:&quot;022222222&quot;,&quot;status&quot;:1,&quot;created_at&quot;:&quot;2022-02-16T16:49:57.000000Z&quot;,&quot;updated_at&quot;:&quot;2022-02-16T16:49:57.000000Z&quot;}}"
-                                        data-bs-toggle="modal" data-bs-target="#infoModal"><i
-                                            class="las la-info-circle"></i></a>
+
+                                    <i class="las la-info-circle"></i>
+
                                 </div>
-                            </td>
+                            </td> -->
                         </tr>
+                        }
+                        }
+
                     </tbody>
                 </table>
             </div>

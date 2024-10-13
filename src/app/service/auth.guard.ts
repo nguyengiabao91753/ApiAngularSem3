@@ -11,8 +11,6 @@ export class AuthGuard implements CanActivate {
     const token = localStorage.getItem('jwtToken');
     const userId = localStorage.getItem('userId');
     const email = localStorage.getItem('email');
-    const levelId = localStorage.getItem('levelId');
-    const status =  localStorage.getItem('status');
     
 
 

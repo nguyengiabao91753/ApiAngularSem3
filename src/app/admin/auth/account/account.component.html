@@ -4,8 +4,9 @@
         <div class="card px-6 py-6">
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
-                <ng-template pTemplate="left">
-                    <div class="my-2">
+                
+                <ng-template pTemplate="left" >
+                    <div class="my-2" >
                         <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
                             (click)="openNew()"></button>
                     </div>
@@ -61,9 +62,7 @@
                                 [ngStyle]="{backgroundColor:'var(--red-500)', color: 'var(--surface-100)', borderRadius: 'var(--border-radius)', padding: '1rem'}"><strong>In</strong><strong>Active</strong></span>
                             <span *ngIf="accountUser.status === 1"
                                 [ngStyle]="{backgroundColor:'var(--green-500)', color: 'var(--surface-100)', borderRadius: 'var(--border-radius)', padding: '1rem'}"><strong>Active</strong></span>
-                            <span *ngIf="accountUser.status === 2"
-                                [ngStyle]="{backgroundColor:'var(--cyan-500)', color: 'var(--surface-100)', borderRadius: 'var(--border-radius)', padding: '1rem'}"><strong>On</strong><strong>Duty</strong></span>
-                        </td>
+                            </td>
                         <td>
                             <span class="p-column-title">Level</span>
                             <span *ngIf="accountUser.levelId === 1"
@@ -150,9 +149,7 @@
                     </div>
                     <div class="field">
                         <label for="birthDate">Birth Date</label>
-                        <!-- <input type="text" pInputText id="birthDate" formControlName="birthDate" autofocus
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('birthDate')?.invalid}" /> -->
-                        <p-calendar dateFormat="dd-mm-yy" id="birthDate" formControlName="birthDate"
+                        <p-calendar dateFormat="dd/mm/yy" id="birthDate" formControlName="birthDate"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('birthDate')?.invalid}"></p-calendar>
                         <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('birthDate')?.invalid">
                             Birth Date is required.

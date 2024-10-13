@@ -1,0 +1,81 @@
+<div class="grid">
+    <div class="col-12">
+
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Check" class="p-button-primary mr-2"
+                            (click)="startScanning()"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Close" class="p-button-help" (click)="stopScanning()"></button>
+                </ng-template>
+            </p-toolbar>
+            <!-- Quét mã QR -->
+
+
+            <div class="card px-6 py-6">
+                <div class="spinner-grow" [hidden]="!hasCheck" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <h3 style="text-align: center;" [hidden]="hasTicket">No Data Available</h3>
+                <div class="card-body " [hidden]="!hasTicket">
+                    <div class="title ">
+                        <h3 style="text-align: center;">Ticket Information</h3>
+                    </div>
+                    <p-toolbar styleClass="mb-4">
+                        <ng-template pTemplate="left">
+                            <div class="my-2">
+                                <h4><b>Trip: </b>{{ ticketInfor.departure }} - {{ ticketInfor.arrival }}</h4>
+                                <h4><b>Date Start: </b>{{ ticketInfor.dateStart }}</h4>
+                                <h4><b>Date End: </b>{{ ticketInfor.dateEnd }}</h4>
+                                <h4><b>Bus: </b>{{ ticketInfor.busTypeName }} - {{ ticketInfor.licensePlate }}</h4>
+                            </div>
+                        </ng-template>
+
+                        <ng-template pTemplate="right">
+                            <div class="my-2">
+                                <h4><b>Full Name: </b>{{ ticketInfor.fullName }}</h4>
+                                <h4><b>Email: </b>{{ ticketInfor.email }}</h4>
+                                <h4><b>Seat: </b>{{ ticketInfor.seatName }}</h4>
+                                <h4><b>Ticket Code: </b>{{ ticketInfor.licensePlate }}</h4>
+                                <h4><b>Booking Date: </b>{{ ticketInfor.bookingDate }}</h4>
+                            </div>
+                        </ng-template>
+                    </p-toolbar>
+                    <button pButton pRipple label="Use" *ngIf="ticketInfor.ticketStatus==1 && checkExpired(ticketInfor.dateEnd)" (click)="useTicket(ticketInfor.ticketCode)" size="large" class="p-button-success"></button>
+                    <div class="card flex flex-wrap justify-content-center gap-2">
+                        <p-button 
+                            label="Emails" 
+                            badge="8" />
+                    </div>
+                    <p-badge *ngIf="ticketInfor.ticketStatus==1 && !checkExpired(ticketInfor.dateEnd)" label="Expired Ticket"  severity="secondary" />
+                </div>
+            </div>
+
+            <p-dialog [(visible)]="cameraActive" [style]="{width: '650px'}" header="Check Ticket Code" [modal]="true"
+                class="p-fluid">
+                <ng-template pTemplate="content">
+                    <div class="scanner-container">
+                        <zxing-scanner #scanner [device]="currentDevice" [enable]="cameraActive"
+                            (camerasFound)="camerasFound($event)" (scanSuccess)="onCodeResult($event)"
+                            (scanError)="onError($event)" (permissionResponse)="hasPermission = $event">
+                        </zxing-scanner>
+                        <div class="scanner-overlay"></div>
+                    </div>
+
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Cancel" severity="danger" icon="pi pi-times" class="p-button-text"
+                        (click)="stopScanning()"></button>
+                </ng-template>
+            </p-dialog>
+
+        </div>
+    </div>
+</div>

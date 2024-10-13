@@ -35,13 +35,9 @@ export class LoginComponent implements OnInit {
     this.assetService.addCss('client/assets/global/css/all.min.css');
     this.assetService.addCss('client/assets/global/css/line-awesome.min.css');
     this.assetService.addCss('client/assets/templates/basic/css/flaticon.css');
-
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/custom43a0.css?v3'
-    );
-    this.assetService.addCss(
-      'client/assets/templates/basic/css/colorf972.css?color=0E9E4D'
-    );
+    this.assetService.addCss('client/assets/templates/basic/css/main43a0.css?v3');
+    this.assetService.addCss('client/assets/templates/basic/css/custom43a0.css?v3');
+    this.assetService.addCss('client/assets/templates/basic/css/colorf972.css?color=0E9E4D');
     this.assetService.addCss('client/assets/global/css/select2.min.css');
     this.assetService.addCss('client/assets/global/css/daterangepicker.css');
     this.assetService.addCss('client/assets/templates/basic/css/slick.css');
@@ -59,7 +55,7 @@ export class LoginComponent implements OnInit {
     this.assetService.addCss('client/assets/global/css/iziToast_custom.css');
     this.assetService.addJs('client/assets/global/js/iziToast.min.js');
 
-    this.assetService.setTitle('Bus Booking');
+    this.assetService.setTitle('Login');
 
     // Validate form
     this.loginFormGroup = this.formBuilder.group({
@@ -86,36 +82,55 @@ export class LoginComponent implements OnInit {
   }
 
   handleCredentialResponse(response: any) {
-    const token = response.credential;
-    
-    const decodedToken: any = jwtDecode(token);
-    const base64URL = token.split(".")[1]
-    const base64 = base64URL.replace(/-/g,'+').replace(/_/g,'/')
-    
-    JSON.parse(JSBase64.decode(base64))
-    
-    console.log('check base64:',JSON.parse(JSBase64.decode(base64)));
-
-      const payLoad =     JSON.parse(JSBase64.decode(base64))
-      this.accountUser = {
-        username: payLoad.email,
-        fullName: payLoad.name,
-        email: decodedToken.email,
-        levelId: 3 //levelId = 3 passenger
+    const googleIdToken = response.credential;
+  
+    // Gọi dịch vụ để đăng nhập với Google
+    this.accountUserService.loginWithGoogle(googleIdToken).subscribe(
+      (response: any) => {
+        if (response.token) {
+          // Lưu token của server vào localStorage
+          localStorage.setItem('jwtToken', response.token);
+          this.router.navigate(['/profile']);
+        } else {
+          alert('Login failed: No token received');
+        }
+      },
+      (error) => {
+        console.error('Error during login with Google:', error);
+        alert('Failed to login with Google.');
       }
-        // Gọi dịch vụ để tạo tài khoản người dùng từ thông tin Google
-  this.accountUserService.CreateAccountUser(this.accountUser)
-  .then(response => {
-    console.log('Account created or retrieved successfully:', response);
-    // Lưu token vào localStorage và chuyển hướng đến trang profile
-    localStorage.setItem('jwtToken', token);
-    localStorage.setItem('email', decodedToken.email);
-    this.router.navigate(['/profile']);
-  })
-  .catch(error => {
-    console.error('Error creating account:', error);
-    alert('Failed to create account: ' + error.message);
-  });
+    );
+
+// ------------------------------
+  //   const token = response.credential;
+  //   const decodedToken: any = jwtDecode(token);
+  //   const base64URL = token.split(".")[1]
+  //   const base64 = base64URL.replace(/-/g,'+').replace(/_/g,'/')
+    
+  //   JSON.parse(JSBase64.decode(base64))
+    
+  //   console.log('check base64:',JSON.parse(JSBase64.decode(base64)));
+
+  //     const payLoad =     JSON.parse(JSBase64.decode(base64))
+  //     this.accountUser = {
+  //       username: payLoad.email,
+  //       fullName: payLoad.name,
+  //       email: decodedToken.email,
+ 
+  //     }
+  //       // Gọi dịch vụ để tạo tài khoản người dùng từ thông tin Google
+  // this.accountUserService.CreateAccountUserGg(this.accountUser)
+  // .then(response => {
+  //   console.log('Account created or retrieved successfully:', response);
+  //   // Lưu token vào localStorage và chuyển hướng đến trang profile
+  //   localStorage.setItem('jwtToken', token);
+  //   localStorage.setItem('email', decodedToken.email);
+  //   this.router.navigate(['/profile']);
+  // })
+  // .catch(error => {
+  //   console.error('Error creating account:', error);
+  //   alert('Failed to create account: ' + error.message);
+  // });
   
 }
 
