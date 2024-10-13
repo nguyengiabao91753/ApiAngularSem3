@@ -13,8 +13,8 @@ export class AuthService{
     }
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot):boolean{
         if(localStorage.getItem('userId') == null){
-            this.router.navigate(['/auth/login'])
-            alert("Fail to login")
+            this.router.navigate(['auth/loginAdmin'])
+            // alert("Fail to login")
             return false;
         }
         return true;

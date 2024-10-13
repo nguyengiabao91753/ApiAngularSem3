@@ -6,17 +6,22 @@
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="Check" class="p-button-primary mr-2"
+                        <button pButton pRipple label="Check with QR" class="p-button-primary mr-2"
                             (click)="startScanning()"></button>
                     </div>
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <button pButton pRipple label="Close" class="p-button-help" (click)="stopScanning()"></button>
+                    <button pButton pRipple label="Check with input" class="p-button-help"
+                        (click)="checkwithInput()"></button>
                 </ng-template>
             </p-toolbar>
             <!-- Quét mã QR -->
-
+            <div class="card px-6 py-6" style="text-align: center;" [hidden]="!inputActive">
+                <input type="text" pInputText #key (keyup)="findTicketInfor(key.value)">
+                <button pButton pRipple label="Close" class="p-button-danger" (click)="closeCheckwithInput()">
+                </button>
+            </div>
 
             <div class="card px-6 py-6">
                 <div class="spinner-grow" [hidden]="!hasCheck" role="status">
@@ -47,13 +52,14 @@
                             </div>
                         </ng-template>
                     </p-toolbar>
-                    <button pButton pRipple label="Use" *ngIf="ticketInfor.ticketStatus==1 && checkExpired(ticketInfor.dateEnd)" (click)="useTicket(ticketInfor.ticketCode)" size="large" class="p-button-success"></button>
-                    <div class="card flex flex-wrap justify-content-center gap-2">
-                        <p-button 
-                            label="Emails" 
-                            badge="8" />
-                    </div>
-                    <p-badge *ngIf="ticketInfor.ticketStatus==1 && !checkExpired(ticketInfor.dateEnd)" label="Expired Ticket"  severity="secondary" />
+                    <button pButton pRipple label="Use"
+                        *ngIf="ticketInfor.ticketStatus==1 && checkExpired(ticketInfor.dateEnd)"
+                        (click)="useTicket(ticketInfor.ticketCode)" size="large" class="p-button-success"></button>
+                    <!-- <div class="card flex flex-wrap justify-content-center gap-2">
+                        <p-button label="Emails" badge="8" />
+                    </div> -->
+                    <p-badge *ngIf="ticketInfor.ticketStatus==1 && !checkExpired(ticketInfor.dateEnd)"
+                        label="Expired Ticket" severity="secondary" />
                 </div>
             </div>
 

@@ -92,7 +92,7 @@ export class TripComponent implements OnInit {
     )
     this.locationService.getAll().then(
       res => {
-        this.locations = res as Location[];
+        this.locations = (res as Location[]).filter(location => location.status === 1);
         console.log(this.locations);
       }
     )
@@ -213,7 +213,7 @@ checkDateEnd() {
     
     // Thiết lập maxDateEnd (2 ngày sau dateStart)
     const maxDateEnd = new Date(dateStart);
-    maxDateEnd.setDate(maxDateEnd.getDate() + 2);
+    maxDateEnd.setDate(maxDateEnd.getDate() + 10);
 
     const errors = {};
 
@@ -265,8 +265,8 @@ checkDateEnd() {
       tripId: trip.tripId,
       departureLocationId: trip.departureLocationId,
       arrivalLocationId: trip.arrivalLocationId,
-      dateStart: trip.dateStart,
-      dateEnd: trip.dateEnd
+      dateStart: new Date(trip.dateStart), // Chuyển đổi sang đối tượng Date nếu cần
+      dateEnd: new Date(trip.dateEnd)      // Chuyển đổi sang đối tượng Date nếu cần
     });
     //Mở hộp thoại thêm
     this.tripDialog = true;
@@ -335,7 +335,8 @@ checkDateEnd() {
         res => {
           if (res['status']) {
             this.tripDialog = false;
-            this.formGroup.reset()
+            this.formGroup.reset();
+            this.ngOnInit();
 
             //Tăng ID mới lên 1
             let newTripId = this.trips[this.trips.length - 1].tripId + 1;
@@ -373,7 +374,8 @@ checkDateEnd() {
         res => {
           if (res['status']) {
             this.tripDialog = false;
-            this.formGroup.reset()
+            this.formGroup.reset();
+            this.ngOnInit();
 
             // Tạo ra mảng mới với đối tượng đã được cập nhật
             this.trips = this.trips.map(a =>

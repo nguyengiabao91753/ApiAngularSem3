@@ -2,54 +2,42 @@
     style="background: url(client/assets/templates/basic/images/search_bg.jpg) left center;">
     <div class="container">
         <div class="bus-search-header">
-            <form action="https://script.viserlab.com/viserbus/ticket/search"
+            <form [formGroup]="formgroup" (ngSubmit)="filterSubmit()"
                 class="ticket-form ticket-form-two row g-3 justify-content-center">
                 <div class="col-md-4 col-lg-3">
                     <div class="form--group">
                         <i class="las la-location-arrow"></i>
-                        <select name="pickup" class="form--control select2">
-                            <option value="">Pickup Point</option>
-                            <option value="1">
-                                Kansas</option>
-                            <option value="2">
-                                Dallas</option>
-                            <option value="3">
-                                Wichita</option>
-                            <option value="4">
-                                Emi Davenport</option>
-                            <option value="5">
-                                Echo Bass</option>
+                        <select name="pickup" formControlName="departure" class="form--control select2">
+                            <option value="0" selected>Pickup Point</option>
+                            @for (lo of locations; track lo) {
+                                <option value="{{ lo.name }}">{{ lo.name }}</option>
+                                }
+                           
                         </select>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3">
                     <div class="form--group">
                         <i class="las la-map-marker"></i>
-                        <select name="destination" class="form--control select2">
-                            <option value="">Dropping Point</option>
-                            <option value="1">
-                                Kansas</option>
-                            <option value="2">
-                                Dallas</option>
-                            <option value="3">
-                                Wichita</option>
-                            <option value="4">
-                                Emi Davenport</option>
-                            <option value="5">
-                                Echo Bass</option>
+                        <select name="destination" formControlName="arrival" class="form--control select2">
+                            <option value="0" selected>Dropping Point</option>
+                            @for (lo of locations; track lo) {
+                                <option value="{{ lo.name }}">{{ lo.name }}</option>
+                                }
                         </select>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3">
                     <div class="form--group">
-                        <i class="las la-calendar-check"></i>
-                        <input type="text" name="date_of_journey" class="form--control date-range"
-                            placeholder="Date of Journey" autocomplete="off" value="">
+             
+                        <i for="date_of_journey" class="las la-calendar-check custom-calendar-icon"></i>
+                        <input type="date" date class="form--control date-range custom-date-input" [min]="today" 
+                        formControlName="dateStart" placeholder="Date of Journey" />
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
                     <div class="form--group">
-                        <button class="btn btn--base w-100">Find Tickets</button>
+                        <button type="submit" class="btn btn--base w-100">Find Tickets</button>
                     </div>
                 </div>
             </form>
@@ -63,48 +51,42 @@
     <div class="container">
         <div class="row gy-5">
             <div class="col-lg-3">
-                <form action="https://script.viserlab.com/viserbus/ticket/search" id="filterForm">
+                <form id="filterForm">
                     <div class="ticket-filter">
                         <div class="filter-header filter-item">
                             <h4 class="title mb-0">Filter</h4>
-                            <button type="reset" class="reset-button h-auto">Reset All</button>
+                            <button type="reset" (click)="resetfilter()" class="reset-button h-auto">Reset All</button>
                         </div>
                         <div class="filter-item">
                             <h5 class="title">Vehicle Type</h5>
                             <ul class="bus-type">
-                                <li class="custom--checkbox">
-                                    <input name="fleetType[]" class="search" value="1" id="Classic" type="checkbox">
-                                    <label for="Classic"><span><i class="las la-bus"></i>Classic</span></label>
+
+                                <li *ngFor="let bustype of busTypes" class="custom--checkbox">
+                                    <input name="fleetType[]" class="search" value="{{ bustype.name }}" id="Classic" #type (change)="filterType(type)" type="checkbox">
+                                    <label for="Classic"><span><i class="las la-bus"></i>{{ bustype.name }}</span></label>
                                 </li>
-                                <li class="custom--checkbox">
-                                    <input name="fleetType[]" class="search" value="2" id="Coach" type="checkbox">
-                                    <label for="Coach"><span><i class="las la-bus"></i>Coach</span></label>
-                                </li>
-                                <li class="custom--checkbox">
-                                    <input name="fleetType[]" class="search" value="3" id="AC" type="checkbox">
-                                    <label for="AC"><span><i class="las la-bus"></i>AC</span></label>
-                                </li>
+                               
                             </ul>
                         </div>
 
                         <div class="filter-item">
-                            <h5 class="title">Routes</h5>
+                            <h5 class="title">Facilities</h5>
                             <ul class="bus-type">
                                 <li class="custom--checkbox">
-                                    <input name="routes[]" class="search" value="1" id="route.1" type="checkbox">
-                                    <label for="route.1"><span><i class="las la-road"></i>Kansas to Echo Bass
+                                    <input name="routes[]" class="search" value="1" id="route.1" #ac (change)="filterAC(ac)" type="checkbox">
+                                    <label for="route.1"><span><i class="las la-road"></i>A/C
                                             </span></label>
                                 </li>
-                                <li class="custom--checkbox">
+                                <!-- <li class="custom--checkbox">
                                     <input name="routes[]" class="search" value="2" id="route.2" type="checkbox">
                                     <label for="route.2"><span><i class="las la-road"></i>Witchita to Echo
                                                 Bass </span>
                                     </label>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
 
-                        <div class="filter-item">
+                        <!-- <div class="filter-item">
                             <h5 class="title">Schedules</h5>
                             <ul class="bus-type">
                                 <li class="custom--checkbox">
@@ -126,7 +108,7 @@
                                             </span></label>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </div>
@@ -177,7 +159,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <br>
                     <!-- <div class="ticket-item">
                         <div class="ticket-item-inner">
                             <h5 class="bus-name">Coach - Kansas - Echo Bass</h5>

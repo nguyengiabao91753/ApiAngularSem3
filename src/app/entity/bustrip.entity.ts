@@ -6,6 +6,7 @@ export interface BusesTrip{
     busTypeName?: string;
     airConditioned?: number;
     seatCount?: number;
+    licensePlate?:string
     // .
 
     tripId?: number;
