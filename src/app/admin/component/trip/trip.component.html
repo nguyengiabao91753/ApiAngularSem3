@@ -56,10 +56,12 @@
                         <td><span class="p-column-title">DateEnd</span>{{tri.dateEnd}}</td>
                         <td>
                             <span class="p-column-title">Status</span>
-                            <span [class]="'product-badge status-' + (tri.status == 1 ? 'instock' : 'outofstock')">
-                                {{tri.status == 1 ? 'Active' : 'Deleted'}}
+                            <span [class]="'product-badge status-' + (tri.status == 1 ? 'instock' : tri.status == 2 ? 'outofstock' : 'outofstock')">
+                                {{tri.status == 1 ? 'Active' : tri.status == 2 ? 'Expired' : 'Deleted'}}
                             </span>
                         </td>
+                        
+                        
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"
