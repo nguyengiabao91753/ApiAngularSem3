@@ -31,166 +31,162 @@ import { DashboardComponent } from './admin/component/dashboard/dashboard.compon
 import { BookingComponent } from './admin/component/booking/booking.component';
 import { CheckticketComponent } from './admin/component/checkticket/checkticket.component';
 import { ThanksComponent } from './client/component/thanks/thanks.component';
-
+import { RoleGuard } from './service/role.guard'; // Import RoleGuard
 
 export const routes: Routes = [
-    {
-        path: 'admin',
-        component: AdminComponent,
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+
+    children: [
+      {
+        path: '',
+        component: DashboardComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1, 2] },
+      },
+      {
+        path: 'bus-type',
+        component: BusTypeComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },
+      },
+      {
+        path: 'bus',
+        component: BusComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },      },
+      {
+        path: 'agegroup',
+        component: AgegroupComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },      },
+      {
+        path: 'policy',
+        component: PolicyComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },      },
+
+      {
+        path: 'user',
+        component: UserComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1, 2] },
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
         canActivate: [AuthGuard],
+        data: { requiredLevelIds: [1, 2] },
+      },
+      {
+        path: 'inActive',
+        component: InActiveComponent,
+        canActivate: [AuthGuard],
+        data: { requiredLevelIds: [1] },
+      },
+      {
+        path: 'busestrip',
+        component: BusestripComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },
+      },
+      {
+        path: 'location',
+        component: LocationComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },      },
+      {
+        path: 'trip',
+        component: TripComponent,
+      canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },      },
+      {
+        path: 'booking',
+        component: BookingComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1] },
+      },
+      {
+        path: 'checkTicket',
+        component: CheckticketComponent,
+        canActivate: [RoleGuard],
+        data: { requiredLevelIds: [1, 2] },
+      },
+    ],
+  },
+  // login danh cho admin
+  {
+    path: 'auth/loginAdmin',
+    component: LoginAdminComponent,
+  },
+  {
+    path: '',
+    component: ClientComponent,
+    children: [
+      {
+        path: '',
+        component: HomeComponent,
+      },
+      {
+        path: 'home',
+        component: HomeComponent,
+      },
+      {
+        path: 'ticket',
+        component: TicketComponent,
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
+      },
+      {
+        path: 'faqs',
+        component: FaqsComponent,
+      },
+      {
+        path: 'blog',
+        component: BlogComponent,
+      },
+      {
+        path: 'contact-us',
+        component: ContactComponent,
+      },
+      {
+        path: 'ticket-detail/:id',
+        component: TicketDetailComponent,
+        runGuardsAndResolvers: 'always', //bắt buộc chạy lại ngOnInit
+      },
+      {
+        path: 'payment',
+        component: PaymentComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardClientComponent,
         
-        children:[
-            {
-                path: '',
-                component: DashboardComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path: 'bus-type',
-                component: BusTypeComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path: 'bus',
-                component: BusComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'agegroup',
-                component: AgegroupComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'policy',
-                component: PolicyComponent,
-                canActivate: [AuthGuard],
-
-            },
-
-            {
-                path:'user',
-                component: UserComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'account',
-                component: AccountComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'inActive',
-                component: InActiveComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'busestrip',
-               component: BusestripComponent,
-               canActivate: [AuthGuard],
-            },
-            {
-                path:'location',
-                component: LocationComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'trip',
-                component: TripComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'booking',
-                component: BookingComponent,
-                canActivate: [AuthGuard],
-
-            },
-            {
-                path:'checkTicket',
-                component:CheckticketComponent,
-                canActivate: [AuthGuard],
-
-            }
-            
-        ]
-    },
-    // login danh cho admin
-    {
-        path:'auth/loginAdmin',
-        component: LoginAdminComponent
-    },
-    {
-        path:'',
-        component: ClientComponent,
-        children:[
-            {
-                path:'',
-                component: HomeComponent
-            },
-            {
-                path:'home',
-                component: HomeComponent
-            },
-            {
-                path:'ticket',
-                component: TicketComponent
-            },
-            {
-                path:'about',
-                component: AboutComponent
-            },
-            {
-                path:'faqs',
-                component:FaqsComponent
-            },
-            {
-                path: 'blog',
-                component: BlogComponent
-            },
-            {
-                path:'contact-us',
-                component: ContactComponent
-            },
-            {
-                path:'ticket-detail/:id',
-                component: TicketDetailComponent,
-                runGuardsAndResolvers: 'always' //bắt buộc chạy lại ngOnInit
-            },
-            {
-                path:'payment',
-                component: PaymentComponent
-            },
-            {
-                path:'profile',
-                component: ProfileComponent
-            },
-            {
-                path:'dashboard',
-                component: DashboardClientComponent
-            },
-            {
-                path:'changepassword',
-                component: ChangepasswordComponent
-            },
-            {
-                path:'thanks',
-                component: ThanksComponent
-            }
-        ]
-    },
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path:'register',
-        component: RegisterComponent
-    }
+      },
+      {
+        path: 'changepassword',
+        component: ChangepasswordComponent,
+      },
+      {
+        path: 'thanks',
+        component: ThanksComponent,
+      },
+    ],
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
 ];

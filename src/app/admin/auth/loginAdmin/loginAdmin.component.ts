@@ -33,7 +33,6 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     RippleModule,
   ],
-  providers: [MessageService],
   templateUrl: './loginAdmin.component.html',
   styles: [
     `
@@ -54,7 +53,6 @@ export class LoginAdminComponent implements OnInit {
     private accountUserService: AccountUserService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -74,13 +72,11 @@ export class LoginAdminComponent implements OnInit {
           (response) => {
             if (response.token) {
               localStorage.setItem('userId', response.userId);
-              localStorage.setItem('email', response.email);
               localStorage.setItem('levelId', response.levelId);
               localStorage.setItem('status', response.status);
 
               console.log('User ID saved:', localStorage.getItem('userId')); // Kiểm tra userId có được lưu không
 
-              this.router.navigate(['/admin']);
 
               // Kiểm tra quyền truy cập
               if (response.levelId === 1 || response.levelId === 2) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -7,14 +7,16 @@ import { CanActivate, Router } from '@angular/router';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const userId = localStorage.getItem('userId');
     const levelId = localStorage.getItem('levelId');
-    if (userId && (levelId === '1' || levelId === '2')) {
+    if  (levelId === '1' || levelId === '2') {
       return true; // Đã đăng nhập
     } else {
-      this.router.navigate(['/auth/loginAdmin']); // Chuyển hướng đến trang đăng nhập
-      return false; // Không cho phép truy cập
+           // Các tài khoản khác không được phép truy cập, chuyển hướng về trang login
+           this.router.navigate(['/auth/loginAdmin']);
+           alert('Bạn không có thẩm quyền truy cập vào khu vực này');
+           return false;
     }
   }
 }

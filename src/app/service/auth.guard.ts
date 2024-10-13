@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
-  canActivate(): boolean {
-    const token = localStorage.getItem('jwtToken');
+  canActivate(route: ActivatedRouteSnapshot): boolean {
     const userId = localStorage.getItem('userId');
-    const email = localStorage.getItem('email');
-    
+    const status = localStorage.getItem('levelId');
 
-
-    if (token && userId) {
+    if (userId) {
       return true; // Đã có token, cho phép truy cập
     } else {
       this.router.navigate(['/auth/loginAdmin']); // Chuyển hướng đến trang đăng nhập admin nếu chưa đăng nhập
-      
+
       return false;
     }
   }
