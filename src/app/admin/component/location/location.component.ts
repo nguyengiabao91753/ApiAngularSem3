@@ -193,7 +193,8 @@ export class LocationComponent implements OnInit {
         res => {
           if (res['status']) {
             this.locationDialog = false;
-            this.formGroup.reset()
+            this.formGroup.reset();
+            this.ngOnInit();
 
             let newId = this.locations[this.locations.length - 1].locationId + 1;
             this.location.locationId = newId;
@@ -213,7 +214,8 @@ export class LocationComponent implements OnInit {
         res => {
           if (res['status']) {
             this.locationDialog = false;
-            this.formGroup.reset()
+            this.formGroup.reset();
+            this.ngOnInit();
 
             // Tạo ra mảng mới với đối tượng đã được cập nhật
             this.locations = this.locations.map(a =>

@@ -201,4 +201,3 @@ export class CheckticketComponent implements AfterViewInit {
 
 
 }
-

@@ -105,9 +105,9 @@
 
                     <div class="field">
                         <label for="dateStart">Date Start</label>
-                        <p-calendar type="datetime-local" inputId="dateStart" formControlName="dateStart"
+                        <p-calendar type="datetime-local" id="dateStart" formControlName="dateStart"
                             [showTime]="true" timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'"
-                            appendTo="body" [ngClass]="{
+                            appendTo="body" [showIcon]="true" [ngClass] ="{
                                 'ng-invalid ng-dirty': submitted && (formGroup.get('dateStart')?.invalid || formGroup.get('dateStart')?.touched)
                             }">
                         </p-calendar>
@@ -128,7 +128,7 @@
                     <div class="field">
                         <label for="dateEnd">Date End</label>
                         <p-calendar type="datetime-local" inputId="dateEnd" formControlName="dateEnd" [showTime]="true"
-                            timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'" appendTo="body" [ngClass]="{
+                            timeFormat="HH:mm:ss" dateFormat="dd/mm/yy" [hourFormat]="'24'" appendTo="body" [showIcon]="true" [ngClass]="{
                                 'ng-invalid ng-dirty': submitted && (formGroup.get('dateEnd')?.invalid || formGroup.get('dateEnd')?.touched)
                             }">
                         </p-calendar>

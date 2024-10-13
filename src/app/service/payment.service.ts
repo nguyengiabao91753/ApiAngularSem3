@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { BaseUrlService } from "./baseUrl.service";
-import { lastValueFrom } from "rxjs";
+import { lastValueFrom, Observable } from "rxjs";
 import { Payment } from "../entity/payment.entity";
 import { ExecutePaypal } from "../entity/executepaypal.entity";
-
 @Injectable({
     providedIn : 'root'
 })
@@ -30,5 +29,14 @@ export class PaymentService{
 
     async executePaypal(bookingId: number, dto: ExecutePaypal){
         return lastValueFrom(this.httpClient.post(this.baseUrl.BASE_URL + `Payment/execute-paypal/${bookingId}`, dto));
-    }   
+    }
+    
+
+    async createVnPay(bookingRequest: any, bookingDetails: any[]) {
+        const payload = {
+            BookingDTO: bookingRequest,
+            BookingDetailDTOs: bookingDetails
+        };      
+        return lastValueFrom(this.httpClient.post(this.baseUrl.BASE_URL + 'Payment/create-vnpay', payload));
+    }
 }
