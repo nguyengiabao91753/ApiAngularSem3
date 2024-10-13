@@ -111,8 +111,8 @@ export class TripComponent implements OnInit {
     // Lắng nghe thay đổi dateStart để định dạng và kiểm tra logic dateEnd
     this.formGroup.get('dateStart')?.valueChanges.subscribe((value) => {
       if (value) {
-        const formattedDateStart = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
-        console.log('Formatted Date Start:', formattedDateStart);
+        // const formattedDateStart = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
+        // console.log('Formatted Date Start:', formattedDateStart);
         this.checkDateEnd();  // Gọi hàm kiểm tra dateEnd khi dateStart thay đổi
       }
     });
@@ -120,26 +120,26 @@ export class TripComponent implements OnInit {
     // Lắng nghe thay đổi dateEnd để định dạng
     this.formGroup.get('dateEnd')?.valueChanges.subscribe((value) => {
       if (value) {
-        const formattedDateEnd = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
-        console.log('Formatted Date End:', formattedDateEnd);
+        // const formattedDateEnd = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
+        // console.log('Formatted Date End:', formattedDateEnd);
         this.checkDateEnd();  // Gọi hàm kiểm tra dateEnd khi dateEnd thay đổi
       }
     });
 
 
 
-    this.formGroup.get('dateStart')?.valueChanges.subscribe((value) => {
-      if (value) {
-        const formattedDateStart = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
-        console.log('Formatted Date:', formattedDateStart); // Bạn có thể lưu hoặc xử lý định dạng tại đây
-      }
-    });
-    this.formGroup.get('dateEnd')?.valueChanges.subscribe((value) => {
-      if (value) {
-        const formattedDateEnd = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
-        console.log('Formatted Date:', formattedDateEnd); // Bạn có thể lưu hoặc xử lý định dạng tại đây
-      }
-    });
+    // this.formGroup.get('dateStart')?.valueChanges.subscribe((value) => {
+    //   if (value) {
+    //     const formattedDateStart = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
+    //     console.log('Formatted Date:', formattedDateStart); // Bạn có thể lưu hoặc xử lý định dạng tại đây
+    //   }
+    // });
+    // this.formGroup.get('dateEnd')?.valueChanges.subscribe((value) => {
+    //   if (value) {
+    //     const formattedDateEnd = this.datePipe.transform(value, 'HH:mm:ss dd/MM/yyyy');
+    //     console.log('Formatted Date:', formattedDateEnd); // Bạn có thể lưu hoặc xử lý định dạng tại đây
+    //   }
+    // });
 
     this.cols = [
       { field: 'id', header: 'id' },
@@ -265,11 +265,20 @@ checkDateEnd() {
       tripId: trip.tripId,
       departureLocationId: trip.departureLocationId,
       arrivalLocationId: trip.arrivalLocationId,
-      dateStart: new Date(trip.dateStart), // Chuyển đổi sang đối tượng Date nếu cần
-      dateEnd: new Date(trip.dateEnd)      // Chuyển đổi sang đối tượng Date nếu cần
+      dateStart: this.formatDateTime(trip.dateStart), // Chuyển đổi sang đối tượng Date nếu cần
+      dateEnd: this.formatDateTime(trip.dateEnd)      // Chuyển đổi sang đối tượng Date nếu cần
     });
     //Mở hộp thoại thêm
     this.tripDialog = true;
+  }
+
+  private formatDateTime(dateString: string): Date {
+    const [time, date] = dateString.split(' '); 
+    const [hours, minutes, seconds] = time.split(':'); 
+    const [day, month, year] = date.split('/');
+  
+    
+    return new Date(+year, +month - 1, +day, +hours, +minutes, +seconds);
   }
 
   deleteTrip(trip: Trip) {
