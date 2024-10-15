@@ -79,7 +79,7 @@ export class LoginAdminComponent implements OnInit {
 
 
               // Kiểm tra quyền truy cập
-              if (response.levelId === 1 || response.levelId === 2) {
+              if (response.levelId === 1 || response.levelId === 2 && response.status!=0) {
                 this.router.navigate(['/admin']);
                 alert('Login success');
               } else {

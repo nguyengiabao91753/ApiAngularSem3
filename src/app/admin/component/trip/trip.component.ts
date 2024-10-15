@@ -281,6 +281,20 @@ checkDateEnd() {
     return new Date(+year, +month - 1, +day, +hours, +minutes, +seconds);
   }
 
+  checkExpired(dateTimeStart: string) {
+    const current = new Date();
+    const dateParts = dateTimeStart.split(' ')[1]; // dd/MM/yyyy
+    const [day, month, year] = dateParts.split('/');
+    const tripDate = new Date(Number(year), Number(month) - 1, Number(day));
+
+    // Tính toán ngày sau khi cộng thêm 4 ngày
+    const fourDaysLater = new Date(current);
+    fourDaysLater.setDate(current.getDate() + 4);
+
+    return tripDate > fourDaysLater;
+}
+
+
   deleteTrip(trip: Trip) {
     this.deleteTripDialog = true;
     this.trip = { ...trip };

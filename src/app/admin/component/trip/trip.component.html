@@ -64,9 +64,9 @@
                         
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil"
-                                    class="p-button-rounded p-button-success mr-2" (click)="editTrip(tri)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                <button pButton pRipple icon="pi pi-pencil" *ngIf="tri.status == 1 && checkExpired(tri.dateStart)"
+                                    class="p-button-rounded p-button-success mr-2"  (click)="editTrip(tri)"></button>
+                                <button pButton pRipple icon="pi pi-trash" *ngIf="tri.status == 1  && checkExpired(tri.dateStart)" class="p-button-rounded p-button-warning"
                                     (click)="deleteTrip(tri)"></button>
                             </div>
                         </td>

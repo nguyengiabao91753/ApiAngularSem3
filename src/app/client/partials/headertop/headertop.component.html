@@ -33,11 +33,11 @@
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                       <li><a class="dropdown-item" [routerLink]="['/profile']">Your Information</a></li>
                       <li><a class="dropdown-item" [routerLink]="['/changepassword']">Change Password</a></li>
-                      <li><a class="dropdown-item" [routerLink]="['/history-booking']">History Booking</a></li>
+                      <li><a class="dropdown-item" [routerLink]="['/dashboard']">History Booking</a></li>
                       <li><a class="dropdown-item" (click)="logout()" style="cursor: pointer;">Logout</a></li>
                     </ul>
                   </li>
-                  <li *ngIf="isLoggedIn">/</li>
+                  <!-- <li *ngIf="isLoggedIn">/</li> -->
                 </ul>
               </div>
         </div>

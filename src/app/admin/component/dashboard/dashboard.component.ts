@@ -16,6 +16,7 @@ import { BookingDetail } from '../../../entity/bookingdetail.entity';
 import { AccountUserService } from '../../../service/accountUser.service';
 import { AccountUser } from '../../../entity/accountUser.entity';
 import { CalendarModule } from 'primeng/calendar';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -64,7 +65,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     public layoutService: LayoutService,
     private bookingService: BookingService,
-    private useraccountService: AccountUserService
+    private useraccountService: AccountUserService,
+    private router: Router
   ) {
     this.subscription = this.layoutService.configUpdate$
       .pipe(debounceTime(25))
@@ -73,6 +75,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
   async ngOnInit() {
+    const levelId = localStorage.getItem('levelId');
+    if(levelId =='2'){
+      this.router.navigate(['/admin/checkTicket']);
+
+    }
     await this.bookingService.getAll().then(
       res => {
         this.bookings = res['booking'] as Booking[]

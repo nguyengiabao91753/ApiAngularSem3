@@ -234,7 +234,7 @@ export class BusComponent implements OnInit {
       seatCount: bus.seatCount,
       basePrice: bus.basePrice
     }),
-      // this.formGroup.get('seatCount')?.disable();
+      this.formGroup.get('seatCount')?.disable();
       this.busDialog = true;
   }
 

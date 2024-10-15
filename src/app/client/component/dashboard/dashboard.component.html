@@ -35,12 +35,12 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-10">
-                    <div class="dashboard-widget">
-                        <div class="dashboard-widget__content">
+                    <div class="dashboard-widget" >
+                        <div class="dashboard-widget__content" >
                             <p>Total Used Ticket</p>
                             <h3 class="title">{{ countUsedTicket() }}</h3>
                         </div>
-                        <div class="dashboard-widget__icon">
+                        <div class="dashboard-widget__icon" >
                             <i class="las la-ticket-alt"></i>
                         </div>
                     </div>
@@ -75,8 +75,9 @@
                             <td class="time" data-label="Pickup Time">{{ getTimeStart(book.busTripId) }}</td>
                             <td class="seats" data-label="Booked Seats">{{ detail.seatName }}</td>
                             <td data-label="Status">
-                                <span *ngIf="detail.ticketStatus ==0" class="badge badge--secondary">Used</span>
-                                <span *ngIf="detail.ticketStatus ==1" class="badge badge--success">Active</span>
+                                <span *ngIf="detail.ticketStatus ==0" class="badge badge--warning">Used</span>
+                                <span *ngIf="detail.ticketStatus ==1 && checkExpired(book.busTripId)" class="badge badge--success">Active</span>
+                                <span *ngIf="detail.ticketStatus ==1 && !checkExpired(book.busTripId)" class="badge badge--secondary">Expired</span>
                                 <span *ngIf="detail.ticketStatus ==2" class="badge badge--danger">Rejected</span>
                             </td>
                             <td class="fare" data-label="Fare">${{ detail.priceAfterDiscount }}</td>

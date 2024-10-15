@@ -55,9 +55,9 @@ export class DashboardClientComponent implements OnInit {
                   if (res['status']) {
                     this.booking = res['bookings'] as Booking[]
                     this.originbookingdetails = res['data'] as BookingDetail[]
-                    
+
                     const bookingIds = new Set(this.booking.map(book => book.bookingId));
-                   
+
                     this.bookingdetails = this.originbookingdetails.filter(detail => bookingIds.has(detail.bookingId));
 
 
@@ -110,19 +110,32 @@ export class DashboardClientComponent implements OnInit {
   }
   getDateStart(Id: number) {
     var busestrip = this.busesTrips.find(b => b.busTripId == Id);
-    return new Date(busestrip.dateStart).toLocaleDateString()
+    return busestrip.dateStart.split(' ')[1]
+    // return new Date(busestrip.dateStart).toLocaleDateString()
   }
   getTimeStart(Id: number) {
     var busestrip = this.busesTrips.find(b => b.busTripId == Id);
-    return new Date(busestrip.dateStart).toLocaleTimeString()
+    return busestrip.dateStart.split(' ')[0]
+    // return new Date(busestrip.dateStart).toLocaleTimeString()
+  }
+  checkExpired(Id: number) {
+    const current = new Date()
+    var busestrip = this.busesTrips.find(b => b.busTripId == Id);
+
+    var date = busestrip.dateStart.split(' ')[1] // dd/MM/yyyy
+    const [day, month, year] = date.split('/');
+    const busTripDate = new Date(Number(year), Number(month) - 1, Number(day));
+    return busTripDate > current;
+
+
   }
   countBookedTicket() {
     return this.bookingdetails.length;
   }
   countCancelTicket() {
-    return this.bookingdetails.filter(b=>b.ticketStatus==2).length;
+    return this.bookingdetails.filter(b => b.ticketStatus == 2).length;
   }
   countUsedTicket() {
-    return this.bookingdetails.filter(b=>b.ticketStatus==0).length;
+    return this.bookingdetails.filter(b => b.ticketStatus == 0).length;
   }
 }

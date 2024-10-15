@@ -11,7 +11,7 @@ import { AccountUserService } from '../../../service/accountUser.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {jwtDecode} from 'jwt-decode';
-import * as JSBase64 from 'js-base64'
+// import * as JSBase64 from 'js-base64'
 declare const google: any;
 
 @Component({
@@ -30,6 +30,9 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
   ngOnInit(): void {
+    if(localStorage.getItem('jwtToken')){
+      this.router.navigate(['/home']);
+    }
     // CSS files
     this.assetService.addCss('client/assets/global/css/bootstrap.min.css');
     this.assetService.addCss('client/assets/global/css/all.min.css');
@@ -90,7 +93,7 @@ export class LoginComponent implements OnInit {
         if (response.token) {
           // Lưu token của server vào localStorage
           localStorage.setItem('jwtToken', response.token);
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/home']);
         } else {
           alert('Login failed: No token received');
         }
@@ -146,7 +149,7 @@ export class LoginComponent implements OnInit {
             if (response.token) {
               localStorage.setItem('jwtToken', response.token);
               console.log('Token saved:', localStorage.getItem('jwtToken')); // Kiểm tra token có được lưu không
-              this.router.navigate(['/profile']);
+              this.router.navigate(['/home']);
               alert('Login success');
             } else {
               alert('Login failed: No token received');

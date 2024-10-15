@@ -29,12 +29,12 @@ export class MenuComponent implements OnInit {
           if (levelId === 2) {
       // Nếu levelId bằng 2 (nhân viên), chỉ hiển thị các mục cần thiết
       this.model = [
-        {
-          label: 'Home',
-          items: [
-            { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/admin'] }
-          ]
-        },
+        // {
+        //   label: 'Home',
+        //   items: [
+        //     { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/admin'] }
+        //   ]
+        // },
         {
           label: 'Personal Information',
           items: [
@@ -43,7 +43,7 @@ export class MenuComponent implements OnInit {
           ]
         },
         {
-          label: 'BusTrip & Booking',
+          label: 'Home',
           items: [
             { label: 'Check Ticket', icon: 'pi pi-fw pi-search', routerLink: ['/admin/checkTicket'] },
           ]

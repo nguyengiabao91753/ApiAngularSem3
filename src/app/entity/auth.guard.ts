@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
     const userId = localStorage.getItem('userId');
     const levelId = localStorage.getItem('levelId');
     if  (levelId === '1' || levelId === '2') {
-      return true; // Đã đăng nhập
+      return true
     } else {
            // Các tài khoản khác không được phép truy cập, chuyển hướng về trang login
            this.router.navigate(['/auth/loginAdmin']);

@@ -104,7 +104,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="busDialog" [style]="{ width: '700px', height: '600px' }" header="Bus Type Details"
+        <p-dialog [(visible)]="busDialog" [style]="{ width: '700px', height: '600px' }" header="Bus Details"
             [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
@@ -202,7 +202,7 @@
             </ng-template>
 
             <ng-template pTemplate="footer">
-                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" severity="danger"
                     (click)="hideDialog()"></button>
                 <button pButton pRipple label="Save" icon="pi pi-check" [disabled]="formGroup.invalid"
                     class="p-button-text" (click)="save()"></button>
