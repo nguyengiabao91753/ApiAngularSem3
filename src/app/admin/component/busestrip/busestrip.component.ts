@@ -237,24 +237,27 @@ export class BusestripComponent implements OnInit {
   selectBus(busId) {
     console.log(busId.value);
 
-    this.busestripsofBus = this.busestrips.filter(b => b.busId == busId.value)
-    if (this.busestripsofBus.length > 0) {
-      const dateEndOfBusTrip = this.convertToDate(this.busestripsofBus[0].dateEnd);
-      // console.log('Ngày kết thúc chuyến xe:', dateEndOfBusTrip);
+    // this.busestripsofBus = this.busestrips.filter(b => b.busId == busId.value)
+    // if (this.busestripsofBus.length > 0) {
+    //   const dateEndOfBusTrip = this.convertToDate(this.busestripsofBus[0].dateEnd);
+    //   // console.log('Ngày kết thúc chuyến xe:', dateEndOfBusTrip);
 
-      this.trips = this.origintrips.filter(t => {
-        const dateStartOfTrip = this.convertToDate(t.dateStart);
-        // console.log('Ngày bắt đầu của trip:', dateStartOfTrip);
+    //   // this.trips = this.origintrips.filter(t => {
+    //   //   const dateStartOfTrip = this.convertToDate(t.dateStart);
+    //   //   // console.log('Ngày bắt đầu của trip:', dateStartOfTrip);
 
-        // So sánh trực tiếp giữa các đối tượng Date
-        return (dateStartOfTrip > dateEndOfBusTrip && t.arrivalLocationName == this.busestripsofBus[0].departureLocationName);
-      });
-      // console.log(this.busestripsofBus[0].dateStart);
+    //   //   // So sánh trực tiếp giữa các đối tượng Date
+    //   //   return (dateStartOfTrip > dateEndOfBusTrip && t.arrivalLocationName == this.busestripsofBus[0].departureLocationName);
+    //   // });
+    //   // console.log(this.busestripsofBus[0].dateStart);
+      
+      
+    // } else {
+    //   this.trips = [...this.origintrips]
 
-    } else {
-      this.trips = [...this.origintrips]
+    // }
 
-    }
+    this.trips = this.origintrips.filter(t => t.status==1);
 
   }
 
