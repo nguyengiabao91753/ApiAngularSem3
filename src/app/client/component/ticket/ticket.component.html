@@ -10,9 +10,9 @@
                         <select name="pickup" formControlName="departure" class="form--control select2">
                             <option value="0" selected>Pickup Point</option>
                             @for (lo of locations; track lo) {
-                                <option value="{{ lo.name }}">{{ lo.name }}</option>
-                                }
-                           
+                            <option value="{{ lo.name }}">{{ lo.name }}</option>
+                            }
+
                         </select>
                     </div>
                 </div>
@@ -22,17 +22,17 @@
                         <select name="destination" formControlName="arrival" class="form--control select2">
                             <option value="0" selected>Dropping Point</option>
                             @for (lo of locations; track lo) {
-                                <option value="{{ lo.name }}">{{ lo.name }}</option>
-                                }
+                            <option value="{{ lo.name }}">{{ lo.name }}</option>
+                            }
                         </select>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-3">
                     <div class="form--group">
-             
+
                         <i for="date_of_journey" class="las la-calendar-check custom-calendar-icon"></i>
-                        <input type="date" date class="form--control date-range custom-date-input" [min]="today" 
-                        formControlName="dateStart" placeholder="Date of Journey" />
+                        <input type="date" date class="form--control date-range custom-date-input" [min]="today"
+                            formControlName="dateStart" placeholder="Date of Journey" />
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
@@ -62,14 +62,16 @@
                             <ul class="bus-type">
 
                                 <li *ngFor="let bustype of busTypes" class="custom--checkbox">
-                                    <input name="fleetType[]" class="search" value="{{ bustype.name }}" id="Classic" #type (change)="filterType(type)" type="checkbox">
-                                    <label for="Classic"><span><i class="las la-bus"></i>{{ bustype.name }}</span></label>
+                                    <input name="fleetType[]" class="search" value="{{ bustype.name }}" id="Classic"
+                                        #type (change)="filterType(type)" type="checkbox">
+                                    <label for="Classic"><span><i class="las la-bus"></i>{{ bustype.name
+                                            }}</span></label>
                                 </li>
-                               
+
                             </ul>
                         </div>
 
-                        <div class="filter-item">
+                        <!-- <div class="filter-item">
                             <h5 class="title">Facilities</h5>
                             <ul class="bus-type">
                                 <li class="custom--checkbox">
@@ -77,14 +79,14 @@
                                     <label for="route.1"><span><i class="las la-road"></i>A/C
                                             </span></label>
                                 </li>
-                                <!-- <li class="custom--checkbox">
+                                <li class="custom--checkbox">
                                     <input name="routes[]" class="search" value="2" id="route.2" type="checkbox">
                                     <label for="route.2"><span><i class="las la-road"></i>Witchita to Echo
                                                 Bass </span>
                                     </label>
-                                </li> -->
+                                </li>
                             </ul>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="filter-item">
                             <h5 class="title">Schedules</h5>
@@ -120,7 +122,8 @@
                         <div class="ticket-item-inner">
                             <h5 class="bus-name">{{ bt.departureLocationName }} - {{ bt.arrivalLocationName }}</h5>
                             <span class="bus-info">Seat: {{ bt.seatCount }}</span>
-                            <span class="ratting" ><i class="las la-bus"></i>{{ bt.busTypeName }}</span>
+                            <span class="ratting"><i class="las la-bus"></i>{{ bt.busTypeName }} - {{ bt.licensePlate
+                                }}</span>
                         </div>
                         <div class="ticket-item-inner travel-time">
                             <div class="bus-time">
@@ -139,12 +142,18 @@
                         <div class="ticket-item-inner book-ticket">
                             <p class="rent mb-0">
                                 ${{ bt.price }}</p>
+                            <div class="seats-left mt-2 mb-3 fs--14px">
+                                Seats remaining: <div class="d-inline-flex flex-wrap" style="gap:5px">
+                                    <span class="badge badge--primary">{{ CountSeatRemaining(bt.busId) }}</span>
+                                </div>
+                            </div>
                             <!-- <div class="seats-left mt-2 mb-3 fs--14px">
                                 Off Days: <div class="d-inline-flex flex-wrap" style="gap:5px">
                                     <span class="badge badge--primary">Friday</span>
                                 </div>
                             </div> -->
-                            <a class="btn btn--base" *ngIf="bt.status==1" [routerLink]="['/ticket-detail', bt.busTripId ]">Select Seat</a>
+                            <a class="btn btn--base" *ngIf="bt.status==1"
+                                [routerLink]="['/ticket-detail', bt.busTripId ]">Select Seat</a>
                             <span class="btn btn-secondary" *ngIf="bt.status==2">Sold Out</span>
                         </div>
                         <div class="ticket-item-footer">

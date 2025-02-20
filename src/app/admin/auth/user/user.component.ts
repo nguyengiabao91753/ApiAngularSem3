@@ -112,7 +112,7 @@ export class UserComponent implements OnInit {
       fullName: ['', [Validators.required]],
       birthDate: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
       address: ['', [Validators.required]],
       levelId: ['', [Validators.required]],
       status: ['', [Validators.required]],

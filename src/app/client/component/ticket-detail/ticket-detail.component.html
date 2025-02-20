@@ -21,21 +21,32 @@
                               
                                 <label for="fullname" class="form-label">Full Name</label>
                                 <input type="text" id="date_of_journey" [(ngModel)]="booking.fullName" class="form--control date-range" value=""
-                                    name="fullname" placeholder="Enter Your Name" required>
+                                    name="fullname" placeholder="Enter Your Name" required #fullnameRef="ngModel">
+                                <div *ngIf="fullnameRef.invalid && fullnameRef.touched" style="color: red;">
+                                    Full Name is required.
+                                </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" id="email" [(ngModel)]="booking.email" class="form--control date-range" value="" name="email"
-                                    placeholder="Enter Your Email" required>
+                                    placeholder="Enter Your Email" required email #emailRef="ngModel">
+                                <div *ngIf="emailRef.invalid && emailRef.touched" style="color: red;">
+                                    <span *ngIf="emailRef.errors?.['required']">Email is required.</span>
+                                    <span *ngIf="emailRef.errors?.['email']">Invalid email format.</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="phone" class="form-label">Phone</label>
                                 <input type="phone" id="phone" [(ngModel)]="booking.phoneNumber" class="form--control date-range" value="" name="phone"
-                                    placeholder="Enter Your Phone Number" required>
+                                    placeholder="Enter Your Phone Number" required pattern="^0\d{9}$" #phoneRef="ngModel">
+                                <div *ngIf="phoneRef.invalid && phoneRef.touched" style="color: red;">
+                                    <span *ngIf="phoneRef.errors?.['required']">Phone number is required.</span>
+                                    <span *ngIf="phoneRef.errors?.['pattern']">Phone must start with 0 and have exactly 10 digits.</span>
+                                </div>
                             </div>
                         </div>
                        

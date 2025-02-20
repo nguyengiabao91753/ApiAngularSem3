@@ -119,7 +119,7 @@
                         </small>
                         <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('dateStart')?.touched) && formGroup.get('dateStart')?.errors?.['pastDate']">
-                            DateStart must be at least three days in the future.
+                            DateStart must be at least one day in the future.
                         </small>
                         <small class="ng-dirty ng-invalid"
                             *ngIf="(submitted || formGroup.get('dateStart')?.touched) && formGroup.get('dateStart')?.errors?.['futureDate']">

@@ -165,10 +165,10 @@
                     </div>
                     <div class="field">
                         <label for="phoneNumber">Phone Number</label>
-                        <input type="text" pInputText id="phoneNumber" formControlName="phoneNumber" autofocus
+                        <input type="text" pInputText id="phoneNumber" formControlName="phoneNumber" placeholder="Phone numer required 10 number" autofocus
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('phoneNumber')?.invalid}" />
                         <small class="ng-dirty ng-invalid"
-                            *ngIf="submitted && formGroup.get('phoneNumber')?.invalid">Phone Number is required.</small>
+                            *ngIf="submitted && formGroup.get('phoneNumber')?.invalid && formGroup.get('phoneNumber')?.touched">Phone must start with 0 and have exactly 10 digits.</small>
                     </div>
                     <div class="field">
                         <label for="address">Address</label>

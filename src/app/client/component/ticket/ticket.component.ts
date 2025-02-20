@@ -15,6 +15,11 @@ import { AppComponent } from '../../../app.component';
 import { AssetService } from '../../../service/AssetService.service';
 import { BusType } from '../../../entity/bustype.entity';
 import { BusTypeService } from '../../../service/bustype.service';
+import { BookingService } from '../../../service/booking.service';
+import { BusService } from '../../../service/bus.service';
+import { Bus } from '../../../entity/bus.entity';
+import { BusSeatService } from '../../../service/busseat.service';
+import { BusSeat } from '../../../entity/busseat.entity';
 
 @Component({
   selector: 'app-ticket',
@@ -39,10 +44,13 @@ export class TicketComponent implements OnInit, AfterViewInit {
   originbustrips: BusesTrip[] = []
   selectedTypes: string[] = [];
 
+  busSeats: BusSeat[] = []
 
   formgroup: FormGroup
   locations: Location[] = []
   busTypes: BusType[] = []
+
+  Seats_remaining = 0;
 
   today = new Date().toISOString().split('T')[0];
   constructor(
@@ -50,6 +58,7 @@ export class TicketComponent implements OnInit, AfterViewInit {
     private assetService: AssetService,
     private locationService: LocationService,
     private busTypeService: BusTypeService,
+    private busSeatService: BusSeatService,
     private formbuilder: FormBuilder,
     private datePipe: DatePipe
   ) { }
@@ -72,7 +81,14 @@ export class TicketComponent implements OnInit, AfterViewInit {
       res => {
         this.locations = res as Location[]
       }
-    )
+    );
+
+    this.busSeatService.getAll().then(
+      res => {
+        this.busSeats = res as BusSeat[];
+      }
+    );
+
     this.busTypeService.getAll().then(
       res => {
         this.busTypes = res as BusType[]
@@ -85,6 +101,16 @@ export class TicketComponent implements OnInit, AfterViewInit {
       dateStart: this.today
     })
   }
+
+  CountSeatRemaining(busId: number) {
+    try {
+     return this.busSeats.filter(b => b.busId == busId && b.status ==1).length;
+    } catch (error) {
+      console.error('Error counting seats:', error);
+    }
+    return 0;
+  }
+
   ngAfterViewInit(): void {
     const calendarIcon = document.querySelector('.custom-calendar-icon');
     const dateInput = document.querySelector('.custom-date-input') as HTMLInputElement;

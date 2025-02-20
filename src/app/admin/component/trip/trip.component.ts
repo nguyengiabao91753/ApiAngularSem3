@@ -175,7 +175,7 @@ noPastDateValidator(control: any): { [key: string]: any } | null {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const oneDayLater = new Date(today);
-  oneDayLater.setDate(today.getDate() + 3);
+  oneDayLater.setDate(today.getDate() + 1);
   if (inputDate < oneDayLater) {
     return { pastDate: true };  
   }

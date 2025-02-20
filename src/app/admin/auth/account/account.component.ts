@@ -113,7 +113,7 @@ export class AccountComponent implements OnInit {
       fullName: ['', [Validators.required]],
       birthDate: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required]],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
       address: ['', [Validators.required]],
       levelId: ['', [Validators.required]],
       status: ['', [Validators.required]],
@@ -206,9 +206,9 @@ export class AccountComponent implements OnInit {
 
       // You can add your logic to update the password, such as calling a service to update the password
       this.accountUser.password = newPassword; // Set the new password
-
+     
       // Call your service to update the user's password
-      this.accountUserService.UpdateAccountUser(this.accountUser).then(
+      this.accountUserService.UpdatePassword(this.accountUser).then(
         (res) => {
           if (res['status']) {
             this.visible = false;

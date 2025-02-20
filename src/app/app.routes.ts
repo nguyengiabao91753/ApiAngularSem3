@@ -72,13 +72,13 @@ export const routes: Routes = [
         path: 'user',
         component: UserComponent,
         canActivate: [RoleGuard],
-        data: { requiredLevelIds: [1,2] },
+        data: { requiredLevelIds: [1] },
       },
       {
         path: 'account',
         component: AccountComponent,
         canActivate: [AuthGuard],
-        data: { requiredLevelIds: [1,2] },
+        data: { requiredLevelIds: [1] },
       },
       {
         path: 'inActive',

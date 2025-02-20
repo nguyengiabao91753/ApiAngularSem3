@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
       fullName: ['', Validators.required],
       birthDate: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
       address: ['', Validators.required],
       confirmPassword:['', Validators.required]
     });

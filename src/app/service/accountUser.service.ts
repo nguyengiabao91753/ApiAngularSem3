@@ -34,6 +34,11 @@ export class AccountUserService{
         console.log('test service update', accountUser);
         return lastValueFrom(this.httpClient.put(`${this.baseurl.BASE_URL}accountUser/updateAccountUser`, accountUser));
     }
+
+    UpdatePassword(accountUser: any): Promise<any> {
+        console.log('test service update', accountUser);
+        return lastValueFrom(this.httpClient.put(`${this.baseurl.BASE_URL}accountUser/updatePassword`, accountUser));
+    }
     
     async DeleteAccountUser(id: number){
         return lastValueFrom(this.httpClient.delete(this.baseurl.BASE_URL+'accountUser/deleteAccountUser/' + id));

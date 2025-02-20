@@ -38,7 +38,7 @@ import { AccountUser } from '../../../entity/accountUser.entity';
   styleUrl: './ticket-detail.component.css'
 })
 export class TicketDetailComponent implements OnInit, OnDestroy {
-  formGroup: FormGroup
+  bookingForm!: FormGroup
 
   bustripId: number
   bustrip: BusesTrip = {}
@@ -65,6 +65,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   seatRows: any[] = [];
   constructor(
+    private fb: FormBuilder,
     private accountUserService: AccountUserService,
     private seatService: SeatService,
     private bookingService: BookingService,

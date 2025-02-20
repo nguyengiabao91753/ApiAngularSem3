@@ -35,13 +35,13 @@ export class MenuComponent implements OnInit {
         //     { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/admin'] }
         //   ]
         // },
-        {
-          label: 'Personal Information',
-          items: [
-            { label: 'User', icon: 'pi pi-fw pi-users', routerLink: ['/admin/user'] },
-            { label: 'Account', icon: 'pi pi-fw pi-unlock', routerLink: ['/admin/account'] },
-          ]
-        },
+        // {
+        //   label: 'Personal Information',
+        //   items: [
+        //     { label: 'User', icon: 'pi pi-fw pi-users', routerLink: ['/admin/user'] },
+        //     { label: 'Account', icon: 'pi pi-fw pi-unlock', routerLink: ['/admin/account'] },
+        //   ]
+        // },
         {
           label: 'Home',
           items: [
