@@ -105,19 +105,19 @@
                         <small class="ng-dirty ng-invalid"
                             *ngIf="submitted && formGroup.get('username')?.invalid">Username is required.</small>
                     </div>
-                    <div class="field" *ngIf="formGroup.get('userId').value != 0">
+                    <!-- <div class="field" *ngIf="formGroup.get('userId').value != 0">
                         <label for="username">Username</label>
                         <input type="text" pInputText id="username" formControlName="username"
                             [readonly]="formGroup.get('userId').value != 0" autofocus
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('username')?.invalid}" />
                         <small class="ng-dirty ng-invalid"
                             *ngIf="submitted && formGroup.get('username')?.invalid">Username is required.</small>
-                    </div>
+                    </div> -->
                     <div class="field" *ngIf="formGroup.get('userId').value == 0">
                         <label for="password">Password</label>
-                        <input type="password" pInputText id="password" formControlName="password"
+                        <p-password type="password" id="password" formControlName="password"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('password')?.invalid}"
-                            placeholder="Password is required when creating a new account" />
+                            placeholder="Password is required when creating a new account" [toggleMask]="true"/>
                         <small class="ng-dirty ng-invalid"
                             *ngIf="submitted && formGroup.get('password')?.invalid && formGroup.get('userId').value == 0">
                             Password is required when creating a new account.
@@ -194,8 +194,8 @@
             <form [formGroup]="passwordFormGroup">
                 <div class="flex align-items-center gap-3 mb-3">
                     <label for="password1" class="font-semibold w-6rem">New Password</label>
-                    <input id="password1" class="flex-auto" autocomplete="off" type="password" pInputText
-                        formControlName="Password" />
+                    <p-password id="password1" class="flex-auto" autocomplete="off" type="password" 
+                        formControlName="Password" [toggleMask]="true" />
                     <small class="p-error"
                         *ngIf="passwordFormGroup.get('Password')?.invalid && passwordFormGroup.get('Password')?.touched">
                         Password must be at least 6 characters long.
@@ -203,8 +203,8 @@
                 </div>
                 <div class="flex align-items-center gap-3 mb-5">
                     <label for="password2" class="font-semibold w-6rem">Confirm Password</label>
-                    <input id="password2" class="flex-auto" autocomplete="off" type="password" pInputText
-                        formControlName="ConfirmPassword" />
+                    <p-password id="password2" class="flex-auto" autocomplete="off" type="password" 
+                        formControlName="ConfirmPassword" [toggleMask]="true" />
                     <small class="p-error" *ngIf="passwordFormGroup.errors?.['mismatch']">
                         Passwords do not match.
                     </small>

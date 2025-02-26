@@ -92,6 +92,8 @@ export class BusestripComponent implements OnInit {
     console.log(this.buses);
 
     this.origintrips = await this.tripService.getAll() as Trip[]
+    // Lọc ra những trips không có trong busestrips qua tripId
+    this.trips = this.origintrips.filter(t => !this.busestrips.some(b => b.tripId === t.tripId)  && t.status == 1);
 
 
     this.formGroup = await this.formBuilder.group({
@@ -237,29 +239,50 @@ export class BusestripComponent implements OnInit {
   selectBus(busId) {
     console.log(busId.value);
 
-    // this.busestripsofBus = this.busestrips.filter(b => b.busId == busId.value)
-    // if (this.busestripsofBus.length > 0) {
-    //   const dateEndOfBusTrip = this.convertToDate(this.busestripsofBus[0].dateEnd);
-    //   // console.log('Ngày kết thúc chuyến xe:', dateEndOfBusTrip);
+    this.busestripsofBus = this.busestrips.filter(b => b.busId == busId.value)
+    if (this.busestripsofBus.length > 0) {
+      const dateEndOfBusTrip = this.convertToDate(this.busestripsofBus[0].dateEnd);
+      console.log('Ngày kết thúc chuyến xe:', dateEndOfBusTrip);
 
-    //   // this.trips = this.origintrips.filter(t => {
-    //   //   const dateStartOfTrip = this.convertToDate(t.dateStart);
-    //   //   // console.log('Ngày bắt đầu của trip:', dateStartOfTrip);
+      this.trips = this.origintrips.filter(t => {
+        const dateStartOfTrip = this.convertToDate(t.dateStart);
+        // console.log('Ngày bắt đầu của trip:', dateStartOfTrip);
 
-    //   //   // So sánh trực tiếp giữa các đối tượng Date
-    //   //   return (dateStartOfTrip > dateEndOfBusTrip && t.arrivalLocationName == this.busestripsofBus[0].departureLocationName);
-    //   // });
-    //   // console.log(this.busestripsofBus[0].dateStart);
+        // So sánh trực tiếp giữa các đối tượng Date
+        return (dateStartOfTrip > dateEndOfBusTrip && t.departureLocationName == this.busestripsofBus[0].arrivalLocationName);
+      });
+      console.log(this.busestripsofBus[0].dateStart);
       
       
-    // } else {
-    //   this.trips = [...this.origintrips]
+    }
 
-    // }
-
-    this.trips = this.origintrips.filter(t => t.status==1);
+    // this.trips = this.origintrips.filter(t => t.status==1);
 
   }
+  selectTrip(tripId) {
+    // var trip = this.origintrips.find(t => t.tripId == tripId.value);
+    // if (!trip) return;
+
+    // console.log("Trip selected:", trip);
+
+    // // Lấy các chuyến hoàn thành trước chuyến mới
+    // var completedTrips: BusesTrip[] = this.busestrips.filter(b => 
+    //   b.arrivalLocationName == trip.departureLocationName &&
+    //   this.convertToDate(b.dateEnd) < this.convertToDate(trip.dateStart)
+    // );
+    // console.log("Completed trips:", completedTrips);
+    // if (completedTrips.length > 0) {
+    //     this.buses = this.buses.filter(b => completedTrips.some(bt => bt.busId === b.busId) && b.status === 1);
+    
+
+    //     console.log("Buses with latest completed trips:", this.buses);
+    // } else {
+    //     this.buses = this.buses.filter(b => b.status === 1); 
+    // }
+
+    this.buses = this.buses.filter(b => b.status === 1); 
+}
+
 
   convertToDate(dateString: string): Date {
     const date = dateString.split(' ')[1];

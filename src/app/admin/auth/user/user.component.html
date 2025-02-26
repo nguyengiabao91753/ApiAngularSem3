@@ -98,9 +98,11 @@
                     </div>
                     <div class="field" *ngIf="formGroup.get('userId').value == 0">
                         <label for="password">Password</label>
-                        <input type="password" pInputText id="password" formControlName="password"
+
+                        <p-password type="password" id="password" formControlName="password"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('password')?.invalid}"
-                            placeholder="Password is required when creating a new account"/>
+                            placeholder="Password is required when creating a new account" [toggleMask]="true"/>
+                        
                         <small class="ng-dirty ng-invalid"
                             *ngIf="submitted && formGroup.get('password')?.invalid && formGroup.get('userId').value == 0">
                             Password is required when creating a new account.

@@ -115,7 +115,7 @@
                             <label class="content">Confirm Password</label>
                             <p-password formControlName="confirmPassword" id="confirmPassword"
                                 placeholder="Confirm Password" [toggleMask]="true" styleClass="mb-3"
-                                inputStyleClass="w-full p-3 md:w-20rem" required>
+                                inputStyleClass="w-full p-3 md:w-20rem" [feedback]="false" required>
                             </p-password>
                             <div *ngIf="formGroup.hasError('mismatch') && formGroup.get('confirmPassword')?.touched">
                                 <small class="p-error">Passwords do not match.</small>

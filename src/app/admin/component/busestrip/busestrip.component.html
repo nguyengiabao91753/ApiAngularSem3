@@ -116,7 +116,7 @@
                     </div>
                     <div class="field">
                         <label for="trip">Trip</label>
-                        <p-dropdown formControlName="tripId" name="trip" [options]="trips" optionValue="tripId"
+                        <p-dropdown formControlName="tripId" name="trip" (onChange)="selectTrip(tripId)" #tripId [options]="trips" optionValue="tripId"
                             placeholder="Select a Trip">
                             
                             <ng-template let-trip pTemplate="item">

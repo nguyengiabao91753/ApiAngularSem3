@@ -11,13 +11,19 @@ import { AccountUserService } from '../../../service/accountUser.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {jwtDecode} from 'jwt-decode';
+import { PasswordModule } from 'primeng/password';
 // import * as JSBase64 from 'js-base64'
 declare const google: any;
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, RouterLink, CommonModule],
+  imports: [
+    FormsModule, ReactiveFormsModule, RouterLink, CommonModule,
+    PasswordModule
+
+  ],
+  styleUrl: './login.component.css',
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {

@@ -25,6 +25,7 @@ import { AccountUser } from '../../../entity/accountUser.entity';
 import { AccountUserService } from '../../../service/accountUser.service';
 import { CalendarModule } from 'primeng/calendar';
 import { DatePipe } from '@angular/common';
+import { PasswordModule } from 'primeng/password';
 
 @Component({
   selector: 'app-account',
@@ -48,6 +49,7 @@ import { DatePipe } from '@angular/common';
     DialogModule,
     RatingModule,
     CalendarModule,
+    PasswordModule
   ],
   templateUrl: './account.component.html',
 })
@@ -282,7 +284,7 @@ export class AccountComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Failed to delete Account ' + error,
+          detail: 'Failed to delete Account ',
           life: 3000,
         });
       }

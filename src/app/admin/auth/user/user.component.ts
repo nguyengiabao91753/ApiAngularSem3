@@ -25,6 +25,8 @@ import { AccountUser } from '../../../entity/accountUser.entity';
 import { AccountUserService } from '../../../service/accountUser.service';
 import { CalendarModule } from 'primeng/calendar';
 import { DatePipe } from '@angular/common';
+import { PasswordModule } from 'primeng/password';
+
 @Component({
   selector: 'app-user',
   standalone: true,
@@ -46,7 +48,8 @@ import { DatePipe } from '@angular/common';
     InputNumberModule,
     DialogModule,
     RatingModule,
-    CalendarModule
+    CalendarModule,
+    PasswordModule
   ],
   templateUrl: './user.component.html',
 })
