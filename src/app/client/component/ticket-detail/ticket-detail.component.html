@@ -8,6 +8,7 @@
 </section>
 
 
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }" />
 <div class="padding-top padding-bottom">
     <div class="container">
         <div class="row gx-xl-5 gy-4 gy-sm-5 justify-content-center">
@@ -188,7 +189,21 @@
 </div>
 
 
-<div class="modal fade" id="bookConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- <p-dialog [(visible)]="confirm" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span >Are you sure to book these seats?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" severity="danger"
+            (click)="confirm = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="Submit()"></button>
+    </ng-template>
+</p-dialog> -->
+
+<!-- 
+<div class="modal fade" id="bookConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" [hidden]="!confirm">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -206,9 +221,9 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -227,4 +242,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

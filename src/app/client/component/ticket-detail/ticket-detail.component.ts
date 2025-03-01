@@ -17,22 +17,29 @@ import { Booking } from '../../../entity/booking.entity';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { BookingDetail } from '../../../entity/bookingdetail.entity';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { BookingService } from '../../../service/booking.service';
 import { AccountUserService } from '../../../service/accountUser.service';
 import { jwtDecode } from 'jwt-decode';
 import { AccountUser } from '../../../entity/accountUser.entity';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
+import { Ripple } from 'primeng/ripple';
 
 @Component({
   selector: 'app-ticket-detail',
   standalone: true,
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
   imports: [
     CommonModule,
     FormsModule,
     DropdownModule,
     InputTextModule,
-    FloatLabelModule
+    FloatLabelModule,
+    DialogModule,
+    ToastModule,
+    Ripple
   ],
   templateUrl: './ticket-detail.component.html',
   styleUrl: './ticket-detail.component.css'
@@ -52,6 +59,8 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   currency: string = 'USD';
 
   accountUser: AccountUser = null;
+
+  confirm= false;
 
   // = [
   //   { Id: 1, name: 'A1', status: '1' },
@@ -145,9 +154,17 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
       return;
     }
+   
 
     var signalObj = this.seatSignals.find(s => s.Id === seat.seatId);
+
+    if (this.selectedSeats.length >= 5 && signalObj.signalstatus == '1') {
+      this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: 'You have selected the maximum number of allowed seats!' });
+      return;
+    } 
+
     const newStatus = signalObj.signalstatus == '1' ? '0' : '1';
+    
     signalObj.signalstatus = newStatus;
     this.seatService.selectSeat(seat.seatId, parseInt(newStatus));
     if (this.isSeatSelected(seat)) {
@@ -207,10 +224,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.seatRows = rows;
   }
 
+  confirmBooking() {
+    this.confirm = true;
+  }
+
   Submit(bookingForm: any) {
     if (!bookingForm.valid) {
-      // this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete AgeGroup', life: 3000 });
-      alert("Please fill in all the required information.")
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill in all the required information.', life: 5000 });
+      //alert("Please fill in all the required information.")
       return;
     }
     this.booking.busTripId = this.bustripId
@@ -233,22 +254,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       };
       bookingdetails.push(detail);
     })
-    // console.log(this.booking);
-    // console.log(this.selectedSeats);
-    // console.log(bookingdetails);
-
-    // Demo Add
-
-
-    // this.bookingService.create(this.booking, bookingdetails).then(
-    //   res=>{
-    //     if(res['status']){
-    //       // this.booking={};
-    //       this.router.navigate(['/payment']);
-    //     }
-    //   }
-    // )
-
     this.bookingService.setBooking(this.booking);
     this.bookingService.setBookingDetails(bookingdetails);
     // this.booking={};

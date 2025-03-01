@@ -155,8 +155,11 @@ export class UserComponent implements OnInit {
 
   editAccountUser(accountUser: AccountUser) {
     const currentUserId = localStorage.getItem('userId');
-    const birthDate = accountUser.birthDate ? new Date(accountUser.birthDate) : null;
-
+    
+    const convertBirthDate = this.chuyenDoiNgay(accountUser.birthDate);
+    
+    const birthDate = convertBirthDate ? new Date(convertBirthDate) : null;
+    console.log('Ngày sinh:', birthDate);
     if (accountUser.userId.toString() === currentUserId || localStorage.getItem('levelId') === '1') {
       this.formGroup.patchValue({
         userId: accountUser.userId,
@@ -180,6 +183,17 @@ export class UserComponent implements OnInit {
       });
     }
   }
+
+  chuyenDoiNgay(ngay: string): string {
+    // Tách ngày, tháng, năm từ chuỗi vào mảng
+    const parts = ngay.split('-');
+
+    // Đảo vị trí của ngày và tháng
+    const ngayThangNam = `${parts[1]}-${parts[0]}-${parts[2]}`;
+
+    return ngayThangNam;
+}
+
 
   deleteAccountUser(accountUser: AccountUser) {
     const currentUserId = localStorage.getItem('userId');
