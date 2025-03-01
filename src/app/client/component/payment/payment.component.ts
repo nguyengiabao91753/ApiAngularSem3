@@ -11,6 +11,8 @@ import { Toast, ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProgressBar, ProgressBarModule } from 'primeng/progressbar';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-payment',
@@ -18,7 +20,9 @@ import { Router } from '@angular/router';
   imports: [
     NgxPayPalModule,
     ToastModule,
-    CommonModule
+    CommonModule,
+    ProgressBarModule,
+    DialogModule  
   ],
   providers:[MessageService],
   templateUrl: './payment.component.html',
@@ -34,6 +38,12 @@ export class PaymentComponent implements OnInit {
 
   booking: Booking = {};
   bookingdetails: BookingDetail[] = []
+
+  timeLeft: number = 1 * 60; // 5 phút (300 giây)
+  minutes: string = '05';
+  seconds: string = '00';
+
+  dialogVisible: boolean = false;
   constructor(
     private bookingService: BookingService,
     private paymentService: PaymentService,
@@ -47,6 +57,7 @@ export class PaymentComponent implements OnInit {
   public payPalConfig?: IPayPalConfig;
 
   ngOnInit(): void {
+    this.startCountdown();
     this.booking = this.bookingService.getBooking();
     this.bookingdetails = this.bookingService.getBookingDetails();
     console.log(this.booking);
@@ -57,6 +68,22 @@ export class PaymentComponent implements OnInit {
 
     this.initConfig();
   }
+
+  startCountdown() {
+    setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+        this.minutes = String(Math.floor(this.timeLeft / 60)).padStart(2, '0');
+        this.seconds = String(this.timeLeft % 60).padStart(2, '0');
+      }else{
+        this.dialogVisible = true;
+        setTimeout(() => {
+          this.router.navigate(['/ticket']);
+        }, 5000);
+      }
+    }, 1000);
+  }
+  
 
   onPaymentMethodChange(method: string) {
     this.selectedPaymentMethod = method;

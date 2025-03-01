@@ -6,7 +6,8 @@
                 <h2 class="title">Payment Methods</h2>
             </div>
         </div>
-    </section>
+</section>
+<h5 class="payment-card-title">Time left: {{ minutes }} : {{ seconds }}</h5>
 
     <div class="container padding-top padding-bottom">
         <div class="row justify-content-center">
@@ -87,3 +88,12 @@
             </div>
         </div>
     </div>
+
+
+    <p-dialog [(visible)]="dialogVisible" header="Confirm" [modal]="true" [style]="{width:'450px'}" [closable]="false">
+        <div class="flex align-items-center justify-content-center" >
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            <span >Payment time has expired, please choose a new trip</span>
+        </div>
+        
+    </p-dialog>
