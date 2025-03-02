@@ -25,6 +25,14 @@
                   <div class="form-group">
                     <label for="fullName">Full Name</label>
                     <input id="fullName" type="text" class="form-control" formControlName="fullName">
+                    <div *ngIf="formGroup.get('fullName')?.invalid && formGroup.get('fullName')?.touched">
+                      <small class="p-error" *ngIf="formGroup.get('fullName')?.errors?.['required']">
+                        Full Name is required.
+                      </small>
+                      <small class="p-error" *ngIf="formGroup.get('fullName')?.errors?.['pattern']">
+                        Full Name cannot contain numbers or special characters.
+                      </small>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-6">

@@ -49,7 +49,12 @@
                             <label class="content">Full Name</label>
                             <input class="form--control" formControlName="fullName" type="text" required>
                             <div *ngIf="formGroup.get('fullName')?.invalid && formGroup.get('fullName')?.touched">
-                                <small class="p-error">Full Name is required.</small>
+                                <small class="p-error" *ngIf="formGroup.get('fullName')?.errors?.['required']">
+                                    Full Name is required.
+                                  </small>
+                                  <small class="p-error" *ngIf="formGroup.get('fullName')?.errors?.['pattern']">
+                                    Full Name cannot contain numbers or special characters.
+                                  </small>
                             </div>
                         </div>
                     </div>
