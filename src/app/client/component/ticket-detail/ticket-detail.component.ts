@@ -234,6 +234,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       //alert("Please fill in all the required information.")
       return;
     }
+    if(this.selectedSeats.length==0){
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please select at least one seat.', life: 5000 });
+      return;
+    }
     this.booking.busTripId = this.bustripId
     this.booking.userId = 0;
     this.booking.bookingDate = "14:30:15 29/09/2024";

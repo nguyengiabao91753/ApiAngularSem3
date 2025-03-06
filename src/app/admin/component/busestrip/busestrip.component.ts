@@ -100,7 +100,7 @@ export class BusestripComponent implements OnInit {
       busTripId: '0',
       busId: ['', [Validators.required]],
       tripId: ['', [Validators.required]],
-      price: ['', [Validators.required]],
+      price: ['', [Validators.required],Validators.min(1), Validators.pattern(/^(?:[1-9]\d{0,2}(\.\d{1,2})?|1000(\.0{1,2})?)$/) ],
       status: 1
     });
 

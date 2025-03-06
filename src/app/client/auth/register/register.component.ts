@@ -78,14 +78,26 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required],
       fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       birthDate: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required], Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
       phoneNumber: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
-      address: ['', Validators.required],
+      address: ['', [Validators.required, Validators.pattern(/^\d+(\/[\p{L}0-9]+)?\s[\p{L}0-9\s-]{4,100}$/u)]],
       confirmPassword:['', Validators.required]
-    });
+    },
+    { validator: this.passwordMatchValidator }
+  );
 
   }
-  register() {
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    
+    if (confirmPassword!="" && password !== confirmPassword) {
+      return { mismatch: true }; // Trả về lỗi mismatch
+    }
+    return null; // Hợp lệ
+  }
+
+   register() {
     if (this.formGroup.valid) {
       const rawBirthDate = this.formGroup.get('birthDate')?.value;
       const formattedBirthDate = this.datePipe.transform(rawBirthDate, 'dd/MM/yyyy'); // Hoặc định dạng mà server yêu cầu
@@ -106,28 +118,44 @@ export class RegisterComponent implements OnInit {
         address: this.formGroup.get('address')?.value?.toString(),
       };
       
+
+      //check username and email
+      
       this.accountUserService
         .checkUsername(accountUser.username)
         .subscribe((res) => {
           if (res.exists) {
             alert('Username already exists');
-          } else {
-            this.accountUserService.CreateAccountUser(accountUser).then(
-              (res) => {
-                if (res['status']) {
-                  alert('Account Created Successfully');
-                  
-                  this.router.navigate(['/login']);
-                } else {
-                  alert('Failed to Create Account');
-                }
-              },
-              (error) => {
-                alert('Error creating account: ' + error);
+            return;
+          }else{
+            this.accountUserService
+            .checkEmail(accountUser.email)
+            .subscribe((res) => {
+              if (res.exists) {
+                alert('Email already exists');
+                return;
+              }else{
+                this.accountUserService.CreateAccountUser(accountUser).then(
+                  (res) => {
+                    if (res['status']) {
+                      alert('Account Created Successfully');
+                      
+                      this.router.navigate(['/login']);
+                    } else {
+                      alert('Failed to Create Account');
+                    }
+                  },
+                  (error) => {
+                    alert('Error creating account');
+                  }
+                );
               }
-            );
+            });
           }
         });
+        
+
+
     } else {
       alert('Please fill all required fields.');
     }

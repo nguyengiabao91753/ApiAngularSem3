@@ -20,7 +20,7 @@
             </p-toolbar>
 
             <p-table #dt [value]="trips" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name']" [paginator]="true"
+            [globalFilterFields]="['tripId', 'departureLocationId', 'arrivalLocationId', 'dateStart', 'dateEnd', 'status', 'departureLocationName', 'arrivalLocationName']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedTrips" selectionMode="multiple" [rowHover]="true" dataKey="id">

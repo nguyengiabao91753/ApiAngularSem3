@@ -34,7 +34,7 @@
                                         <input class="payment-item__radio gateway-input" id="bank_transfer" hidden
                                             type="radio" name="gateway" value="1000" (change)="onPaymentMethodChange('paypal')">
                                     </label>
-                                    <label for="bank_wire" class="payment-item  gateway-option">
+                                    <!-- <label for="bank_wire" class="payment-item  gateway-option">
                                         <div class="payment-item__info">
                                             <span class="payment-item__check"></span>
                                             <span class="payment-item__name">VN Pay</span>
@@ -46,7 +46,7 @@
                                         </div>
                                         <input class="payment-item__radio gateway-input" id="bank_wire" hidden
                                             type="radio" name="gateway" value="1001" (change)="onPaymentMethodChange('vnpay')">
-                                    </label>
+                                    </label> -->
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -69,11 +69,11 @@
                                         <ngx-paypal [config]="payPalConfig"></ngx-paypal>
                                     </div>
 
-                                    <div *ngIf="selectedPaymentMethod === 'vnpay'">
+                                    <!-- <div *ngIf="selectedPaymentMethod === 'vnpay'">
                                         <button type="button" class="btn btn-primary w-100 mt-4" (click)="createVnPayPayment()">
                                             Pay with VN Pay
                                         </button>
-                                    </div>
+                                    </div> -->
 
                                 
                                     <div class="info-text pt-3">

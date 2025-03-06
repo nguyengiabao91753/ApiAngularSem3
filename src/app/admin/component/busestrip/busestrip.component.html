@@ -20,7 +20,7 @@
             </p-toolbar>
 
             <p-table #dt [value]="busestrips" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+                [globalFilterFields]="['name', 'country.name', 'representative.name', 'status', 'busTripId', 'busId', 'busTypeName', 'airConditioned', 'seatCount', 'licensePlate', 'departureLocationName', 'arrivalLocationName', 'dateStart', 'dateEnd', 'price']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPbusReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedBusTrips" selectionMode="multiple" [rowHover]="true" dataKey="busTripId">
@@ -129,15 +129,15 @@
                     </div>
                     <div class="field">
                         <label for="price">Ticket Price</label>
-                        <p-inputNumber id="price" name="price" formControlName="price" mode="currency" 
-                        currency="USD" 
-                        locale="en-US"
-                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('discount')?.invalid}"
+                        <p-inputNumber id="price" name="price" formControlName="price"
+                            [min]="1" [max]="1000" [step]="0.01"
+                            [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('price')?.invalid}"
                            ></p-inputNumber>
-                            <small class="ng-dirty ng-invalid"
-                            *ngIf="(submitted || formGroup.get('price')?.touched) && formGroup.get('price')?.errors?.['required']">
-                            Price is required.
-                        </small>
+                           <div *ngIf="formGroup.get('price')?.invalid && formGroup.get('price')?.touched">
+                            <small class="p-error" *ngIf="formGroup.get('price')?.errors?.['required']">Price is required.</small>
+                            <small class="p-error" *ngIf="formGroup.get('price')?.errors?.['min']">Price cannot be negative.</small>
+                            <small class="p-error" *ngIf="formGroup.get('price')?.errors?.['pattern']">Price is invalid</small>
+                          </div>
                     </div>
                 </form>
             </ng-template>

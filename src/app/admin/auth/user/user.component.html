@@ -17,7 +17,7 @@
             </p-toolbar>
 
             <p-table #dt [value]="accountUsers" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['fullName','birthDate','email','phoneNumber','address','createAt']"
+                [globalFilterFields]="['userId', 'username', 'password', 'status', 'levelId', 'fullName', 'birthDate', 'email', 'phoneNumber', 'address', 'createdAt']"
                 [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedAccountUsers" selectionMode="multiple" [rowHover]="true" dataKey="id">
@@ -151,8 +151,10 @@
                         <label for="email">Email</label>
                         <input type="text" pInputText id="email" formControlName="email" autofocus
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('email')?.invalid}" />
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('email')?.invalid">Email is
-                            required.</small>
+                            <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
+                                <small class="p-error" *ngIf="formGroup.get('email')?.errors?.['required']">Email is required</small>
+                                <small class="p-error" *ngIf="formGroup.get('email')?.errors?.['pattern']">Email is invalid.</small>
+                              </div>
                     </div>
                     <div class="field">
                         <label for="phoneNumber">Phone Number</label>
@@ -165,8 +167,10 @@
                         <label for="address">Address</label>
                         <input type="text" pInputText id="address" formControlName="address" autofocus
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('address')?.invalid}" />
-                        <small class="ng-dirty ng-invalid"
-                            *ngIf="submitted && formGroup.get('address')?.invalid">Address is required.</small>
+                            <div *ngIf="formGroup.get('address')?.invalid && formGroup.get('address')?.touched">
+                                <small class="p-error" *ngIf="formGroup.get('address')?.errors?.['required']">Address is required.</small>
+                                <small class="p-error" *ngIf="formGroup.get('address')?.errors?.['pattern']">Address is invalid</small>
+                            </div>
                     </div>
                 </form>
             </ng-template>

@@ -53,7 +53,10 @@ export class AccountUserService{
     }
     checkUsername(username: string): Observable<any> {
         return this.httpClient.get<any>(`${this.baseurl.BASE_URL}accountUser/checkUsername/${username}`);
-      }
+    }
+    checkEmail(email: string): Observable<any> {
+        return this.httpClient.get<any>(`${this.baseurl.BASE_URL}accountUser/checkEmail/${email}`);
+    }
     async InActive(accountUser: any){
         return lastValueFrom(this.httpClient.post(this.baseurl.BASE_URL+'accountUser/inActive', accountUser));
     }

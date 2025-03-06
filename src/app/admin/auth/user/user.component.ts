@@ -114,9 +114,9 @@ export class UserComponent implements OnInit {
       password: '',
       fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       birthDate: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required], Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
       phoneNumber: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
-      address: ['', [Validators.required]],
+      address: ['', [Validators.required, Validators.pattern(/^\d+(\/[\p{L}0-9]+)?\s[\p{L}0-9\s-]{4,100}$/u)]],
       levelId: ['', [Validators.required]],
       status: ['', [Validators.required]],
     });

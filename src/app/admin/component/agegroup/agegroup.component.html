@@ -20,7 +20,8 @@
             </p-toolbar>
 
             <p-table #dt [value]="agegroups" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+            [globalFilterFields]="['ageGroupId', 'name', 'discount', 'status']"
+            [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedAgeGroups" selectionMode="multiple" [rowHover]="true" dataKey="id">
@@ -93,10 +94,14 @@
                     <div class="field">
                         <label for="description">Discount</label>
                         <p-inputNumber id="price" formControlName="discount" inputId="percent"
+                            [min]="0" [max]="100"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('discount')?.invalid}"
                             prefix="%"></p-inputNumber>
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && formGroup.get('discount')?.invalid">Name
-                            is required.</small>
+                            <div *ngIf="formGroup.get('discount')?.invalid && formGroup.get('discount')?.touched">
+                                <small class="p-error" *ngIf="formGroup.get('discount')?.errors?.['required']">Discount is required.</small>
+                                <small class="p-error" *ngIf="formGroup.get('discount')?.errors?.['pattern']">Discount must be a positive integer between 1 and 100.</small>
+                              </div>
+                              
                     </div>
                 </form>
             </ng-template>

@@ -146,43 +146,54 @@ export class BusTypeComponent implements OnInit {
 
   save(){
     this.submitted = true;
-    if(this.formGroup.get('busTypeId').value == 0){
-      this.bustype = this.formGroup.value as BusType
-      this.bustype.name = this.formGroup.get('name')?.value?.toString();
-      this.bustype.status = 1;
-      this.busTypeService.create(this.bustype).then(
-        res => {
-          if(res['status']){
-            this.busTypeDialog = false;
-            this.formGroup.reset();
-            this.ngOnInit();
-            // this.bustypes.push(this.bustype);
+    this.busTypeService.checkExist(this.formGroup.get('name')?.value).then(
+      res => {
+        if(res['exist']){
+          alert('Bus Type already exists');
+          return;
+        }else{
+          if(this.formGroup.get('busTypeId').value == 0){
+            this.bustype = this.formGroup.value as BusType
+            this.bustype.name = this.formGroup.get('name')?.value?.toString();
+            this.bustype.status = 1;
+      
+            this.busTypeService.create(this.bustype).then(
+              res => {
+                if(res['status']){
+                  this.busTypeDialog = false;
+                  this.formGroup.reset();
+                  this.ngOnInit();
+                  // this.bustypes.push(this.bustype);
+                }
+              },
+              error => {
+                alert('Error');
+              }
+            )
+          }else{
+            this.bustype = this.formGroup.value as BusType;
+            this.bustype.name = this.formGroup.get('name')?.value?.toString();
+            this.bustype.status = 1;
+            this.busTypeService.update(this.bustype).then(
+              res => {
+                if(res['status']){
+                  this.busTypeDialog = false;
+                  this.formGroup.reset();
+                  
+                  this.bustypes = this.bustypes.map(
+                    b => b.busTypeId === this.bustype.busTypeId ? {...this.bustype} : b
+                  );
+                }
+              },
+              error => {
+                alert('Error');
+              }
+            )
           }
-        },
-        error => {
-          alert('Error');
         }
-      )
-    }else{
-      this.bustype = this.formGroup.value as BusType;
-      this.bustype.name = this.formGroup.get('name')?.value?.toString();
-      this.bustype.status = 1;
-      this.busTypeService.update(this.bustype).then(
-        res => {
-          if(res['status']){
-            this.busTypeDialog = false;
-            this.formGroup.reset();
-            
-            this.bustypes = this.bustypes.map(
-              b => b.busTypeId === this.bustype.busTypeId ? {...this.bustype} : b
-            );
-          }
-        },
-        error => {
-          alert('Error');
-        }
-      )
-    }
+      }
+    );
+    
   }
 
   onGlobalFilter(table: Table, event: Event) {

@@ -20,7 +20,8 @@
             </p-toolbar>
 
             <p-table #dt [value]="bookings" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-                [globalFilterFields]="['name','country.name','representative.name','status']" [paginator]="true"
+            [globalFilterFields]="['bookingId', 'fullName', 'email', 'phoneNumber', 'userId', 'busTripId', 'bookingDate', 'total', 'paymentStatus']"
+            [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" selectionMode="multiple"
                 [rowHover]="true" dataKey="id">

@@ -73,7 +73,8 @@
                             <label class="content">E-Mail</label>
                             <input class="form--control" formControlName="email" type="email" required>
                             <div *ngIf="formGroup.get('email')?.invalid && formGroup.get('email')?.touched">
-                                <small class="p-error">Valid Email is required.</small>
+                                <small class="p-error" *ngIf="formGroup.get('email')?.errors?.['required']">Email is required</small>
+                                <small class="p-error" *ngIf="formGroup.get('email')?.errors?.['pattern']">Email is invalid.</small>
                             </div>
                         </div>
                     </div>
@@ -91,7 +92,8 @@
                             <label class="content">Address</label>
                             <input class="form--control" formControlName="address" type="text" required>
                             <div *ngIf="formGroup.get('address')?.invalid && formGroup.get('address')?.touched">
-                                <small class="p-error">Address is required.</small>
+                                <small class="p-error" *ngIf="formGroup.get('address')?.errors?.['required']">Address is required.</small>
+                                <small class="p-error" *ngIf="formGroup.get('address')?.errors?.['pattern']">Address is invalid</small>
                             </div>
                         </div>
                     </div>
@@ -122,6 +124,9 @@
                                 placeholder="Confirm Password" [toggleMask]="true" styleClass="mb-3"
                                 inputStyleClass="w-full p-3 md:w-20rem" [feedback]="false" required>
                             </p-password>
+                            <div *ngIf="formGroup.get('confirmPassword')?.invalid && formGroup.get('confirmPassword')?.touched">
+                                <small class="p-error">Confirm Password is required.</small>
+                            </div>
                             <div *ngIf="formGroup.hasError('mismatch') && formGroup.get('confirmPassword')?.touched">
                                 <small class="p-error">Passwords do not match.</small>
                             </div>

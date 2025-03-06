@@ -17,6 +17,10 @@ export class BusTypeService{
         return lastValueFrom(this.httpClient.get(this.baseUrl.BASE_URL + 'BusType/get-all-bus-type'));
     }
 
+    async checkExist(name: string){
+        return lastValueFrom(this.httpClient.get(this.baseUrl.BASE_URL + 'BusType/check-bus-type-name-exist/' + name));
+    }
+
     async update(busType: any){
         return lastValueFrom(this.httpClient.post(this.baseUrl.BASE_URL + 'BusType/update-bus-type', busType));
     }
