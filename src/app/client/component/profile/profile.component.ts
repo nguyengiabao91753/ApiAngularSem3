@@ -49,11 +49,11 @@ export class ProfileComponent implements OnInit {
       fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       email: [
         { value: '', disabled: true },
-        [Validators.required, Validators.email],
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
       ],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       birthDate: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['', [Validators.required, Validators.pattern(/^\d+(\/[\p{L}0-9]+)?\s[\p{L}0-9\s-]{4,100}$/u)]],
     });
     // try {
     //   const decodedToken: any = jwtDecode(token);
@@ -147,20 +147,30 @@ export class ProfileComponent implements OnInit {
         status: this.accountUser.status,
       };
 
-      this.accountUserService.UpdateAccountUserToken(payload).then(
-        (response) => {
-          console.log('Server response:', response);
-          if (response['status']) {
-            alert('Profile updated successfully!');
-          } else {
-            alert('Failed to update profile.');
-          }
-        },
-        (error) => {
-          console.error('Error updating profile', error);
-          alert('An error occurred while updating the profile.');
+      this.accountUserService.checkEmail(payload.email).subscribe((res) => {
+        if (res.exists) {
+          alert('Email already exists');
+          return;
+        }else{
+          this.accountUserService.UpdateAccountUserToken(payload).then(
+            (response) => {
+              console.log('Server response:', response);
+              if (response['status']) {
+                alert('Profile updated successfully!');
+              } else {
+                alert('Failed to update profile.');
+              }
+            },
+            (error) => {
+              console.error('Error updating profile', error);
+              alert('An error occurred while updating the profile.');
+            }
+          );
         }
+      }
       );
+
+      
     } else {
       alert('Please fill out the form correctly.');
     }

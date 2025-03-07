@@ -48,7 +48,7 @@ export class ChangepasswordComponent implements OnInit {
       this.passwordFormGroup = this.formBuilder.group(
         {
           CurrentPassword: ['', [Validators.required]],
-          Password: ['', [Validators.required, Validators.minLength(5)]],
+          password: ['', Validators.required,   Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)],
           ConfirmPassword: ['', [Validators.required]],
         },
         { validator: this.passwordMatchValidator }

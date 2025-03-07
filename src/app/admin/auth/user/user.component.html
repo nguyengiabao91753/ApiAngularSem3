@@ -103,10 +103,18 @@
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('password')?.invalid}"
                             placeholder="Password is required when creating a new account" [toggleMask]="true"/>
                         
-                        <small class="ng-dirty ng-invalid"
-                            *ngIf="submitted && formGroup.get('password')?.invalid && formGroup.get('userId').value == 0">
-                            Password is required when creating a new account.
-                        </small>
+                            <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched">
+                                <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['required']">
+                                  Password is required.
+                                </small>
+                                <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['minlength']">
+                                  Password must be at least 8 characters long.
+                                </small>
+                                <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['pattern']">
+                                  Password must contain at least one uppercase letter, one lowercase letter, and one number.
+                                </small>
+                              </div>
+                              
                     </div>
 
                     <div class="field">

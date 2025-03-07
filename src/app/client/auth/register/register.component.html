@@ -112,9 +112,18 @@
                             <p-password formControlName="password" id="password" placeholder="Password"
                                 [toggleMask]="true" styleClass="mb-3" inputStyleClass="w-full p-3 md:w-20rem"
                                 required></p-password>
-                            <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched">
-                                <small class="p-error">Password is required.</small>
-                            </div>
+                                <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched">
+                                    <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['required']">
+                                      Password is required.
+                                    </small>
+                                    <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['minlength']">
+                                      Password must be at least 8 characters long.
+                                    </small>
+                                    <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['pattern']">
+                                      Password must contain at least one uppercase letter, one lowercase letter, and one number.
+                                    </small>
+                                  </div>
+                                  
                         </div>
                     </div>
                     <div class="col-md-6">

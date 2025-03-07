@@ -124,10 +124,18 @@
                         <p-password type="password" id="password" formControlName="password"
                             [ngClass]="{'ng-invalid ng-dirty' : submitted && formGroup.get('password')?.invalid}"
                             placeholder="Password is required when creating a new account" [toggleMask]="true"/>
-                        <small class="ng-dirty ng-invalid"
-                            *ngIf="submitted && formGroup.get('password')?.invalid && formGroup.get('userId').value == 0">
-                            Password is required when creating a new account.
-                        </small>
+                            <div *ngIf="formGroup.get('password')?.invalid && formGroup.get('password')?.touched">
+                                <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['required']">
+                                  Password is required.
+                                </small>
+                                <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['minlength']">
+                                  Password must be at least 8 characters long.
+                                </small>
+                                <small class="p-error" *ngIf="formGroup.get('password')?.errors?.['pattern']">
+                                  Password must contain at least one uppercase letter, one lowercase letter, and one number.
+                                </small>
+                              </div>
+                              
                     </div>
                     <div class="field">
                         <label for="levelId">Level</label>
@@ -206,10 +214,18 @@
                     <label for="password1" class="font-semibold w-6rem">New Password</label>
                     <p-password id="password1" class="flex-auto" autocomplete="off" type="password" 
                         formControlName="Password" [toggleMask]="true" />
-                    <small class="p-error"
-                        *ngIf="passwordFormGroup.get('Password')?.invalid && passwordFormGroup.get('Password')?.touched">
-                        Password must be at least 6 characters long.
-                    </small>
+                        <div *ngIf="passwordFormGroup.get('password')?.invalid && passwordFormGroup.get('password')?.touched">
+                            <small class="p-error" *ngIf="passwordFormGroup.get('password')?.errors?.['required']">
+                              Password is required.
+                            </small>
+                            <small class="p-error" *ngIf="passwordFormGroup.get('password')?.errors?.['minlength']">
+                              Password must be at least 8 characters long.
+                            </small>
+                            <small class="p-error" *ngIf="passwordFormGroup.get('password')?.errors?.['pattern']">
+                              Password must contain at least one uppercase letter, one lowercase letter, and one number.
+                            </small>
+                          </div>
+                          
                 </div>
                 <div class="flex align-items-center gap-3 mb-5">
                     <label for="password2" class="font-semibold w-6rem">Confirm Password</label>

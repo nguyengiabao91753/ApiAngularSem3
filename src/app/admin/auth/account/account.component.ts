@@ -111,7 +111,12 @@ export class AccountComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       userId: '0',
       username: ['', [Validators.required]],
-      password: '',
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)
+      ]],
+      
       fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       birthDate: ['', [Validators.required]],
       email: ['', [Validators.required], Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
@@ -122,7 +127,11 @@ export class AccountComponent implements OnInit {
     });
     this.passwordFormGroup = this.formBuilder.group(
       {
-        Password: ['', [Validators.required, Validators.minLength(6)]],
+        password: ['', [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/)
+        ]],
         ConfirmPassword: ['', [Validators.required]],
       },
       { validator: this.passwordMatchValidator }
