@@ -96,6 +96,7 @@ export class BusTypeComponent implements OnInit {
   openNew() {
     this.bustype = {};
     this.submitted = false;
+    this.formGroup.reset();
     this.busTypeDialog = true;
   }
 

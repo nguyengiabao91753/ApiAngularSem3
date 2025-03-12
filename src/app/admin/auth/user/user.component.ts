@@ -119,7 +119,7 @@ export class UserComponent implements OnInit {
       
       fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       birthDate: ['', [Validators.required]],
-      email: ['', [Validators.required], Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)],
+      email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^0\\d{9}$')]],
       address: ['', [Validators.required, Validators.pattern(/^\d+(\/[\p{L}0-9]+)?\s[\p{L}0-9\s-]{4,100}$/u)]],
       levelId: ['', [Validators.required]],
@@ -165,7 +165,7 @@ export class UserComponent implements OnInit {
     
     const birthDate = convertBirthDate ? new Date(convertBirthDate) : null;
     console.log('Ngày sinh:', birthDate);
-    if (accountUser.userId.toString() === currentUserId || localStorage.getItem('levelId') === '1') {
+    // if (accountUser.userId.toString() === currentUserId || localStorage.getItem('levelId') === '1') {
       this.formGroup.patchValue({
         userId: accountUser.userId,
         username: accountUser.username,
@@ -179,14 +179,14 @@ export class UserComponent implements OnInit {
         address: accountUser.address,
       });
       this.accountUserDialog = true;
-    } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Warning',
-        detail: 'You can only edit your own information.',
-        life: 3000,
-      });
-    }
+    // } else {
+    //   this.messageService.add({
+    //     severity: 'warn',
+    //     summary: 'Warning',
+    //     detail: 'You can only edit your own information.',
+    //     life: 3000,
+    //   });
+    // }
   }
 
   chuyenDoiNgay(ngay: string): string {
@@ -319,6 +319,7 @@ export class UserComponent implements OnInit {
                       life: 3000,
                     });
                     this.loadData();
+                    this.formGroup.reset();
                   } else {
                     this.messageService.add({
                       severity: 'error',

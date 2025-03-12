@@ -105,6 +105,7 @@ export class AgegroupComponent implements OnInit {
   openNew() {
     this.agegroup = {};
     this.submitted = false;
+    this.formGroup.reset();
     this.agegroupDialog = true;
   }
 

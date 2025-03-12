@@ -212,6 +212,7 @@ export class BusComponent implements OnInit {
 
   openNew() {
     this.bus = {};
+    this.formGroup.reset();
     this.submitted = false;
     this.busDialog = true;
   }
