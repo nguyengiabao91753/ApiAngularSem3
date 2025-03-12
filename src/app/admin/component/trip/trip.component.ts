@@ -289,7 +289,7 @@ checkDateEnd() {
 
     // Tính toán ngày sau khi cộng thêm 4 ngày
     const fourDaysLater = new Date(current);
-    fourDaysLater.setDate(current.getDate() + 4);
+    fourDaysLater.setDate(current.getDate());
 
     return tripDate > fourDaysLater;
 }
