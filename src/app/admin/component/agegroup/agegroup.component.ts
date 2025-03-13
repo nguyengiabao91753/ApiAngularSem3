@@ -89,7 +89,7 @@ export class AgegroupComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       ageGroupId: '0',
       name: ['', [Validators.required]],
-      discount: ['', [Validators.required], Validators.pattern(/^(?!0$)(?:[1-9][0-9]{0,1}|100)$/)],
+      discount: ['', [Validators.required, Validators.pattern(/^(?!0$)(?:[1-9][0-9]{0,1}|100)$/)]],
     });
 
     this.cols = [
@@ -106,6 +106,7 @@ export class AgegroupComponent implements OnInit {
     this.agegroup = {};
     this.submitted = false;
     this.formGroup.reset();
+    this.formGroup.patchValue({ ageGroupId: '0' });
     this.agegroupDialog = true;
   }
 

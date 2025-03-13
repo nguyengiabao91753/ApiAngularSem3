@@ -106,6 +106,9 @@ export class LocationComponent implements OnInit {
   openNew() {
     this.location = {};
     this.submitted = false;
+    this.formGroup.reset({
+      locationId: '0'
+    });
     this.locationDialog = true;
   }
 

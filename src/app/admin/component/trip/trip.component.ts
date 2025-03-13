@@ -258,6 +258,9 @@ checkDateEnd() {
     this.trip = {};
     this.submitted = false;
     this.tripDialog = true;
+    this.formGroup.reset({
+      tripId: '0'
+    });
   }
   editTrip(trip: Trip) {
     //Gán dữ liệu được chọn vào form
