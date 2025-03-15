@@ -57,6 +57,8 @@ export class BusestripComponent implements OnInit {
   originBusTripList: BusesTrip[] = []
 
   buses: Bus[] = []
+  originbuses: Bus[] = []
+
   trips: Trip[] = []
   origintrips: Trip[] = []
 
@@ -89,6 +91,7 @@ export class BusestripComponent implements OnInit {
     this.busestrips = await this.busestripService.getAll() as BusesTrip[]
     this.originBusTripList = await this.busestripService.getAll() as BusesTrip[]
     this.buses = await this.busService.getAll() as Bus[]
+    this.originbuses = [...this.buses];
     console.log(this.buses);
 
     this.origintrips = await this.tripService.getAll() as Trip[]
@@ -120,6 +123,8 @@ export class BusestripComponent implements OnInit {
   //Này là mở hộp thoại thêm mới
   openNew() {
     this.busestrip = {};
+    this.buses = [...this.originbuses];
+    this.trips = [...this.origintrips];
     this.submitted = false;
     // this.formGroup.reset();
     this.formGroup.reset({
@@ -244,27 +249,29 @@ export class BusestripComponent implements OnInit {
     console.log(busId.value);
 
     this.busestripsofBus = this.busestrips.filter(b => b.busId == busId.value)
-    if (this.busestripsofBus.length > 0) {
-      const dateEndOfBusTrip = this.convertToDate(this.busestripsofBus[0].dateEnd);
-      console.log('Ngày kết thúc chuyến xe:', dateEndOfBusTrip);
+    var bus = this.buses.find(b => b.busId == busId.value);
+    this.trips = this.origintrips.filter(t => t.arrivalLocationId == bus.locationId && t.status == 1);
+    // if (this.busestripsofBus.length > 0) {
+    //   const dateEndOfBusTrip = this.convertToDate(this.busestripsofBus[0].dateEnd);
+    //   console.log('Ngày kết thúc chuyến xe:', dateEndOfBusTrip);
 
-      this.trips = this.origintrips.filter(t => {
-        const dateStartOfTrip = this.convertToDate(t.dateStart);
-        // console.log('Ngày bắt đầu của trip:', dateStartOfTrip);
+    //   this.trips = this.origintrips.filter(t => {
+    //     const dateStartOfTrip = this.convertToDate(t.dateStart);
+    //     // console.log('Ngày bắt đầu của trip:', dateStartOfTrip);
 
-        // So sánh trực tiếp giữa các đối tượng Date
-        return (dateStartOfTrip > dateEndOfBusTrip && t.departureLocationName == this.busestripsofBus[0].arrivalLocationName);
-      });
-      console.log(this.busestripsofBus[0].dateStart);
+    //     // So sánh trực tiếp giữa các đối tượng Date
+    //     return (dateStartOfTrip > dateEndOfBusTrip && t.departureLocationName == this.busestripsofBus[0].arrivalLocationName);
+    //   });
+    //   console.log(this.busestripsofBus[0].dateStart);
       
       
-    }
+    // }
 
     // this.trips = this.origintrips.filter(t => t.status==1);
 
   }
   selectTrip(tripId) {
-    // var trip = this.origintrips.find(t => t.tripId == tripId.value);
+    var trip = this.origintrips.find(t => t.tripId == tripId.value);
     // if (!trip) return;
 
     // console.log("Trip selected:", trip);
@@ -284,7 +291,7 @@ export class BusestripComponent implements OnInit {
     //     this.buses = this.buses.filter(b => b.status === 1); 
     // }
 
-    this.buses = this.buses.filter(b => b.status === 1); 
+    this.buses = this.buses.filter(b=>b.locationId == trip.departureLocationId && b.status == 1); 
 }
 
 

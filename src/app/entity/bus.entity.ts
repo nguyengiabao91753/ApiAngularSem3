@@ -7,4 +7,7 @@ export interface Bus{
     basePrice? : number,
     status? : number,
     busName? : string
+
+    locationId? : number,
+    locationName? : string
 }

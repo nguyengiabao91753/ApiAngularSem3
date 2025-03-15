@@ -18,8 +18,9 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="buses" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['busId', 'busTypeId', 'airConditioned', 'licensePlate', 'seatCount', 'basePrice', 'status', 'busName']"
-            [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
+            <p-table #dt [value]="buses" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['busId', 'busTypeId', 'airConditioned', 'licensePlate', 'seatCount', 'basePrice', 'status', 'busName', 'locationName']"
+                [paginator]="true" [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [(selection)]="selectedBuses" selectionMode="multiple" [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
@@ -78,6 +79,10 @@
                             {{ bus.basePrice }}
                         </td>
                         <td>
+                            <span class="p-column-title">Location</span>
+                            {{ bus.locationName }}
+                        </td>
+                        <td>
                             <span class="p-column-title">Status</span>
                             <span [class]="
                   'product-badge status-' +
@@ -100,21 +105,14 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="busDialog" [style]="{ width: '700px', height: '600px' }" header="Bus Details"
+        <p-dialog [(visible)]="busDialog" [style]="{ width: '700px', height: '800px' }" header="Bus Details"
             [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="formGroup">
                     <div class="field">
                         <label for="name">Bus Name</label>
-                        <p-dropdown 
-                                    id="name" 
-                                    formControlName="busTypeId" 
-                                    [options]="busTypes" 
-                                    optionLabel="name"
-                                    placeholder="Select Bus" 
-                                    optionValue="busTypeId"
-                                    autofocus=""
-                                    [ngClass]="{
+                        <p-dropdown id="name" formControlName="busTypeId" [options]="busTypes" optionLabel="name"
+                            placeholder="Select Bus" optionValue="busTypeId" autofocus="" [ngClass]="{
                 'ng-invalid ng-dirty':
                   submitted && formGroup.get('busTypeId')?.invalid
               }">
@@ -193,6 +191,20 @@
                             *ngIf="submitted && formGroup.get('basePrice')?.errors?.['pattern']">
                             Price must be a valid number with up to 2 decimal places.
                         </small>
+                    </div>
+
+                    <div class="field">
+                        <label for="name">Location</label>
+                        <p-dropdown id="name" formControlName="locationId" [options]="locations" optionLabel="name"
+                            placeholder="Select Location" optionValue="locationId" autofocus="" [ngClass]="{
+                'ng-invalid ng-dirty':
+                  submitted && formGroup.get('locationId')?.invalid
+              }">
+                            <small class="ng-dirty ng-invalid"
+                                *ngIf="submitted && formGroup.get('locationId')?.errors?.['required']">
+                                Location is required.
+                            </small>
+                        </p-dropdown>
                     </div>
                 </form>
             </ng-template>

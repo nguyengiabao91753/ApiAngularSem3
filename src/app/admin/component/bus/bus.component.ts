@@ -28,6 +28,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BusSeat } from '../../../entity/busseat.entity';
 import { BusSeatService } from '../../../service/busseat.service';
 import { catchError, from, map, Observable, of } from 'rxjs';
+import { LocationService } from '../../../service/locationService';
+import { Location } from '../../../entity/location.entity';
 
 @Component({
   selector: 'app-bustype',
@@ -78,6 +80,9 @@ export class BusComponent implements OnInit {
   busType: BusType = {}
   busTypes: BusType[] = []
 
+  location: Location = {}
+  locations: Location[] = []
+
   formGroup!: FormGroup
 
   //For notications
@@ -101,6 +106,7 @@ export class BusComponent implements OnInit {
     private messageService: MessageService,
     private formBuilder: FormBuilder,
     private busTypeService: BusTypeService,
+    private locationService: LocationService,
     private busSeatService: BusSeatService
   ) {
 
@@ -109,14 +115,21 @@ export class BusComponent implements OnInit {
     this.busService.getAll().then(
       res => {
         this.buses = res as Bus[];
-        console.log(this.buses);
+        //console.log(this.buses);
       }
     )
 
     this.busTypeService.getAll().then(
       res => {
         this.busTypes = (res as BusType[]).filter(bt => bt.status === 1);
-        console.log(this.busTypes);
+        //console.log(this.busTypes);
+      }
+    )
+
+    this.locationService.getAll().then(
+      res => {
+        this.locations = res as Location[];
+        //console.log(this.locations);
       }
     )
 
@@ -142,6 +155,7 @@ export class BusComponent implements OnInit {
       ],
       seatCount: ['', [Validators.required, Validators.min(10), Validators.max(60)]],
       basePrice: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+      locationId: ['', [Validators.required]],
     });
 
 
@@ -163,6 +177,7 @@ export class BusComponent implements OnInit {
       { field: 'licensePlate', header: 'License Plate' },
       { field: 'seatCount', header: ' Seat Counts' },
       { field: 'basePrice', header: 'Base Price' },
+      { field: 'locationName', header: 'Location' },
       { field: 'status', header: 'Status' }
     ];
 
