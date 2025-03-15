@@ -278,6 +278,14 @@ export class BusComponent implements OnInit {
       } else {
         console.error('Not found');
       }
+      const selectedLocationId = this.formGroup.get('locationId')?.value;
+      const selectedLocation = this.locations.find(location => location.locationId === selectedLocationId);
+      if (selectedLocation) {
+        this.bus.locationId = selectedLocation.locationId;
+        this.bus.locationName = selectedLocation.name;
+      } else {
+        console.error('Location Not found');
+      }
       this.bus.airConditioned = this.formGroup.get('airConditioned')?.value ? 1 : 0;
       this.bus.licensePlate = this.formGroup.get('licensePlate')?.value.toString();
       this.bus.seatCount = this.formGroup.get('seatCount')?.value.toString();
@@ -306,14 +314,21 @@ export class BusComponent implements OnInit {
         this.bus.busTypeId = selectedBusType.busTypeId;
         this.bus.busName = selectedBusType.name;
       } else {
-        console.error('Not found');
+        console.error('Bus Type Not found');
+      }
+      const selectedLocationId = this.formGroup.get('locationId')?.value;
+      const selectedLocation = this.locations.find(location => location.locationId === selectedLocationId);
+      if (selectedLocation) {
+        this.bus.locationId = selectedLocation.locationId;
+        this.bus.locationName = selectedLocation.name;
+      } else {
+        console.error('Location Not found');
       }
       this.bus.airConditioned = this.formGroup.get('airConditioned')?.value ? 1 : 0;
       this.bus.licensePlate = this.formGroup.get('licensePlate')?.value.toString();
       this.bus.seatCount = this.formGroup.get('seatCount')?.value.toString();
       this.bus.basePrice = this.formGroup.get('basePrice')?.value.toString();
       this.bus.status = 1;
-      this.bus.locationId = this.formGroup.get('locationId')?.value.toString();
       console.log('Bus Object:', this.bus);
       this.busService.update(this.bus).then(
         res => {
