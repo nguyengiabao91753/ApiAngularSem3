@@ -250,7 +250,8 @@ export class BusComponent implements OnInit {
       airConditioned: bus.airConditioned,
       licensePlate: bus.licensePlate,
       seatCount: bus.seatCount,
-      basePrice: bus.basePrice
+      basePrice: bus.basePrice,
+      locationId: bus.locationId
     }),
       this.formGroup.get('seatCount')?.disable();
       this.busDialog = true;
@@ -282,6 +283,7 @@ export class BusComponent implements OnInit {
       this.bus.seatCount = this.formGroup.get('seatCount')?.value.toString();
       this.bus.basePrice = this.formGroup.get('basePrice')?.value.toString();
       this.bus.status = 1;
+      this.bus.locationId = this.formGroup.get('locationId')?.value.toString();
       console.log('Bus Object:', this.bus);
       this.busService.create(this.bus).then(
         res => {
@@ -311,7 +313,7 @@ export class BusComponent implements OnInit {
       this.bus.seatCount = this.formGroup.get('seatCount')?.value.toString();
       this.bus.basePrice = this.formGroup.get('basePrice')?.value.toString();
       this.bus.status = 1;
-
+      this.bus.locationId = this.formGroup.get('locationId')?.value.toString();
       console.log('Bus Object:', this.bus);
       this.busService.update(this.bus).then(
         res => {
