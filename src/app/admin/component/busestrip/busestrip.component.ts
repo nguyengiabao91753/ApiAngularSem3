@@ -103,7 +103,7 @@ export class BusestripComponent implements OnInit {
       busTripId: '0',
       busId: ['', [Validators.required]],
       tripId: ['', [Validators.required]],
-      price: ['', [Validators.required],Validators.min(1), Validators.pattern(/^(?:[1-9]\d{0,2}(\.\d{1,2})?|1000(\.0{1,2})?)$/) ],
+      price: ['', [Validators.required,Validators.min(1)] ],
       status: 1
     });
 
@@ -123,8 +123,8 @@ export class BusestripComponent implements OnInit {
   //Này là mở hộp thoại thêm mới
   openNew() {
     this.busestrip = {};
-    this.buses = [...this.originbuses];
-    this.trips = [...this.origintrips];
+    this.buses = this.originbuses.filter(b => b.status == 1);
+    this.trips = this.origintrips.filter(t => t.status == 1);
     this.submitted = false;
     // this.formGroup.reset();
     this.formGroup.reset({
