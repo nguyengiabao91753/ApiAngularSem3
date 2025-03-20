@@ -63,6 +63,7 @@ export class MenuComponent implements OnInit {
           items: [
             { label: 'User', icon: 'pi pi-fw pi-users', routerLink: ['/admin/user'] },
             { label: 'Account', icon: 'pi pi-fw pi-unlock', routerLink: ['/admin/account'] },
+            { label: 'Passenger', icon: 'pi pi-fw pi-users', routerLink: ['/admin/passenger'] },
             { label: 'InActive', icon: 'pi pi-fw pi-trash', routerLink: ['/admin/inActive'] },
           ]
         },

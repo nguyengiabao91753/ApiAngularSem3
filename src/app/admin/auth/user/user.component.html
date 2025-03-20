@@ -43,7 +43,7 @@
                 </ng-template>
                 <!-- Bảng dữ liệu -->
                 <ng-template pTemplate="body" let-accountUser>
-                    <tr *ngIf="accountUser.status == 1 || accountUser.status == 2">
+                    <tr *ngIf="(accountUser.status == 1 || accountUser.status == 2) && accountUser.levelId != 3">
                         <td><span class="p-column-title">User Id</span>
                             {{accountUser.userId}}
                         </td>
@@ -73,7 +73,7 @@
                                 <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2"
                                     (click)="editAccountUser(accountUser)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                <button *ngIf="accountUser.levelId != 1" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
                                     (click)="deleteAccountUser(accountUser)"></button>
                             </div>
                         </td>

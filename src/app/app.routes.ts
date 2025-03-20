@@ -32,6 +32,7 @@ import { BookingComponent } from './admin/component/booking/booking.component';
 import { CheckticketComponent } from './admin/component/checkticket/checkticket.component';
 import { ThanksComponent } from './client/component/thanks/thanks.component';
 import { RoleGuard } from './service/role.guard'; // Import RoleGuard
+import { PassengerComponent } from './admin/auth/passenger/passenger.component';
 
 export const routes: Routes = [
   {
@@ -77,6 +78,12 @@ export const routes: Routes = [
       {
         path: 'account',
         component: AccountComponent,
+        canActivate: [AuthGuard],
+        data: { requiredLevelIds: [1] },
+      },
+      {
+        path: 'passenger',
+        component: PassengerComponent,
         canActivate: [AuthGuard],
         data: { requiredLevelIds: [1] },
       },
