@@ -14,8 +14,8 @@
   <script>
     window.onGoogleLibraryLoad = function () {
       google.accounts.id.initialize({
-        client_id: "124955703481-vkbv4f5lmbh45ng0l4192igj817o6ff4.apps.googleusercontent.com",
-        callback: handleCredentialResponse,
+        client_id: '458933571871-37va24pboj3n54mj2bjsfusg7ifstifj.apps.googleusercontent.com',
+        callback: handleCredentialResponse(this),
       });
       google.accounts.id.prompt();
     };

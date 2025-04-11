@@ -8,10 +8,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { AccountUserService } from '../../../service/accountUser.service';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { PasswordModule } from 'primeng/password';
+import { BaseUrlService } from '../../../service/baseUrl.service';
 // import * as JSBase64 from 'js-base64'
 declare const google: any;
 
@@ -33,12 +34,25 @@ export class LoginComponent implements OnInit {
     private assetService: AssetService,
     private accountUserService: AccountUserService,
     private router: Router,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private baseUrl: BaseUrlService,
+    private route: ActivatedRoute
+  ) { }
   ngOnInit(): void {
-    if(localStorage.getItem('jwtToken')){
+   
+    this.route.queryParams.subscribe(params => {
+      const token = params['token'];
+      if (token) {
+        localStorage.setItem('jwtToken', token);
+        this.router.navigate(['/home']);
+
+      }
+    });
+    if (localStorage.getItem('jwtToken')) {
       this.router.navigate(['/home']);
     }
+   
+
     // CSS files
     this.assetService.addCss('client/assets/global/css/bootstrap.min.css');
     this.assetService.addCss('client/assets/global/css/all.min.css');
@@ -66,33 +80,42 @@ export class LoginComponent implements OnInit {
 
     this.assetService.setTitle('Login');
 
+    // Thêm script Google Identity
+    this.renderGoogleButton();
+
     // Validate form
     this.loginFormGroup = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
 
-    // Thêm script Google Identity
-  const googleScript = document.createElement('script');
-  googleScript.src = 'https://accounts.google.com/gsi/client';
-  googleScript.async = true;
-  googleScript.defer = true;
-  googleScript.onload = () => {
-    google.accounts.id.initialize({
-      client_id: '124955703481-vkbv4f5lmbh45ng0l4192igj817o6ff4.apps.googleusercontent.com',
-      callback: this.handleCredentialResponse.bind(this),
-    });
-    google.accounts.id.renderButton(
-      document.getElementById('googleSignInButton'),
-      { theme: 'outline', size: 'large' } // Tùy chỉnh nút Google Sign-In
-    );
-  };
-  document.head.appendChild(googleScript);
+    
+  }
+
+  renderGoogleButton() {
+    const interval = setInterval(() => {
+      if (typeof google !== 'undefined' && google.accounts?.id) {
+        clearInterval(interval);
+
+        google.accounts.id.initialize({
+          client_id: '458933571871-37va24pboj3n54mj2bjsfusg7ifstifj.apps.googleusercontent.com',
+          callback: this.handleCredentialResponse.bind(this),
+          auto_select: false,
+          cancel_on_tap_outside: false,
+        });
+
+        google.accounts.id.renderButton(
+          document.getElementById('google-signin-button'),
+          { theme: 'outline', size: 'large' }
+        );
+      }
+    }, 100); // Kiểm tra mỗi 100ms
   }
 
   handleCredentialResponse(response: any) {
     const googleIdToken = response.credential;
-  
+    console.log('Google ID Token:', googleIdToken);
+    
     // Gọi dịch vụ để đăng nhập với Google
     this.accountUserService.loginWithGoogle(googleIdToken).subscribe(
       (response: any) => {
@@ -100,8 +123,9 @@ export class LoginComponent implements OnInit {
           // Lưu token của server vào localStorage
           localStorage.setItem('jwtToken', response.token);
           this.router.navigate(['/home']);
+          window.location.reload();
         } else {
-          alert('Login failed: No token received');
+          alert(response.message);
         }
       },
       (error) => {
@@ -110,38 +134,9 @@ export class LoginComponent implements OnInit {
       }
     );
 
-// ------------------------------
-  //   const token = response.credential;
-  //   const decodedToken: any = jwtDecode(token);
-  //   const base64URL = token.split(".")[1]
-  //   const base64 = base64URL.replace(/-/g,'+').replace(/_/g,'/')
     
-  //   JSON.parse(JSBase64.decode(base64))
-    
-  //   console.log('check base64:',JSON.parse(JSBase64.decode(base64)));
 
-  //     const payLoad =     JSON.parse(JSBase64.decode(base64))
-  //     this.accountUser = {
-  //       username: payLoad.email,
-  //       fullName: payLoad.name,
-  //       email: decodedToken.email,
- 
-  //     }
-  //       // Gọi dịch vụ để tạo tài khoản người dùng từ thông tin Google
-  // this.accountUserService.CreateAccountUserGg(this.accountUser)
-  // .then(response => {
-  //   console.log('Account created or retrieved successfully:', response);
-  //   // Lưu token vào localStorage và chuyển hướng đến trang profile
-  //   localStorage.setItem('jwtToken', token);
-  //   localStorage.setItem('email', decodedToken.email);
-  //   this.router.navigate(['/profile']);
-  // })
-  // .catch(error => {
-  //   console.error('Error creating account:', error);
-  //   alert('Failed to create account: ' + error.message);
-  // });
-  
-}
+  }
 
   login() {
     if (this.loginFormGroup.valid) {
@@ -169,9 +164,14 @@ export class LoginComponent implements OnInit {
       alert('Please enter valid username and password');
     }
   }
+
+
+
 }
 declare global {
   interface Window {
     onGoogleLibraryLoad: () => void;
   }
 }
+
+

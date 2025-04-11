@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
     private locationService: LocationService
   ){}
   ngOnInit(): void {
+    
+
     this.locationService.getAll().then(
       res=>{
         this.locations = res as Location[]

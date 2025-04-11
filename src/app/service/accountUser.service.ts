@@ -48,8 +48,12 @@ export class AccountUserService{
         console.log("Sending login data:", { username, password }); // Log dữ liệu để kiểm tra
         return this.httpClient.post<any>(`${this.baseurl.BASE_URL}accountUser/login`, { username, password });
     }
-    loginWithGoogle(idToken: string): Observable<any> {
-        return this.httpClient.post<any>(`${this.baseurl.BASE_URL}accountUser/loginWithGoogle`, { idToken });
+    loginWithGoogle(credential : string): Observable<any> {
+        var header = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        });
+        return this.httpClient.post<any>(`${this.baseurl.BASE_URL}accountUser/google-login`,JSON.stringify(credential), { headers: header });
     }
     checkUsername(username: string): Observable<any> {
         return this.httpClient.get<any>(`${this.baseurl.BASE_URL}accountUser/checkUsername/${username}`);

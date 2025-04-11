@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AuthInterceptor } from '../../../service/authInterceptor';
 
 @Component({
   selector: 'app-headertop',
@@ -19,13 +20,17 @@ export class HeadertopComponent implements OnInit{
   userEmail: string | null = null;
 
   constructor(
-    private router: Router
-  
+    private router: Router,
+    private auth : AuthInterceptor,
+    private cdr: ChangeDetectorRef
   ){}
   ngOnInit(): void {
+    this.auth.isLoggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+      this.cdr.detectChanges();
+    });
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      this.isLoggedIn = true;
       this.userId = Number(localStorage.getItem('userId'));
     
     } else {
