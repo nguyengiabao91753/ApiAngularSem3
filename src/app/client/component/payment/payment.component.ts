@@ -39,7 +39,7 @@ export class PaymentComponent implements OnInit {
   booking: Booking = {};
   bookingdetails: BookingDetail[] = []
 
-  timeLeft: number = 1 * 60; // 5 phút (300 giây)
+  timeLeft: number = 15 * 60; // 5 phút (300 giây)
   minutes: string = '05';
   seconds: string = '00';
 

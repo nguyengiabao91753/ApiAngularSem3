@@ -65,7 +65,7 @@
             </div>
 
             <p-dialog [(visible)]="cameraActive" [style]="{width: '650px'}" header="Check Ticket Code" [modal]="true"
-                class="p-fluid">
+                class="p-fluid" (onShow)="onDialogShow()">
                 <ng-template pTemplate="content">
                     <div class="scanner-container">
                         <zxing-scanner #scanner [device]="currentDevice" [enable]="cameraActive"

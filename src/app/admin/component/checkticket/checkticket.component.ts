@@ -45,9 +45,9 @@ import { BadgeModule } from 'primeng/badge';
   templateUrl: './checkticket.component.html',
   styleUrl: './checkticket.component.css'
 })
-export class CheckticketComponent implements AfterViewInit {
+export class CheckticketComponent{
 
-  @ViewChild('scanner') scanner: ZXingScannerComponent;
+  @ViewChild('scanner') scanner!: ZXingScannerComponent;
 
   hasDevices: boolean = false;
   hasPermission: boolean = false;
@@ -80,25 +80,45 @@ export class CheckticketComponent implements AfterViewInit {
     private bookingService: BookingService,
     private messageService: MessageService
   ) { }
-  ngAfterViewInit() {
+
+  // ngAfterViewInit() {
+  //   if (this.scanner) {
+  //     this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+  //       this.hasDevices = devices && devices.length > 0;
+  //       this.availableDevices = devices;
+
+  //       if (devices.length > 0) {
+  //         this.currentDevice = devices[0];
+  //       }
+  //     });
+
+  //     this.scanner.permissionResponse.subscribe((perm: boolean) => {
+  //       this.hasPermission = perm;
+  //     });
+  //   } else {
+  //     console.log("Scanner không được tạo");
+
+  //   }
+  // }
+
+  onDialogShow() {
     if (this.scanner) {
       this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
         this.hasDevices = devices && devices.length > 0;
         this.availableDevices = devices;
-
         if (devices.length > 0) {
           this.currentDevice = devices[0];
         }
       });
-
+  
       this.scanner.permissionResponse.subscribe((perm: boolean) => {
         this.hasPermission = perm;
       });
     } else {
-      console.log("Scanner không được tạo");
-
+      console.log("Scanner không được tạo sau khi dialog hiển thị");
     }
   }
+  
 
   startScanning(): void {
     // if (this.scanner) {
