@@ -28,16 +28,11 @@ export class HomeComponent implements OnInit {
   locations: Location[]=[]
   date=""
   constructor(
-    private locationService: LocationService
   ){}
   ngOnInit(): void {
     
 
-    this.locationService.getAll().then(
-      res=>{
-        this.locations = res as Location[]
-      }
-    )
+    
   }
 
 }

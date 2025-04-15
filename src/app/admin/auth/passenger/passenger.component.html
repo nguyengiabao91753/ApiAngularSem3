@@ -70,11 +70,11 @@
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil"
+                                <!-- <button pButton pRipple icon="pi pi-pencil"
                                     class="p-button-rounded p-button-success mr-2"
-                                    (click)="editAccountUser(accountUser)"></button>
-                                <button  pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                                    (click)="deleteAccountUser(accountUser)"></button>
+                                    (click)="editAccountUser(accountUser)"></button> -->
+                                <!-- <button  pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteAccountUser(accountUser)"></button> -->
                             </div>
                         </td>
                     </tr>
@@ -87,7 +87,7 @@
         <p-dialog [(visible)]="accountUserDialog" [style]="{width: '450px'}" header="Account User Form" [modal]="true"
             class="p-fluid">
             <ng-template pTemplate="content">
-                <form [formGroup]="formGroup">
+                <form [formGroup]="formGroup" >
                     <div class="field">
                         <label for="username">Username</label>
                         <input type="text" pInputText id="username" formControlName="username" 

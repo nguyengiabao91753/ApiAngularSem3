@@ -22,6 +22,7 @@ import { BookingService } from '../../../service/booking.service';
 import { Booking } from '../../../entity/booking.entity';
 import { BookingDetail } from '../../../entity/bookingdetail.entity';
 import { BadgeModule } from 'primeng/badge';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-checkticket',
@@ -45,7 +46,7 @@ import { BadgeModule } from 'primeng/badge';
   templateUrl: './checkticket.component.html',
   styleUrl: './checkticket.component.css'
 })
-export class CheckticketComponent{
+export class CheckticketComponent implements AfterViewInit {
 
   @ViewChild('scanner') scanner!: ZXingScannerComponent;
 
@@ -53,6 +54,9 @@ export class CheckticketComponent{
   hasPermission: boolean = false;
   availableDevices: MediaDeviceInfo[] = [];
   currentDevice: MediaDeviceInfo | null = null;
+
+  private cameraSubscription: Subscription | undefined;
+  private permissionSubscription: Subscription | undefined;
 
   cameraActive: boolean = false;
   inputActive: boolean = false;
@@ -81,66 +85,84 @@ export class CheckticketComponent{
     private messageService: MessageService
   ) { }
 
-  // ngAfterViewInit() {
-  //   if (this.scanner) {
-  //     this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
-  //       this.hasDevices = devices && devices.length > 0;
-  //       this.availableDevices = devices;
+  ngAfterViewInit() {
+    // if (this.scanner) {
+    //   this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+    //     this.hasDevices = devices && devices.length > 0;
+    //     this.availableDevices = devices;
 
-  //       if (devices.length > 0) {
-  //         this.currentDevice = devices[0];
-  //       }
-  //     });
+    //     if (devices.length > 0) {
+    //       this.currentDevice = devices[0];
+    //     }
+    //   });
 
-  //     this.scanner.permissionResponse.subscribe((perm: boolean) => {
-  //       this.hasPermission = perm;
-  //     });
-  //   } else {
-  //     console.log("Scanner không được tạo");
+    //   this.scanner.permissionResponse.subscribe((perm: boolean) => {
+    //     this.hasPermission = perm;
+    //   });
+    // } else {
+    //   console.log("Scanner không được tạo");
 
-  //   }
-  // }
+    // }
+  }
 
   onDialogShow() {
+    console.log(this.scanner);
+    
     if (this.scanner) {
       this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
         this.hasDevices = devices && devices.length > 0;
         this.availableDevices = devices;
-        if (devices.length > 0) {
-          this.currentDevice = devices[0];
-        }
+        // this.currentDevice = devices.find(device => device.label == 'OBS Virtual Camera');
+        // this.currentDevice = devices.find(device => device.label == 'HD Webcam (5986:211b)');
+        this.currentDevice = devices[0];
+        console.log('Selected camera:', this.currentDevice);
       });
   
-      this.scanner.permissionResponse.subscribe((perm: boolean) => {
+      this.permissionSubscription = this.scanner.permissionResponse.subscribe((perm: boolean) => {
         this.hasPermission = perm;
+        if (!perm) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Cảnh báo',
+            detail: 'Vui lòng cấp quyền truy cập camera',
+            life: 5000
+          });
+        }
       });
     } else {
-      console.log("Scanner không được tạo sau khi dialog hiển thị");
+      console.error("Scanner không được tạo ");
     }
   }
   
 
   startScanning(): void {
-    // if (this.scanner) {
-    // this.scanner.reset(); 
+   
     this.cameraActive = true;
     console.log(this.cameraActive);
-
-    // }else{
-    //   console.log("ko co scanner");
-
-    // }
   }
 
   stopScanning() {
-    if (this.scanner) {
+    
       this.scanner.reset();
       this.cameraActive = false;
+    
+    if (this.cameraSubscription) {
+      this.cameraSubscription.unsubscribe();
+    }
+    if (this.permissionSubscription) {
+      this.permissionSubscription.unsubscribe();
     }
   }
 
   onError(error: any) {
     console.error("Camera error:", error);
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Lỗi Camera',
+      detail: 'Không thể truy cập camera: ' + error.message,
+      life: 5000
+    });
+    // this.stopScanning();
   }
 
   onCodeResult(result: string) {

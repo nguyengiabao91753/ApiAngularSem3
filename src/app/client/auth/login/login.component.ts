@@ -122,8 +122,10 @@ export class LoginComponent implements OnInit {
         if (response.token) {
           // Lưu token của server vào localStorage
           localStorage.setItem('jwtToken', response.token);
+          console.log('Token saved:', localStorage.getItem('jwtToken'));
           this.router.navigate(['/home']);
-          window.location.reload();
+          alert('Login success');
+          
         } else {
           alert(response.message);
         }

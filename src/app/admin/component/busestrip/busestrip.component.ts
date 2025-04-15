@@ -147,6 +147,12 @@ export class BusestripComponent implements OnInit {
       price: bustrip.price
 
     });
+    let originExists = this.trips.some(trip => trip.tripId === bustrip.tripId);
+    if (!originExists) {
+      this.trips.push(this.origintrips
+        .find(trip => trip.tripId === bustrip.tripId) as Trip
+      );
+    }
     //Mở hộp thoại thêm
     this.bustripDialog = true;
   }

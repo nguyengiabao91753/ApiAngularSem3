@@ -64,24 +64,19 @@
                 </div>
             </div>
 
-            <p-dialog [(visible)]="cameraActive" [style]="{width: '650px'}" header="Check Ticket Code" [modal]="true"
-                class="p-fluid" (onShow)="onDialogShow()">
+            <p-dialog [(visible)]="cameraActive" (onShow)="onDialogShow()" [style]="{width: '650px'}" header="Check Ticket Code" [modal]="true" class="p-fluid">
                 <ng-template pTemplate="content">
-                    <div class="scanner-container">
-                        <zxing-scanner #scanner [device]="currentDevice" [enable]="cameraActive"
-                            (camerasFound)="camerasFound($event)" (scanSuccess)="onCodeResult($event)"
-                            (scanError)="onError($event)" (permissionResponse)="hasPermission = $event">
-                        </zxing-scanner>
-                        <div class="scanner-overlay"></div>
-                    </div>
-
+                  <div class="scanner-container">
+                    <zxing-scanner #scanner [device]="currentDevice" [enable]="cameraActive" (camerasFound)="camerasFound($event)"
+                      (scanSuccess)="onCodeResult($event)" (scanError)="onError($event)" (permissionResponse)="hasPermission = $event">
+                    </zxing-scanner>
+                    <div class="scanner-overlay"></div>
+                  </div>
                 </ng-template>
-
                 <ng-template pTemplate="footer">
-                    <button pButton pRipple label="Cancel" severity="danger" icon="pi pi-times" class="p-button-text"
-                        (click)="stopScanning()"></button>
+                  <button pButton pRipple label="Cancel" severity="danger" icon="pi pi-times" class="p-button-text" (click)="stopScanning()"></button>
                 </ng-template>
-            </p-dialog>
+              </p-dialog>
 
         </div>
     </div>
