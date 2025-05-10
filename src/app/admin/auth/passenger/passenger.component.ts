@@ -169,7 +169,7 @@ export class PassengerComponent implements OnInit {
       this.formGroup.patchValue({
         userId: accountUser.userId,
         username: accountUser.username,
-        password: '',
+        password: accountUser.password,
         status: accountUser.status,
         levelId: accountUser.levelId,
         fullName: accountUser.fullName,
